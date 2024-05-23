@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/22 17:59:29 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:07:45 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ typedef struct s_vars
 	char	**flag;
 	char	*cmdt;
 	char	*check;
+	char	*redrct;
+	int		flagfd;
 	int		fd[2];
 	int		pid;
 } t_vars;
 
+int		inputnum(char **input);
+void	redirect(t_vars *mini);
 
 #endif

@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRCS = main.c
+SRCS = main.c parse.c
 
 GNL = get_next_line_utils.c get_next_line.c
 
