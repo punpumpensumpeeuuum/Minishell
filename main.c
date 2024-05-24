@@ -6,24 +6,11 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/23 18:08:29 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/05/24 17:57:37 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		checkinput(t_vars *mini)
-{
-	mini->flagfd = 2;
-
-	if (ft_strchr(mini->input, '<') || ft_strchr(mini->input, '>'))
-	{
-		redirect(mini);
-		return (1);
-	}
-	// if (ft_strchr(mini->input, '>>') || ft_strchr(mini->input, '<<'))
-	return (1);
-}
 
 char	*checkpath(char *cmd1, char **env)
 {
@@ -51,6 +38,19 @@ char	*checkpath(char *cmd1, char **env)
 		free(paths[i++]);
 	free(paths);
 	return (path);
+}
+
+int		checkinput(t_vars *mini, char **env)
+{
+	mini->flagfd = 2;
+
+	if (ft_strchr(mini->input, '<') || ft_strchr(mini->input, '>'))
+		redirect(mini);
+	// if (ft_strchr(mini->input, '>>') || ft_strchr(mini->input, '<<'))
+	mini->flag = ft_split(mini->input, ' ');
+	mini->cmdt = ft_strjoin("/", mini->flag[0]);
+	mini->check = checkpath(mini->cmdt, env);
+	return (1);
 }
 
 void	executecmd(t_vars *mini, char **env)
@@ -89,13 +89,13 @@ int	main(int ac, char **av, char **env)
 		if (ft_strlen(mini.input) > 0)
 		{
 			add_history(mini.input);
-			mini.flag = ft_split(mini.input, ' ');
-			mini.cmdt = ft_strjoin("/", mini.flag[0]);
-			mini.check = checkpath(mini.cmdt, env);
-			if (checkinput(&mini) != 0 && mini.check)
+			if (checkinput(&mini, env) != 0 && mini.input)
 				executecmd(&mini, env);
 			else
 				ft_printf("%s: command not found\n", mini.input);
 		}
 	}
 }
+
+// mini->flag faz split do input todo
+// suposto so fazer split do comando e das flags
