@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/27 18:48:25 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/05/27 22:59:18 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,15 @@ int		checkinput(t_vars *mini, char **env)
 	if (numpipe(mini->input) > 0)
 	{
 		mini->flag = ft_split(mini->input, '|');
-		mini->trueflag = ft_goodsplit(mini->flag[i], env);
+		mini->trueflag = ft_goodsplit(mini->flag[i]);
 		i++;
 	}
 	else
-	{		
+	{
 		mini->flag = ft_split(mini->input, ' ');
-		mini->trueflag = ft_goodsplit(mini->input, env);
-		printf("%s\n", mini->trueflag[0]);
-		printf("%s\n", mini->trueflag[1]);
+		mini->trueflag = ft_goodsplit(mini->input);
 	}
-	mini->check = checkpath(ft_strjoin("/", mini->flag[0]), env);
+	mini->check = checkpath(ft_strjoin("/", mini->trueflag[0]), env);
 	if (mini->check != NULL)
 		return (1);
 	return (0);
@@ -107,7 +105,7 @@ int	main(int ac, char **av, char **env)
 			if (checkinput(&mini, env) != 0 && mini.input)
 				executecmd(&mini, env);
 			else
-				ft_printf("%s: command not found\n", mini.input);
+				ft_printf("%s: command not found\n", mini.check);
 		}
 	}
 }

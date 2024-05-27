@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/27 18:26:31 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/05/27 23:14:51 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ typedef struct s_vars
 	int		fd[2];
 	int		pid;
 	int		i;
-} t_vars;
+}	t_vars;
 
-int		inputnum(char **input);
+int		inputnum(char *input);
 void	redirect(t_vars *mini);
 char	*checkpath(char *cmd1, char **env);
 int		numpipe(char *str);
-char	**ft_goodsplit(char	*str, char **env);
+char	**ft_goodsplit(char	*str);
 
 #endif
