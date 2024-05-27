@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/24 17:57:37 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:48:25 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,30 @@ char	*checkpath(char *cmd1, char **env)
 
 int		checkinput(t_vars *mini, char **env)
 {
+	int	i;
 	mini->flagfd = 2;
 
+	i = 0;
 	if (ft_strchr(mini->input, '<') || ft_strchr(mini->input, '>'))
 		redirect(mini);
 	// if (ft_strchr(mini->input, '>>') || ft_strchr(mini->input, '<<'))
-	mini->flag = ft_split(mini->input, ' ');
-	mini->cmdt = ft_strjoin("/", mini->flag[0]);
-	mini->check = checkpath(mini->cmdt, env);
-	return (1);
+	if (numpipe(mini->input) > 0)
+	{
+		mini->flag = ft_split(mini->input, '|');
+		mini->trueflag = ft_goodsplit(mini->flag[i], env);
+		i++;
+	}
+	else
+	{		
+		mini->flag = ft_split(mini->input, ' ');
+		mini->trueflag = ft_goodsplit(mini->input, env);
+		printf("%s\n", mini->trueflag[0]);
+		printf("%s\n", mini->trueflag[1]);
+	}
+	mini->check = checkpath(ft_strjoin("/", mini->flag[0]), env);
+	if (mini->check != NULL)
+		return (1);
+	return (0);
 }
 
 void	executecmd(t_vars *mini, char **env)
@@ -73,7 +88,7 @@ void	executecmd(t_vars *mini, char **env)
 			mini->fd[1] = open(mini->redrct, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 			dup2(mini->fd[1], 1);
 		}
-		execve(mini->check, mini->flag, env);
+		execve(mini->check, mini->trueflag, env);
 	}
 	waitpid(mini->pid, NULL, 0);
 }

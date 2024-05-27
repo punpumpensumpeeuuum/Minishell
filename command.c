@@ -6,19 +6,19 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:14 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/24 17:55:34 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:48:52 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	checkpipe(char *str)
+int	numpipe(char *str)
 {
 	int	numofcmd;
 	int	i;
 	
 	i = 0;
-	numofcmd = 1;
+	numofcmd = 0;
 	while (str[i])
 	{
 		if (str[i] == '|')
@@ -28,49 +28,88 @@ int	checkpipe(char *str)
 	return (numofcmd);
 }
 
-int	checkflag(char *str)
+int	findredirect(char *str)
 {
-	int	nflag;
-	int	i;
-	
+	int		i;
+
 	i = 0;
-	nflag = 0;
 	while (str[i])
 	{
-		if (str[i] == '-')
-			nflag++;
+		if (str[i] == '<' || str[i] == '>')
+			return (i);
 		i++;
 	}
-	return (nflag);
+	return (0);
 }
 
-char	**ft_splitflag(char *str)
+
+
+int	findcmdplace(char *str, char **env)
 {
-	int		numflag;
-	char	**cmds;
 	int		i;
-	int		c;
+	char	*cmdt;
+	char	*check;	
 
 	i = 0;
-	c = 0;
-	numflag = checkflag(str);
-	cmds = malloc(sizeof(char *) * (numflag + 2));
-	if (!cmds)
-		return (NULL);
-	while (*str && *str <= 31 && *str >= 1)
+	while (str[i])
 	{
-		cmds[c][i] = *str;
-		str++;
+		if (ft_isalpha(str[i]) == 1)
+		{
+			cmdt = ft_strjoin("/", &str[i - 1]);
+			check = checkpath(cmdt, env);
+			if (check != NULL)
+				return (1);
+		}
 		i++;
 	}
-	c++;
-	while (*str && *str != '-')
-		str++;
-	while (*str && *str <= 31 && *str >= 1)
+	return (0);
+}
+
+int	checkimportant(char *str, char **env)
+{
+	int	flagnum;
+	int	i;
+
+	i = 0;
+	flagnum = 0;
+	while (str[i])
 	{
-		cmds[c][i] = *str;
-		str++;
+		if (str[i] == '-' && ft_isalpha(str[i + 1]) == 1)
+			flagnum++;
 		i++;
 	}
-	return (cmds);
+	if (findcmdplace(str, env) == 1)
+		flagnum++;
+	return (flagnum + 1);
+}
+
+char	**ft_goodsplit(char	*str, char **env)
+{
+	int		i;
+	char	**goodflag;
+	int		num;
+	int		cmdplace;
+	int		len;
+
+	i = 0;
+	num = checkimportant(str, env);
+	goodflag = malloc(sizeof(char *) * (num + 1));
+	if (!goodflag)
+		return (0);
+	cmdplace = findcmdplace(str, env);
+	while (i < num && (*str != '<' || *str != '>'))
+	{
+		if (cmdplace > 0)
+		{	
+			goodflag[i] = ft_substr(str, cmdplace - 1, ft_wordlen(str, ' '));
+			cmdplace = -1;
+			i++;
+		}
+		len = ft_wordlen(str, ' ');
+		goodflag[i] = ft_substr(str, 0, len);
+		str += len;		
+		i++;
+	}
+	goodflag[num] = NULL;
+	return (goodflag);
 }
