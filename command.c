@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:14 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/27 23:16:35 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:54:54 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	findredirect(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '<' || str[i] == '>')
-			return (i);
-		i++;
-	}
-	return (0);
-}
 
 int	wordllllen(char const *s, char c)
 {
@@ -34,27 +20,6 @@ int	wordllllen(char const *s, char c)
 	while (s[len] && s[len] != c && s[len] != '<' && s[len] != '>')
 		len++;
 	return (len);
-}
-
-int	findcmdplace(char *str, char **env)
-{
-	int		i;
-	char	*cmdt;
-	char	*check;	
-
-	i = 0;
-	while (str[i])
-	{
-		if (ft_isalpha(str[i]) == 1)
-		{
-			cmdt = ft_strjoin("/", &str[i - 1]);
-			check = checkpath(cmdt, env);
-			if (check != NULL)
-				return (1);
-		}
-		i++;
-	}
-	return (0);
 }
 
 int	checkimportant(char *s)

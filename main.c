@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/27 22:59:18 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:30:44 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ int		checkinput(t_vars *mini, char **env)
 	// if (ft_strchr(mini->input, '>>') || ft_strchr(mini->input, '<<'))
 	if (numpipe(mini->input) > 0)
 	{
-		mini->flag = ft_split(mini->input, '|');
-		mini->trueflag = ft_goodsplit(mini->flag[i]);
-		i++;
+		while (i <= numpipe(mini->input))
+		{
+			mini->flag = ft_split(mini->input, '|');
+			mini->trueflag = ft_goodsplit(mini->flag[i]);
+			i++;
+		}
 	}
 	else
 	{
@@ -105,7 +108,9 @@ int	main(int ac, char **av, char **env)
 			if (checkinput(&mini, env) != 0 && mini.input)
 				executecmd(&mini, env);
 			else
-				ft_printf("%s: command not found\n", mini.check);
+			{
+				ft_printf("%s: command not found\n", mini.trueflag[0]);
+			}
 		}
 	}
 }
