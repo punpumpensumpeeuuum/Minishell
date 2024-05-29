@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/27 23:30:01 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:47:54 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,28 @@ int	inputnum(char *input)
 	return (-1);
 }
 
-void	redirect(t_vars *mini)
+void	redirect(t_vars *mini, char *str)
 {
 	int		i;
 	int		j;
 
-	i = inputnum(mini->input);
+	i = inputnum(str);
+	if (i == -1)
+		return ;
 	j = 0;
 	i++;
 	mini->redrct = malloc(sizeof(char) * \
-		(ft_wordlen(&mini->input[i], ' ') + 1));
-	while (ft_isalpha(mini->input[i]) == 0)
+		(ft_wordlen(&str[i], ' ') + 1));
+	while (ft_isalpha(str[i]) == 0)
 		i++;
-	while (ft_isalpha(mini->input[i]) == 1)
+	while (ft_isalpha(str[i]) == 1)
 	{
-		mini->redrct[j] = mini->input[i];
+		mini->redrct[j] = str[i];
 		i++;
 		j++;
 	}
 	mini->redrct[j] = '\0';
-	if (ft_strchr(mini->input, '<'))
+	if (ft_strchr(str, '<'))
 		mini->flagfd = 0;
 	else
 		mini->flagfd = 1;
