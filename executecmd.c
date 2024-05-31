@@ -6,13 +6,13 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:08:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/29 17:48:59 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:45:31 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	indicatefd(int flagfd, int fd[2], char *redirection)
+void	indicateredi(int flagfd, int *fd, char *redirection)
 {
 	if (flagfd == 0)
 	{
@@ -30,38 +30,58 @@ void	indicatefd(int flagfd, int fd[2], char *redirection)
 		dup2(fd[1], 1);
 	}
 }
+
 void	execute(t_vars *mini, char **env, int i)
 {
-	if (numpipe(mini->input) > 0)
+	int p;
+	
+	p = numpipe(mini->input);
+	if (p > 0)
 	{
-		while (i <= numpipe(mini->input))
+		while (i <= p)
 		{
 			mini->flag = ft_split(mini->input, '|');
 			mini->trueflag = ft_goodsplit(mini->flag[i]);
 			mini->flagfd = 2;
-			redirect(mini, mini->flag[i]);
-			// if (mini->redrct == NULL)
-			// 	mini->flagfd == 2;
 			executeone(mini, env);
 			i++;
 		}
 	}
 	else
-		executeone(mini, env);
+		executeone(mini, env);	
+	waitpid(mini->pid, NULL, 0);
+	free(mini->fd);
+}
+
+void	veryexecute(t_vars *mini, char **env)
+{
+	mini->redrct = NULL;
+	mini->pid = fork();
+	if (mini->pid == 0)
+	{		
+		redirect(mini, mini->input);
+		indicateredi(mini->flagfd, mini->fd, mini->redrct);
+		execve(mini->check, mini->trueflag, env);
+		exit(2);
+	}
+	else
+		return ;
 }
 
 void	executeone(t_vars *mini, char **env)
 {
+	mini->redrct = NULL;
 	mini->pid = fork();
 	if (mini->pid == 0)
 	{
-		// ft_printf("%d\n", mini->flagfd);
-		// ft_printf("%s\n", mini->redrct);
-		// ft_printf("%s\n", mini->check);
-		// ft_printf("%s\n", mini->trueflag[0]);
-		// ft_printf("%s\n", mini->trueflag[1]);
-		indicatefd(mini->flagfd, mini->fd, mini->redrct);
+		redirect(mini, mini->input);
+		if (mini->flagfd != 2)
+			indicateredi(mini->flagfd, mini->fd, mini->redrct);
+		else
+			dup2(mini->fd[1], 1);
 		execve(mini->check, mini->trueflag, env);
+		exit(1);
 	}
-	waitpid(mini->pid, NULL, 0);
+	else
+		return ;
 }
