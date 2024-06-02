@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/31 17:40:46 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:52:38 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	allocfd(int	p, t_vars *mini)
-{	
+void	allocfd(int p, t_vars *mini)
+{
 	int	i;
 
 	i = 0;
@@ -24,7 +24,6 @@ void	allocfd(int	p, t_vars *mini)
 			return ;
 		i++;
 	}
-
 }
 
 char	*checkpath(char *cmd1, char **env)
@@ -55,47 +54,44 @@ char	*checkpath(char *cmd1, char **env)
 	return (path);
 }
 
-int		checkinput(t_vars *mini, char **env)
+int	checkinput(t_vars *mini, char **env)
 {
-	int	i;
-	mini->flagfd = 2;
+	// int	i;
 
-	i = 0;
+	mini->flagfd = 2;
+	// i = 0;
 	// if (ft_strchr(mini->input, '<') || ft_strchr(mini->input, '>'))
 	// 	redirect(mini, mini->input);
 	// if (ft_strchr(mini->input, '>>') || ft_strchr(mini->input, '<<'))	
 	allocfd(numpipe(mini->input), mini);
 	if (numpipe(mini->input) > 0)
 	{
-		execute(mini, env, i);
+		execute(mini, env, 0);
+		return (1);
+	}
+	else if (fastcheckpath(mini, env, 0, 0) == 1)
+	{
+		execute(mini, env, 0);
+		return (1);
 	}
 	else
-	{
-		mini->flag = ft_split(mini->input, ' ');
-		mini->trueflag = ft_goodsplit(mini->input);
-	}
-	mini->check = checkpath(ft_strjoin("/", mini->trueflag[0]), env);
-	if (mini->check != NULL)
-		return (1);
+		ft_printf("%s: command not found\n", mini->trueflag[0]);
 	return (0);
-
 }
 
 int	main(int ac, char **av, char **env)
 {
+	t_vars	mini;
+
 	(void)ac;
 	(void)av;
-	t_vars	mini;
 	while (1)
 	{
 		mini.input = readline("a espera> ");
 		if (ft_strlen(mini.input) > 0)
 		{
 			add_history(mini.input);
-			if (checkinput(&mini, env) != 0 && mini.input)
-				execute(&mini, env, 0);
-			else
-				ft_printf("%s: command not found\n", mini.trueflag[0]);
+			checkinput(&mini, env);
 		}
 	}
 }

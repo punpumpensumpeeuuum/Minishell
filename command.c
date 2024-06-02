@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:14 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/28 13:54:54 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/02 22:45:06 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	**ft_goodsplit(char	*str)
 	int		len;
 
 	i = 0;
+	if (!str)
+		return (0);
 	num = checkimportant(str);
 	goodflag = malloc(sizeof(char *) * (num + 1));
 	if (!goodflag)

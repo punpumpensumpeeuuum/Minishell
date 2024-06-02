@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/05/31 17:31:18 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:03:42 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,22 @@ typedef struct s_vars
 	int		i;
 }	t_vars;
 
+// path
+int		fastcheckpath(t_vars *mini, char **env, int flag, int i);
+char	*checkpath(char *cmd1, char **env);
+
 // split
+int		wordllllen(char const *s, char c);
 int		checkimportant(char *s);
 int		inputnum(char *input);
 void	redirect(t_vars *mini, char *str);
-char	*checkpath(char *cmd1, char **env);
 int		numpipe(char *str);
 char	**ft_goodsplit(char	*str);
 
 // execute
-void	allocfd(int	p, t_vars *mini);
+void	allocfd(int p, t_vars *mini);
 void	execute(t_vars *mini, char **env, int i);
 void	executeone(t_vars *mini, char **env);
+void	veryexecute(t_vars *mini, char **env, int i);
 
 #endif
