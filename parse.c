@@ -6,38 +6,11 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/02 22:59:01 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/07 00:42:25 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	fastcheckpath(t_vars *mini, char **env, int flag, int i)
-{
-	if (flag == 0)
-	{
-		mini->flag = ft_split(mini->input, ' ');
-		mini->trueflag = ft_goodsplit(mini->input);
-		mini->check = checkpath(ft_strjoin("/", mini->trueflag[0]), env);
-		if (mini->check != NULL)
-			return (1);
-		return (0);
-	}
-	else
-	{
-		mini->flag = ft_split(mini->input, '|');
-		while (mini->flag[i])
-		{
-			mini->trueflag = ft_goodsplit(mini->flag[i]);
-			mini->check = checkpath(ft_strjoin("/", mini->trueflag[0]), env);
-			if (mini->check != NULL)
-				i++;
-			else
-				return (0);
-		}
-		return (1);
-	}
-}
 
 int	inputnum(char *input)
 {

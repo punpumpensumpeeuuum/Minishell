@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/02 23:03:42 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/07 00:55:50 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <limits.h>
 
 typedef struct s_vars
 {
+	char	**env;
+	char	**export;
 	char	*input;
 	char	**flag;
 	char	**trueflag;
@@ -35,11 +38,13 @@ typedef struct s_vars
 	int		*fd;
 	int		pid;
 	int		i;
+	int		env_len;
 }	t_vars;
 
 // path
-int		fastcheckpath(t_vars *mini, char **env, int flag, int i);
+int		fastcheckpath(t_vars *mini, int flag, int i);
 char	*checkpath(char *cmd1, char **env);
+int		getpipepath(char **trueflag, t_vars *mini);
 
 // split
 int		wordllllen(char const *s, char c);
@@ -51,8 +56,29 @@ char	**ft_goodsplit(char	*str);
 
 // execute
 void	allocfd(int p, t_vars *mini);
-void	execute(t_vars *mini, char **env, int i);
-void	executeone(t_vars *mini, char **env);
-void	veryexecute(t_vars *mini, char **env, int i);
+void	closeall(t_vars *mini);
+void	execute(t_vars *mini, int i, int p);
+void	executeone(t_vars *mini);
+void	veryexecute(t_vars *mini, int i);
+
+// builtin env
+void	init_env(char **env, t_vars *mini);
+int		env_builtin(t_vars *mini);
+
+// builtin export
+void	init_export(t_vars *mini);
+int		export_builtin(t_vars *mini);
+void	swap_strings(char **a, char **b);
+void	sorting_export(t_vars *mini);
+void	free_split(char **str);
+
+// builtin exit
+int		not_number(char *str);
+void	exit_anyways(char **str);
+int		exit_builtin(t_vars *mini);
+
+// builtin echo
+int		echo_builtin(t_vars *mini);
+int		is_flag(char *str);
 
 #endif

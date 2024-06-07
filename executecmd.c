@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executecmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:08:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/06 17:10:31 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/07 01:01:12 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ void	arrangepipes(t_vars *mini, int i)
 {
 	if (!mini->redrct && i == 0)
 	{
-		// ft_printf("bbbb: %d\n", i + 1);
-		// ft_printf("bb22: %d\n", mini->fd[i + 1]);
+		ft_printf("bbbb: %d\n", i + 1);
+		ft_printf("bb22: %d\n", mini->fd[i + 1]);
 		dup2(mini->fd[i + 1], 1);
 		return ;
 	}
-	if (!mini->redrct && i < numpipe(mini->input))
+	else if (!mini->redrct && i < numpipe(mini->input))
 	{
-		// ft_printf("0: %d\n", 2 * i - 1);
-		// ft_printf("1: %d\n", mini->fd[2 * i + 1]);
+		ft_printf("0: %d\n", mini->fd[2 * (i - 1)]);
+		ft_printf("1: %d\n", mini->fd[2 * i + 1]);
 		dup2(mini->fd[2 * (i - 1)], 0);
 		dup2(mini->fd[2 * i + 1], 1);
 		return ;
 	}
 	else if (!mini->redrct && i == numpipe(mini->input))
 	{
-		// ft_printf("aaa0: %d\n", 2 * (i - 1));
-		// ft_printf("aaa1: %d\n", mini->fd[2 * (i - 1)]);
+		ft_printf("aaa0: %d\n", 2 * (i - 1));
+		ft_printf("aaa1: %d\n", mini->fd[2 * (i - 1)]);
 		dup2(mini->fd[2 * (i - 1)], 0);
 		return ;
 	}
@@ -57,54 +57,51 @@ void	indicateredi(int flagfd, int *fd, char *redirection)
 	}
 }
 
-void	execute(t_vars *mini, char **env, int i)
+void	execute(t_vars *mini, int i, int p)
 {
-	int	p;
-
-	p = numpipe(mini->input);
 	if (p > 0)
 	{
-		if (fastcheckpath(mini, env, 1, 0) == 0)
+		if (fastcheckpath(mini, 1, 0) == 0)
 		{
-			// ft_printf("%s: command not found\n", mini->trueflag[0]);
+			ft_printf("%s: command not found\n", mini->trueflag[0]);
 			return ;
 		}
 		while (i <= p)
 		{
-			// ft_printf("1a\n");
+			ft_printf("1a\n");
 			mini->flag = ft_split(mini->input, '|');
 			mini->trueflag = ft_goodsplit(mini->flag[i]);
+			if (getpipepath(mini->trueflag, mini) == 0)
+				return ;
 			mini->flagfd = 2;
-			veryexecute(mini, env, i);
+			veryexecute(mini, i);
+			ft_printf("2a\n");
 			i++;
 		}
 	}
 	else
-		executeone(mini, env);
+		executeone(mini);
 	waitpid(mini->pid, NULL, 0);
 	free(mini->fd);
 }
 
-void	veryexecute(t_vars *mini, char **env, int i)
+void	veryexecute(t_vars *mini, int i)
 {
 	mini->redrct = NULL;
 	mini->pid = fork();
 	if (mini->pid == 0)
 	{
-		int li = 0;
-		while (mini->fd[li])
-		{
-			ft_printf("fd: %d\n", mini->fd[li]);
-			ft_printf("i:  %d\n", li);
-			li++;
-		}
 		// ft_printf("IMPORTATNTE: %d\n", mini->pid);
 		redirect(mini, mini->input);
 		// ft_printf("mmmm\n");
 		arrangepipes(mini, i);
 		// ft_printf("mmnnnnnmm\n");
 		indicateredi(mini->flagfd, mini->fd, mini->redrct);
-		execve(mini->check, mini->trueflag, env);
+		ft_printf("%s\n", mini->check);
+		ft_printf("%s\n", mini->trueflag[0]);
+		ft_printf("%s\n", mini->trueflag[1]);
+		execve(mini->check, mini->trueflag, mini->env);
+		closeall(mini);
 		exit(2);
 	}
 	else
@@ -114,7 +111,7 @@ void	veryexecute(t_vars *mini, char **env, int i)
 	}
 }
 
-void	executeone(t_vars *mini, char **env)
+void	executeone(t_vars *mini)
 {
 	mini->redrct = NULL;
 	mini->pid = fork();
@@ -125,7 +122,7 @@ void	executeone(t_vars *mini, char **env)
 			indicateredi(mini->flagfd, mini->fd, mini->redrct);
 		else
 			dup2(mini->fd[1], 1);
-		execve(mini->check, mini->trueflag, env);
+		execve(mini->check, mini->trueflag, mini->env);
 		exit(1);
 	}
 	else

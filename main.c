@@ -6,76 +6,56 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/02 23:52:38 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/07 00:57:50 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	allocfd(int p, t_vars *mini)
+int	checkbuiltin(t_vars *mini)
 {
-	int	i;
-
-	i = 0;
-	mini->fd = malloc(sizeof(int) * (p + 1));
-	while (i < p)
+	if (ft_strncmp(mini->input, "env\0", 4) == 0)
 	{
-		if (pipe(mini->fd + 2 * i) < 0)
-			return ;
-		i++;
+		env_builtin(mini);
+		return (0);
 	}
-}
-
-char	*checkpath(char *cmd1, char **env)
-{
-	int		i;
-	char	**paths;
-	char	*path;
-
-	i = 0;
-	while (env[i++])
-		if (ft_strnstr(env[i], "PATH=", 5))
-			break ;
-	paths = ft_split(&env[i][5], ':');
-	i = 0;
-	while (paths[i])
+	else if (ft_strncmp(mini->input, "export\0", 7) == 0)
 	{
-		path = ft_strjoin(paths[i], cmd1);
-		if (access(path, X_OK) == 0)
-			return (path);
-		free(path);
-		path = NULL;
-		i++;
+		init_export(mini);
+		export_builtin(mini);
+		return (0);
 	}
-	i = 0;
-	while (paths[i])
-		free(paths[i++]);
-	free(paths);
-	return (path);
-}
-
-int	checkinput(t_vars *mini, char **env)
-{
-	// int	i;
-
-	mini->flagfd = 2;
-	// i = 0;
-	// if (ft_strchr(mini->input, '<') || ft_strchr(mini->input, '>'))
-	// 	redirect(mini, mini->input);
-	// if (ft_strchr(mini->input, '>>') || ft_strchr(mini->input, '<<'))	
-	allocfd(numpipe(mini->input), mini);
-	if (numpipe(mini->input) > 0)
+	else if (ft_strncmp(mini->input, "echo\0", 5) == 0)
 	{
-		execute(mini, env, 0);
-		return (1);
+		echo_builtin(mini);
+		return (0);
 	}
-	else if (fastcheckpath(mini, env, 0, 0) == 1)
+	else if (ft_strncmp(mini->input, "exit\0", 5) == 0)
 	{
-		execute(mini, env, 0);
-		return (1);
+		exit_builtin(mini);
+		return (0);
 	}
 	else
-		ft_printf("%s: command not found\n", mini->trueflag[0]);
+		return (1);
+}
+
+int	checkinput(t_vars *mini)
+{
+	mini->flagfd = 2;
+	allocfd(numpipe(mini->input), mini);
+	if (checkbuiltin(mini) == 0)
+		return (1);
+	if (numpipe(mini->input) > 0)
+	{
+		execute(mini, 0, numpipe(mini->input));
+		return (1);
+	}
+	else if (fastcheckpath(mini, 0, 0) == 1)
+	{
+		execute(mini, 0, numpipe(mini->input));
+		return (1);
+	}
+	ft_printf("%s: command not found\n", mini->trueflag[0]);
 	return (0);
 }
 
@@ -85,16 +65,16 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	init_env(env, &mini);
 	while (1)
 	{
 		mini.input = readline("a espera> ");
 		if (ft_strlen(mini.input) > 0)
 		{
 			add_history(mini.input);
-			checkinput(&mini, env);
+			checkinput(&mini);
 		}
 	}
 }
 
-// mini->flag faz split do input todo
-// suposto so fazer split do comando e das flags
+// builtins nao funcionao com ' ' a seguir
