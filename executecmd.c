@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executecmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:08:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/07 01:01:12 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:17:33 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ void	arrangepipes(t_vars *mini, int i)
 {
 	if (!mini->redrct && i == 0)
 	{
-		ft_printf("bbbb: %d\n", i + 1);
-		ft_printf("bb22: %d\n", mini->fd[i + 1]);
+		// ft_printf("bbbb: %d\n", i + 1);
+		// ft_printf("bb22: %d\n", mini->fd[i + 1]);
 		dup2(mini->fd[i + 1], 1);
 		return ;
 	}
 	else if (!mini->redrct && i < numpipe(mini->input))
 	{
-		ft_printf("0: %d\n", mini->fd[2 * (i - 1)]);
-		ft_printf("1: %d\n", mini->fd[2 * i + 1]);
+		// ft_printf("0: %d\n", mini->fd[2 * (i - 1)]);
+		// ft_printf("1: %d\n", mini->fd[2 * i + 1]);
 		dup2(mini->fd[2 * (i - 1)], 0);
 		dup2(mini->fd[2 * i + 1], 1);
 		return ;
 	}
 	else if (!mini->redrct && i == numpipe(mini->input))
 	{
-		ft_printf("aaa0: %d\n", 2 * (i - 1));
-		ft_printf("aaa1: %d\n", mini->fd[2 * (i - 1)]);
+		// ft_printf("aaa0: %d\n", 2 * (i - 1));
+		// ft_printf("aaa1: %d\n", mini->fd[2 * (i - 1)]);
 		dup2(mini->fd[2 * (i - 1)], 0);
 		return ;
 	}
@@ -101,6 +101,7 @@ void	veryexecute(t_vars *mini, int i)
 		ft_printf("%s\n", mini->trueflag[0]);
 		ft_printf("%s\n", mini->trueflag[1]);
 		execve(mini->check, mini->trueflag, mini->env);
+		ft_printf("5a\n");
 		closeall(mini);
 		exit(2);
 	}

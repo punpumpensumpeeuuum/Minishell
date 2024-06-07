@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/07 00:55:50 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:28:13 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,22 @@ typedef struct s_vars
 	int		env_len;
 }	t_vars;
 
+// parsing
+void	alreadyprog(t_vars *mini);
+int		numpipe(char *str);
+int		inputnum(char *input);
+void	**arrangegoodsplit(t_vars *mini);
+
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);
 char	*checkpath(char *cmd1, char **env);
 int		getpipepath(char **trueflag, t_vars *mini);
+char	*findcmdplace(char *str, char **env);
 
 // split
 int		wordllllen(char const *s, char c);
 int		checkimportant(char *s);
-int		inputnum(char *input);
 void	redirect(t_vars *mini, char *str);
-int		numpipe(char *str);
 char	**ft_goodsplit(char	*str);
 
 // execute

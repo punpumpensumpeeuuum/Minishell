@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/07 00:58:32 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:28:28 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	fastcheckpath(t_vars *mini, int flag, int i)
 	{
 		mini->flag = ft_split(mini->input, ' ');
 		mini->trueflag = ft_goodsplit(mini->input);
+		// arrangegoodplit(mini->trueflag);
 		mini->check = checkpath(ft_strjoin("/", mini->trueflag[0]), mini->env);
 		if (mini->check != NULL)
 			return (1);

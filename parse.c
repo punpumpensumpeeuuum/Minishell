@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/07 00:42:25 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/07 16:45:30 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	alreadyprog(t_vars *mini)
+{
+	char	**prog;
+
+	prog = malloc(sizeof(char *) * 2);
+	prog[0] = ft_strdup(&mini->input[2]);
+	prog[1] = NULL;
+	mini->pid = fork();
+	if (mini->pid == 0)
+	{
+		execve(mini->input, prog, mini->env);
+		exit(1);
+	}
+	return ;
+}
 
 int	inputnum(char *input)
 {
