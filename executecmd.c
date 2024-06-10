@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:08:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/07 18:17:33 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:52:17 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,15 @@ void	execute(t_vars *mini, int i, int p)
 			ft_printf("1a\n");
 			mini->flag = ft_split(mini->input, '|');
 			mini->trueflag = ft_goodsplit(mini->flag[i]);
+			// ft_printf("TRUEFLAG 1:%s\n", mini->trueflag[0]);
+			// ft_printf("TRUEFLAG 2:%s\n", mini->trueflag[1]);
+			// ft_printf("TRUEFLAG 3:%s\n", mini->trueflag[2]);
+			// ft_printf("TRUEFLAG 4:%s\n", mini->trueflag[3]);
 			if (getpipepath(mini->trueflag, mini) == 0)
 				return ;
 			mini->flagfd = 2;
 			veryexecute(mini, i);
+			free(mini->check);
 			ft_printf("2a\n");
 			i++;
 		}
@@ -91,17 +96,10 @@ void	veryexecute(t_vars *mini, int i)
 	mini->pid = fork();
 	if (mini->pid == 0)
 	{
-		// ft_printf("IMPORTATNTE: %d\n", mini->pid);
 		redirect(mini, mini->input);
-		// ft_printf("mmmm\n");
 		arrangepipes(mini, i);
-		// ft_printf("mmnnnnnmm\n");
 		indicateredi(mini->flagfd, mini->fd, mini->redrct);
-		ft_printf("%s\n", mini->check);
-		ft_printf("%s\n", mini->trueflag[0]);
-		ft_printf("%s\n", mini->trueflag[1]);
 		execve(mini->check, mini->trueflag, mini->env);
-		ft_printf("5a\n");
 		closeall(mini);
 		exit(2);
 	}
@@ -112,6 +110,7 @@ void	veryexecute(t_vars *mini, int i)
 	}
 }
 
+// VER AQUI
 void	executeone(t_vars *mini)
 {
 	mini->redrct = NULL;

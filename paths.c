@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/07 18:28:28 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:29:07 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,40 +38,47 @@ void	allocfd(int p, t_vars *mini)
 	}
 }
 
-char	*checkpath(char *cmd1, char **env)
+void	checkpath(char *cmd, t_vars *mini)
 {
 	int		i;
-	char	**paths;
-	char	*path;
 
 	i = 0;
-	while (env[i++])
-		if (ft_strnstr(env[i], "PATH=", 5))
-			break ;
-	paths = ft_split(&env[i][5], ':');
-	i = 0;
-	while (paths[i])
+	if (access(mini->check, X_OK) == 0)
 	{
-		path = ft_strjoin(paths[i], cmd1);
-		if (access(path, X_OK) == 0)
-			return (path);
-		free(path);
-		path = NULL;
-		i++;
+		mini->check = ft_strdup(cmd);
+		return ;
 	}
-	i = 0;
-	while (paths[i])
-		free(paths[i++]);
-	free(paths);
-	return (path);
+	checkhelp(cmd, mini->env, i, mini);
+	return ;
 }
 
-int	getpipepath(char **trueflag, t_vars *mini)
+void	checkhelp(char *comand, char **env, int i, t_vars *mini)
 {
-	mini->check = checkpath(ft_strjoin("/", trueflag[0]), mini->env);
-	if (mini->check != NULL)
-		return (1);
-	return (0);
+	int	p;
+
+	while (env && env[i])
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+		{
+			mini->allpaths = ft_split(env[i] + 5, ':');
+			p = 0;
+			while (mini->allpaths[p])
+			{
+				mini->check = ft_strjoin(mini->allpaths[p], comand);
+				if (access(mini->check, X_OK) == 0)
+				{
+					free_split(mini->allpaths);
+					return ;
+				}
+				free(mini->check);
+				mini->check = NULL;
+				p++;
+			}
+			free_split(mini->allpaths);
+		}
+		i++;
+	}
+	return ;
 }
 
 int	fastcheckpath(t_vars *mini, int flag, int i)
@@ -80,8 +87,7 @@ int	fastcheckpath(t_vars *mini, int flag, int i)
 	{
 		mini->flag = ft_split(mini->input, ' ');
 		mini->trueflag = ft_goodsplit(mini->input);
-		// arrangegoodplit(mini->trueflag);
-		mini->check = checkpath(ft_strjoin("/", mini->trueflag[0]), mini->env);
+		checkpath(ft_strjoin("/", mini->trueflag[0]), mini);
 		if (mini->check != NULL)
 			return (1);
 		return (0);
@@ -92,8 +98,8 @@ int	fastcheckpath(t_vars *mini, int flag, int i)
 		while (mini->flag[i])
 		{
 			mini->trueflag = ft_goodsplit(mini->flag[i]);
-			mini->check = checkpath(ft_strjoin("/", \
-				mini->trueflag[0]), mini->env);
+			checkpath(ft_strjoin("/", \
+				mini->trueflag[0]), mini);
 			if (mini->check != NULL)
 				i++;
 			else

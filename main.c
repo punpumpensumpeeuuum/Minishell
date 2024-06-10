@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/07 18:26:07 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:52:49 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,36 +50,30 @@ int	checkbuiltin(t_vars *mini)
 		return (1);
 }
 
-char	*findcmdplace(char *str, char **env)
+int	findcmdplace(t_vars *mini)
 {
 	int		i;
-	char	*cmdt;
-	char	*check;	
+	char	*a;
 
 	i = 0;
-	while (str[i])
+	while (mini->input[i])
 	{
-		if (ft_isalpha(str[i]) == 1)
+		if (ft_isalpha(mini->input[i]) == 1)
 		{
-			cmdt = ft_strjoin("/", &str[i - 1]);
-			check = checkpath(cmdt, env);
-			if (check != NULL)
-				return (check);
+			a = ft_strjoin("/", &mini->input[i - 1]);
+			checkpath(a, mini);
+			if (mini->check != NULL)
+				return (i);
 		}
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 int	checkinput(t_vars *mini)
 {
 	mini->flagfd = 2;
 	allocfd(numpipe(mini->input), mini);
-	if (ft_strncmp(mini->input, "./", 2) == 0)
-	{
-		alreadyprog(mini);
-		return (1);
-	}
 	if (checkbuiltin(mini) == 0)
 		return (2);
 	if (numpipe(mini->input) > 0)
@@ -87,10 +81,19 @@ int	checkinput(t_vars *mini)
 		execute(mini, 0, numpipe(mini->input));
 		return (3);
 	}
+
 	if (fastcheckpath(mini, 0 , 0) == 1)
 	{
 		execute(mini, 0, numpipe(mini->input));
+		free(mini->check);
 		return (4);
+	}	
+	if (inputnum(mini->input) != -1)
+	{
+		checkpath(&mini->input[findcmdplace(mini)], mini);
+		execute(mini, 0, numpipe(mini->input));
+		free(mini->check);
+		return (5);
 	}
 	ft_printf("%s: command not found\n", mini->flag[0]);
 	return (0);
@@ -116,3 +119,5 @@ int	main(int ac, char **av, char **env)
 
 // organizar o goodsplit com um swapstrings
 // cmds dependetes de input nao cnseguem
+// ver exectue com reditrect input
+// ver path absoluto aka ./minishell

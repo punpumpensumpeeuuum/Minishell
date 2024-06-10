@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/07 18:28:13 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:09:15 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,36 @@
 # include <limits.h>
 
 typedef struct s_vars
-{
+{	
+	char	*input;
+	// builtins
 	char	**env;
 	char	**export;
-	char	*input;
+	int		env_len;
+	// paths
 	char	**flag;
 	char	**trueflag;
-	char	*cmdt;
+	char	**allpaths;
 	char	*check;
+	// parsing
 	char	*redrct;
-	int		cmdplace;
 	int		flagfd;
 	int		*fd;
 	int		pid;
-	int		i;
-	int		env_len;
+	int		i;	
 }	t_vars;
 
 // parsing
-void	alreadyprog(t_vars *mini);
 int		numpipe(char *str);
 int		inputnum(char *input);
 void	**arrangegoodsplit(t_vars *mini);
+int		getpipepath(char **trueflag, t_vars *mini);
 
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);
-char	*checkpath(char *cmd1, char **env);
-int		getpipepath(char **trueflag, t_vars *mini);
-char	*findcmdplace(char *str, char **env);
+void	checkpath(char *cmd, t_vars *mini);
+void	checkhelp(char *comand, char **env, int i, t_vars *mini);
+int		findcmdplace(t_vars *mini);
 
 // split
 int		wordllllen(char const *s, char c);

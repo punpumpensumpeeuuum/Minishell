@@ -6,26 +6,18 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/07 16:45:30 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:06:53 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	alreadyprog(t_vars *mini)
+int	getpipepath(char **trueflag, t_vars *mini)
 {
-	char	**prog;
-
-	prog = malloc(sizeof(char *) * 2);
-	prog[0] = ft_strdup(&mini->input[2]);
-	prog[1] = NULL;
-	mini->pid = fork();
-	if (mini->pid == 0)
-	{
-		execve(mini->input, prog, mini->env);
-		exit(1);
-	}
-	return ;
+	checkpath(ft_strjoin("/", trueflag[0]), mini);
+	if (mini->check != NULL)
+		return (1);
+	return (0);
 }
 
 int	inputnum(char *input)

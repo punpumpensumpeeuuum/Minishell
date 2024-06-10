@@ -32,5 +32,7 @@ fclean:	clean
 		@make fclean -s -C ft_printf
 		@echo "apagou"
 
+so:	$(NAME) clean
+
 re:	fclean $(NAME)
 		@echo "makou outra vez"
