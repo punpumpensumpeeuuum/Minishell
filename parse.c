@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/10 12:06:53 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:55:41 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ int	getpipepath(char **trueflag, t_vars *mini)
 	if (mini->check != NULL)
 		return (1);
 	return (0);
+}
+
+int	wordllllen(char const *s, char c)
+{
+	int	len;
+
+	len = 0;
+	while (s[len] && s[len] != c && s[len] != '<' && s[len] != '>')
+		len++;
+	return (len);
 }
 
 int	inputnum(char *input)

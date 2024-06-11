@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/10 15:09:15 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:37:02 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ typedef struct s_vars
 // parsing
 int		numpipe(char *str);
 int		inputnum(char *input);
-void	**arrangegoodsplit(t_vars *mini);
+void	arrangegoodsplit(t_vars *mini);
 int		getpipepath(char **trueflag, t_vars *mini);
 
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);
 void	checkpath(char *cmd, t_vars *mini);
 void	checkhelp(char *comand, char **env, int i, t_vars *mini);
-int		findcmdplace(t_vars *mini);
+int		findcmdplace(char *input, t_vars *mini);
 
 // split
 int		wordllllen(char const *s, char c);

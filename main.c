@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/10 15:52:49 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:25:23 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,20 @@ int	checkbuiltin(t_vars *mini)
 		return (1);
 }
 
-int	findcmdplace(t_vars *mini)
+int	findcmdplace(char *input, t_vars *mini)
 {
 	int		i;
 	char	*a;
 
 	i = 0;
-	while (mini->input[i])
+	while (input[i])
 	{
-		if (ft_isalpha(mini->input[i]) == 1)
+		if (ft_isalpha(input[i]) == 1)
 		{
-			a = ft_strjoin("/", &mini->input[i - 1]);
+			a = ft_strjoin("/", &input[i - 1]);
 			checkpath(a, mini);
 			if (mini->check != NULL)
-				return (i);
+				return (i - 1);
 		}
 		i++;
 	}
@@ -81,7 +81,6 @@ int	checkinput(t_vars *mini)
 		execute(mini, 0, numpipe(mini->input));
 		return (3);
 	}
-
 	if (fastcheckpath(mini, 0 , 0) == 1)
 	{
 		execute(mini, 0, numpipe(mini->input));
@@ -90,7 +89,9 @@ int	checkinput(t_vars *mini)
 	}	
 	if (inputnum(mini->input) != -1)
 	{
-		checkpath(&mini->input[findcmdplace(mini)], mini);
+		// o problema ta no fastcheck eu to a usar o checkpath bem o problme e q eu preciso e de usar o fast check
+		checkpath(&mini->input[findcmdplace(mini->input, mini)], mini);
+		arrangegoodsplit(mini);
 		execute(mini, 0, numpipe(mini->input));
 		free(mini->check);
 		return (5);
