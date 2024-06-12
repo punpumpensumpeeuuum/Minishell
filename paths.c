@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/12 01:54:36 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:41:37 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ void	allocfd(int p, t_vars *mini)
 void	checkpath(char *cmd, t_vars *mini)
 {
 	int		i;
+	char	*boas;
 
 	i = 0;
-	if (access(mini->input, X_OK) == 0)
+	boas = ft_strdup(trimtrimtrim(mini->input));
+	if (access(boas, X_OK) == 0)
 	{
 		// espacos e cenas a seguir ta eaaaaaaaaaasy
-		mini->check = ft_strdup(mini->input);
+		mini->check = ft_strdup(boas);
 		return ;
 	}
 	if (access(cmd, X_OK) == 0)

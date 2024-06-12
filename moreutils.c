@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/12 01:56:18 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:47:19 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*trimtrimtrim(char *str)
+{
+	// try to remove everthing execpt the ./minishell caralho
+}
 
 int	findcmdinmatrix(char **puzle, t_vars *mini)
 {

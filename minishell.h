@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/12 00:42:26 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:42:36 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		numpipe(char *str);
 int		inputnum(char *input);
 void	arrangegoodsplit(t_vars *mini);
 int		getpipepath(char **trueflag, t_vars *mini);
+char	*trimtrimtrim(char *str);
 
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);

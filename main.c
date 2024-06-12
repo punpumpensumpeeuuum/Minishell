@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/12 01:56:02 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:27:37 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int ac, char **av, char **env)
 	init_env(env, &mini);
 	while (1)
 	{
-		mini.input = readline("a espera> ");
+		mini.input = readline("splitshell> ");
 		if (ft_strlen(mini.input) > 0)
 		{
 			add_history(mini.input);
@@ -96,6 +96,7 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 }
+
 // dois redirects ao memo tempo
 // organizar o goodsplit com um swapstrings
 // cmds dependetes de input nao cnseguem com pipe
