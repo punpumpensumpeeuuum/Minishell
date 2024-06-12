@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/11 18:25:23 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/12 01:56:02 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,6 @@ int	checkbuiltin(t_vars *mini)
 		return (1);
 }
 
-int	findcmdplace(char *input, t_vars *mini)
-{
-	int		i;
-	char	*a;
-
-	i = 0;
-	while (input[i])
-	{
-		if (ft_isalpha(input[i]) == 1)
-		{
-			a = ft_strjoin("/", &input[i - 1]);
-			checkpath(a, mini);
-			if (mini->check != NULL)
-				return (i - 1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 int	checkinput(t_vars *mini)
 {
 	mini->flagfd = 2;
@@ -81,15 +61,14 @@ int	checkinput(t_vars *mini)
 		execute(mini, 0, numpipe(mini->input));
 		return (3);
 	}
-	if (fastcheckpath(mini, 0 , 0) == 1)
+	if (fastcheckpath(mini, 0, 0) == 1)
 	{
 		execute(mini, 0, numpipe(mini->input));
 		free(mini->check);
 		return (4);
-	}	
+	}
 	if (inputnum(mini->input) != -1)
 	{
-		// o problema ta no fastcheck eu to a usar o checkpath bem o problme e q eu preciso e de usar o fast check
 		checkpath(&mini->input[findcmdplace(mini->input, mini)], mini);
 		arrangegoodsplit(mini);
 		execute(mini, 0, numpipe(mini->input));
@@ -117,8 +96,7 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 }
-
+// dois redirects ao memo tempo
 // organizar o goodsplit com um swapstrings
-// cmds dependetes de input nao cnseguem
-// ver exectue com reditrect input
+// cmds dependetes de input nao cnseguem com pipe
 // ver path absoluto aka ./minishell

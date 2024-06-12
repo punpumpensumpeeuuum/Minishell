@@ -1,8 +1,8 @@
 NAME = minishell
 
-SRCS = main.c parse.c goodsplit.c executecmd.c paths.c
+SRCS = main.c goodsplit.c executecmd.c paths.c utils.c moreutils.c
 
-BUILT =  echo_builtin.c env_builtin.c exit_builtin.c export_builtin.c
+BUILT = echo_builtin.c env_builtin.c exit_builtin.c export_builtin.c
 
 GNL = get_next_line_utils.c get_next_line.c
 

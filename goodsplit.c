@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   goodsplit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:14 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/11 18:16:00 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/12 01:54:15 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ void	arrangegoodsplit(t_vars *mini)
 
 	i = 0;
 	// ft_printf("caralho:%s\n", mini->trueflag[0]);
-
 	while (mini->trueflag[i])
 	{
 		sera = findcmdplace(mini->trueflag[i], mini);
 		if (sera == 0 && i > 0)
 		{
-			swap_strings(&mini->trueflag[i], &mini->trueflag[i -1]);
+			swap_strings(&mini->trueflag[i], &mini->trueflag[i - 1]);
 			i = 0;
 		}
 		i++;
@@ -96,7 +95,7 @@ char	**ft_bettersplit(char *str)
 	return (goodflag);
 }
 
-char	**ft_goodsplit(char	*str)
+char	**ft_goodsplit(char *str)
 {
 	int		i;
 	char	**goodflag;
@@ -107,13 +106,13 @@ char	**ft_goodsplit(char	*str)
 	if (!str)
 		return (0);
 	if (ft_strchr(str, '<') != 0)
-		return(ft_bettersplit(str));
+		return (ft_bettersplit(str));
 	num = checkimportant(str);
 	goodflag = malloc(sizeof(char *) * (num + 1));
 	if (!goodflag)
 		return (0);
 	goodflag[num] = NULL;
-	while (i++ < num)
+	while (i < num)
 	{
 		while (*str == ' ' && *str)
 			str++;

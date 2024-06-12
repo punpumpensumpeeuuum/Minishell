@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/10 15:29:07 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/12 01:54:36 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,19 @@ void	checkpath(char *cmd, t_vars *mini)
 	int		i;
 
 	i = 0;
-	if (access(mini->check, X_OK) == 0)
+	if (access(mini->input, X_OK) == 0)
+	{
+		// espacos e cenas a seguir ta eaaaaaaaaaasy
+		mini->check = ft_strdup(mini->input);
+		return ;
+	}
+	if (access(cmd, X_OK) == 0)
 	{
 		mini->check = ft_strdup(cmd);
 		return ;
 	}
+	if (access(mini->check, X_OK) == 0)
+		return ;
 	checkhelp(cmd, mini->env, i, mini);
 	return ;
 }
@@ -87,10 +95,10 @@ int	fastcheckpath(t_vars *mini, int flag, int i)
 	{
 		mini->flag = ft_split(mini->input, ' ');
 		mini->trueflag = ft_goodsplit(mini->input);
-		checkpath(ft_strjoin("/", mini->trueflag[0]), mini);
+		checkpath(ft_strjoin("/", mini->trueflag
+			[findcmdinmatrix(mini->trueflag, mini)]), mini);
 		if (mini->check != NULL)
 			return (1);
-		return (0);
 	}
 	else
 	{
@@ -105,6 +113,6 @@ int	fastcheckpath(t_vars *mini, int flag, int i)
 			else
 				return (0);
 		}
-		return (1);
 	}
+	return (2);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/11 16:37:02 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/12 00:42:26 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <limits.h>
 
 typedef struct s_vars
-{	
+{
 	char	*input;
 	// builtins
 	char	**env;
@@ -54,6 +54,7 @@ int		fastcheckpath(t_vars *mini, int flag, int i);
 void	checkpath(char *cmd, t_vars *mini);
 void	checkhelp(char *comand, char **env, int i, t_vars *mini);
 int		findcmdplace(char *input, t_vars *mini);
+int		findcmdinmatrix(char **puzle, t_vars *mini);
 
 // split
 int		wordllllen(char const *s, char c);
