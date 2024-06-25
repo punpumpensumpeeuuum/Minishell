@@ -3,18 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/12 17:47:19 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:27:12 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*trimtrimtrim(char *str)
+int	ft_checkprint(char *str)
 {
-	// try to remove everthing execpt the ./minishell caralho
+	int	i;
+	int	a;
+
+	i = 0;
+	a = 0;
+	if (!str)
+		return (1);
+	while (str[i])
+	{
+		if (ft_isprint(str[i]) == 1)
+			a++;
+		i++;
+	}
+	if (a < 1)
+		return (2);
+	return (0);
+}
+
+char	*trimhelp(char *str, int i, int a, int start)
+{
+	char	*s;
+
+	while (str[i] && ft_isprint(str[i]))
+		i++;
+	s = malloc(sizeof(char) * (i - start + 3));
+	if (!s)
+		return (NULL);
+	s[0] = '.';
+	s[1] = '/';
+	while (start < i)
+	{
+		s[a] = str[start];
+		a++;
+		start++;
+	}
+	s[a] = '\0';
+	return (s);
+}
+
+char	*trimtrimtrim(char *str, int i)
+{
+	char	*s;
+	int		a;
+	int		start;
+
+	i = 0;
+	a = 2;
+	while (str[i] && strncmp(&str[i], "./", 2) != 0)
+		i++;
+	if (strncmp(&str[i], "./", 2) == 0)
+	{
+		i += 2;
+		start = i;
+		s = trimhelp(str, i, a, start);
+		if (s != NULL)
+			return (s);
+	}
+	return (str);
 }
 
 int	findcmdinmatrix(char **puzle, t_vars *mini)

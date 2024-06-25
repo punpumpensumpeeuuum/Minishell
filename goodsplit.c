@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 15:38:14 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/12 01:54:15 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:00:20 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,9 @@ char	**ft_goodsplit(char *str)
 	i = 0;
 	if (!str)
 		return (0);
-	if (ft_strchr(str, '<') != 0)
-		return (ft_bettersplit(str));
+	// fazer um checkimportant mas q funcione pa cada redirect probs tenho q dar arrange a string antes disso
+	// if (ft_strchr(str, '<') != 0)
+	// 	return (ft_bettersplit(str));
 	num = checkimportant(str);
 	goodflag = malloc(sizeof(char *) * (num + 1));
 	if (!goodflag)

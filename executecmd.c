@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executecmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:08:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/12 17:38:52 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/20 23:10:12 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,32 @@ void	arrangepipes(t_vars *mini, int i)
 	}
 }
 
-void	indicateredi(int flagfd, int *fd, char *redirection)
+int	indicateredi(t_vars *mini, int *fd, char *redirection)
 {
-	if (flagfd == 0)
+	int	i;
+
+	i = 0;
+	if (mini->flagfdin != 0)
 	{
 		fd[0] = open(redirection, O_RDONLY);
 		if (fd[0] == -1)
-		{
-			// ft_printf("%s: No such file or directory", redirection);
-			return ;
-		}
+			return (ft_printf("%s: No such file or directory\n", redirection));
 		dup2(fd[0], 0);
 	}
-	else if (flagfd == 1)
+	free(mini->redrct);
+	mini->flagfdin = 0;
+	while (mini->input[i] && mini->input[i] != '>')
+		i++;
+	redirect(mini, &mini->input[i]);
+	if (mini->flagfdout != 0)
 	{
 		fd[1] = open(redirection, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		dup2(fd[1], 1);
 	}
+	if (mini->redrct == NULL)
+		free(mini->redrct);
+	mini->flagfdout = 0;
+	return (0);
 }
 
 void	execute(t_vars *mini, int i, int p)
@@ -77,7 +86,8 @@ void	execute(t_vars *mini, int i, int p)
 			// ft_printf("TRUEFLAG 4:%s\n", mini->trueflag[3]);
 			if (getpipepath(mini->trueflag, mini) == 0)
 				return ;
-			mini->flagfd = 2;
+			mini->flagfdin = 0;
+			mini->flagfdout = 0;
 			veryexecute(mini, i);
 			free(mini->check);
 			ft_printf("2a\n");
@@ -98,7 +108,7 @@ void	veryexecute(t_vars *mini, int i)
 	{
 		redirect(mini, mini->input);
 		arrangepipes(mini, i);
-		indicateredi(mini->flagfd, mini->fd, mini->redrct);
+		indicateredi(mini, mini->fd, mini->redrct);
 		execve(mini->check, mini->trueflag, mini->env);
 		closeall(mini);
 		exit(2);
@@ -116,12 +126,10 @@ void	executeone(t_vars *mini)
 	mini->pid = fork();
 	if (mini->pid == 0)
 	{
-		// ft_printf("%s\n", mini->check);
-		// ft_printf("%s\n", mini->trueflag[0]);
-		// ft_printf("%s\n", mini->trueflag[1]);
 		redirect(mini, mini->input);
-		if (mini->flagfd != 2)
-			indicateredi(mini->flagfd, mini->fd, mini->redrct);
+		if ((mini->flagfdin != 0 || mini->flagfdout != 0) && \
+				indicateredi(mini, mini->fd, mini->redrct) != 0)
+			exit(2);
 		else
 			dup2(mini->fd[1], 1);
 		if (execve(mini->check, mini->trueflag, mini->env) == -1)

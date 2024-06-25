@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/11 17:55:41 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:42:34 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ void	redirect(t_vars *mini, char *str)
 	}
 	mini->redrct[j] = '\0';
 	if (ft_strchr(str, '<'))
-		mini->flagfd = 0;
-	else
-		mini->flagfd = 1;
+		mini->flagfdin = 1;
+	else if (ft_strchr(str, '>'))
+		mini->flagfdout = 1;
 }
 
 int	numpipe(char *str)

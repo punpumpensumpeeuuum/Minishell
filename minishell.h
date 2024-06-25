@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/12 17:42:36 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:36:31 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef struct s_vars
 	char	*check;
 	// parsing
 	char	*redrct;
-	int		flagfd;
+	int		flagfdin;
+	int		flagfdout;
 	int		*fd;
 	int		pid;
 	int		i;	
@@ -48,7 +49,8 @@ int		numpipe(char *str);
 int		inputnum(char *input);
 void	arrangegoodsplit(t_vars *mini);
 int		getpipepath(char **trueflag, t_vars *mini);
-char	*trimtrimtrim(char *str);
+char	*trimtrimtrim(char *str, int i);
+int		ft_checkprint(char *str);
 
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);

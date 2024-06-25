@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/12 17:41:37 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:27:27 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void	checkpath(char *cmd, t_vars *mini)
 	char	*boas;
 
 	i = 0;
-	boas = ft_strdup(trimtrimtrim(mini->input));
+	boas = ft_strdup(trimtrimtrim(mini->input, 0));
 	if (access(boas, X_OK) == 0)
 	{
-		// espacos e cenas a seguir ta eaaaaaaaaaasy
 		mini->check = ft_strdup(boas);
+		free(boas);
 		return ;
 	}
 	if (access(cmd, X_OK) == 0)

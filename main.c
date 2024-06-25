@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/12 17:27:37 by dinda-si         ###   ########.fr       */
+/*   Created: 2024/06/20 22:50:45 by elemesmo          #+#    #+#             */
+/*   Updated: 2024/06/20 23:21:12 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	checkbuiltin(t_vars *mini)
 
 int	checkinput(t_vars *mini)
 {
-	mini->flagfd = 2;
+	mini->flagfdin = 0;
+	mini->flagfdout = 0;
 	allocfd(numpipe(mini->input), mini);
 	if (checkbuiltin(mini) == 0)
 		return (2);
@@ -70,13 +71,11 @@ int	checkinput(t_vars *mini)
 	if (inputnum(mini->input) != -1)
 	{
 		checkpath(&mini->input[findcmdplace(mini->input, mini)], mini);
-		arrangegoodsplit(mini);
 		execute(mini, 0, numpipe(mini->input));
 		free(mini->check);
 		return (5);
 	}
-	ft_printf("%s: command not found\n", mini->flag[0]);
-	return (0);
+	return (ft_printf("%s: command not found\n", mini->flag[0]));
 }
 
 int	main(int ac, char **av, char **env)
@@ -89,7 +88,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		mini.input = readline("splitshell> ");
-		if (ft_strlen(mini.input) > 0)
+		if (ft_strlen(mini.input) > 0 && ft_checkprint(mini.input) == 0)
 		{
 			add_history(mini.input);
 			checkinput(&mini);
@@ -97,7 +96,6 @@ int	main(int ac, char **av, char **env)
 	}
 }
 
-// dois redirects ao memo tempo
 // organizar o goodsplit com um swapstrings
 // cmds dependetes de input nao cnseguem com pipe
-// ver path absoluto aka ./minishell
+// mensagem de erro ta crazy com < > pq nao faco goodsplit =D
