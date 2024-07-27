@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/19 17:36:31 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:57:20 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	arrangegoodsplit(t_vars *mini);
 int		getpipepath(char **trueflag, t_vars *mini);
 char	*trimtrimtrim(char *str, int i);
 int		ft_checkprint(char *str);
+char	*quotescrazy(char *input, int i, int nq);
 
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);

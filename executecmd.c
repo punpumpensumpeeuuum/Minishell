@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:08:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/20 23:10:12 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/07/03 00:53:29 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	arrangepipes(t_vars *mini, int i)
 	if (!mini->redrct && i == 0)
 	{
 		// ft_printf("bbbb: %d\n", i + 1);
-		// ft_printf("bb22: %d\n", mini->fd[i + 1]);
+		ft_printf("bb22: %d\n", mini->fd[i + 1]);
 		dup2(mini->fd[i + 1], 1);
 		return ;
 	}
 	else if (!mini->redrct && i < numpipe(mini->input))
 	{
-		// ft_printf("0: %d\n", mini->fd[2 * (i - 1)]);
-		// ft_printf("1: %d\n", mini->fd[2 * i + 1]);
+		ft_printf("0: %d\n", mini->fd[2 * (i - 1)]);
+		ft_printf("1: %d\n", mini->fd[2 * i + 1]);
 		dup2(mini->fd[2 * (i - 1)], 0);
 		dup2(mini->fd[2 * i + 1], 1);
 		return ;
@@ -32,7 +32,7 @@ void	arrangepipes(t_vars *mini, int i)
 	else if (!mini->redrct && i == numpipe(mini->input))
 	{
 		// ft_printf("aaa0: %d\n", 2 * (i - 1));
-		// ft_printf("aaa1: %d\n", mini->fd[2 * (i - 1)]);
+		ft_printf("aaa1: %d\n", mini->fd[2 * (i - 1)]);
 		dup2(mini->fd[2 * (i - 1)], 0);
 		return ;
 	}
@@ -80,16 +80,12 @@ void	execute(t_vars *mini, int i, int p)
 			ft_printf("1a\n");
 			mini->flag = ft_split(mini->input, '|');
 			mini->trueflag = ft_goodsplit(mini->flag[i]);
-			// ft_printf("TRUEFLAG 1:%s\n", mini->trueflag[0]);
-			// ft_printf("TRUEFLAG 2:%s\n", mini->trueflag[1]);
-			// ft_printf("TRUEFLAG 3:%s\n", mini->trueflag[2]);
-			// ft_printf("TRUEFLAG 4:%s\n", mini->trueflag[3]);
 			if (getpipepath(mini->trueflag, mini) == 0)
 				return ;
 			mini->flagfdin = 0;
 			mini->flagfdout = 0;
 			veryexecute(mini, i);
-			free(mini->check);
+			mini->check = NULL;
 			ft_printf("2a\n");
 			i++;
 		}
@@ -97,7 +93,7 @@ void	execute(t_vars *mini, int i, int p)
 	else
 		executeone(mini);
 	waitpid(mini->pid, NULL, 0);
-	free(mini->fd);
+	closeall(mini);
 }
 
 void	veryexecute(t_vars *mini, int i)
@@ -109,8 +105,10 @@ void	veryexecute(t_vars *mini, int i)
 		redirect(mini, mini->input);
 		arrangepipes(mini, i);
 		indicateredi(mini, mini->fd, mini->redrct);
-		execve(mini->check, mini->trueflag, mini->env);
-		closeall(mini);
+		printf("817242a\n");
+		if (execve(mini->check, mini->trueflag, mini->env) == -1)
+			ft_printf("%s: command not found\n", mini->trueflag[0]);
+		printf("555555555555555\n");
 		exit(2);
 	}
 	else

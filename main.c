@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 22:50:45 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/20 23:21:12 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:59:38 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,20 @@ int	main(int ac, char **av, char **env)
 	init_env(env, &mini);
 	while (1)
 	{
-		mini.input = readline("splitshell> ");
-		if (ft_strlen(mini.input) > 0 && ft_checkprint(mini.input) == 0)
+		mini.input = readline("a espera> ");
+		if (ft_strlen(mini.input) > 0)
 		{
 			add_history(mini.input);
-			checkinput(&mini);
+			mini.input = quotescrazy(mini.input, 0, 0);
+			if (mini.input == NULL)
+				printf("Quote error\n");
+			else
+				checkinput(&mini);
 		}
 	}
 }
 
+// so pode ser a dicionadio a o historiuico se a mensagem foir diretne da anterior
 // organizar o goodsplit com um swapstrings
 // cmds dependetes de input nao cnseguem com pipe
 // mensagem de erro ta crazy com < > pq nao faco goodsplit =D

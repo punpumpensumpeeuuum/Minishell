@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/06/19 13:27:27 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/07/03 00:46:36 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ void	closeall(t_vars *mini)
 	int	i;
 
 	i = 0;
-	while (i < (numpipe(mini->input) + 1) * 2)
+	while (i < (numpipe(mini->input) + 1) * 2 && mini->fd[i])
 	{
 		close(mini->fd[i]);
 		i++;
 	}
+	if (mini->fd)
+		free(mini->fd);
 }
 
 void	allocfd(int p, t_vars *mini)
