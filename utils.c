@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/06/20 19:42:34 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:52:30 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	inputnum(char *input)
 			return (i);
 		else if (ft_strncmp(&input[i], ">", 1) == 0)
 			return (i);
+		else if (ft_strncmp(&input[i], ">>", 1) == 0)
+			return (-3);
 		i++;
 	}
 	return (-1);
@@ -56,6 +58,7 @@ void	redirect(t_vars *mini, char *str)
 		return ;
 	j = 0;
 	i++;
+	printf("str = %s", str);
 	mini->redrct = malloc(sizeof(char) * \
 		(wordllllen(&str[i], ' ') + 1));
 	while (ft_isalpha(str[i]) == 0 && str[i])

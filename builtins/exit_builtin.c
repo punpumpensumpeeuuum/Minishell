@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:11:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/06/06 23:11:46 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:26:43 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	not_number(char *str)
 void	exit_anyways(char **str)
 {
 	printf("exit %s: numeric argument required\n", str[1]);
-	// free
-	exit(255);
+	free_split(str);
+	exit(2);
 }
 
 int	exit_builtin(t_vars *mini)
@@ -57,17 +57,20 @@ int	exit_builtin(t_vars *mini)
 	if (ft_strchr(mini->input, ' '))
 	{
 		str = ft_split(mini->input, ' ');
-		exit_status = ft_atoi(str[1]);
 		if (not_number(str[1]))
 			exit_anyways(str);
 		else if (str[2])
+		{
 			printf("exit: too many arguments\n");
+			free_split(str);
+			return (1);
+		}
 		else
 		{
+			exit_status = ft_atoi(str[1]);
 			free_split(str);
 			exit(exit_status);
 		}
-		free_split(str);
 	}
 	else
 		exit(1);

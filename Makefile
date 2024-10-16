@@ -1,8 +1,8 @@
 NAME = minishell
 
-SRCS = main.c goodsplit.c executecmd.c paths.c utils.c moreutils.c quotes.c
+SRCS = main.c goodsplit.c executecmd.c paths.c utils.c moreutils.c quotes.c heredoc.c 
 
-BUILT = echo_builtin.c env_builtin.c exit_builtin.c export_builtin.c
+BUILT = echo_builtin.c env_builtin.c exit_builtin.c cd_builtin.c export_builtin.c export_builtin1.c unset_builtin.c
 
 GNL = get_next_line_utils.c get_next_line.c
 
@@ -32,7 +32,9 @@ fclean:	clean
 		@make fclean -s -C ft_printf
 		@echo "apagou"
 
-so:	$(NAME) clean
+so:	$(NAME) clean 
+			clear
+			@./minishell
 
 re:	fclean $(NAME)
 		@echo "makou outra vez"
