@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/15 13:55:13 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:26:48 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,43 @@
 # include <limits.h>
 # include <string.h>
 
+typedef struct s_flags
+{
+	int		redout;
+	int		redin;
+	int		dredout;
+	int		heredoc;
+	int		pipe;
+	int		built;
+}	t_flags;
+
 typedef struct s_vars
 {
-	char	*input;
+	t_flags			*sflags;
+	char			*input;
 	// builtins
-	char	**env;
-	char	**new_env;
-	char	**export;
-	char	**new_export;
-	int		exp_len;
-	int		env_len;
-	int		flag_env;
+	char			**env;
+	char			**new_env;
+	char			**export;
+	char			**new_export;
+	int				exp_len;
+	int				env_len;
+	int				flag_env;
 	// paths
-	char	**flag;
-	char	**trueflag;
-	char	**allpaths;
-	char	*check;
+	char			**flag;
+	char			**trueflag;
+	char			**allpaths;
+	char			*check;
 	// parsing
-	char	*redrct;
-	int		flagfdin;
-	int		flagfdout;
-	int		*fd;
-	int		pid;
-	int		i;	
+	char			*redrct;
+	int				flagfdin;
+	int				flagfdout;
+	int				*fd;
+	int				pid;
+	int				i;
 	// heredoc
-	char	**limiters;
-	int		heredoc_on;
+	char			**limiters;
+	int				heredoc_on;
 }	t_vars;
 
 // parsing

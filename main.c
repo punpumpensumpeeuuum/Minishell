@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/16 23:01:36 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:30:30 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void flaginit(t_vars *mini)
+{
+    if (!mini || !mini->sflags)
+	{
+		printf("coco\n");
+		      return;
+	}
+    // Safety check to ensure mini and sflags are valid
+
+    // Initialize flags to 0
+    mini->sflags->redout = 0;
+    mini->sflags->redin = 0;
+    mini->sflags->dredout = 0;
+    mini->sflags->heredoc = 0;
+    mini->sflags->pipe = 0;
+    mini->sflags->built = 0;
+}
 
 int	more(char *input, int i)
 {
@@ -101,6 +119,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	flaginit(&mini);
 	init_env(env, &mini);
 	shlvl_update(&mini);
 	init_export(&mini);
