@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/17 17:31:11 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:24:48 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 	j = 0;
 	i = 0;
 	u = 0;
+	printf("str = %s\n", str);
 	result = ft_strdup(str + k);
 	if (!str || !mini || !result)
 		return ;
@@ -121,11 +122,11 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 			}
 			while (str[j] == result[u] && str[j] != '=' && result[u] != '\0')
 			{
-                j++;
-                u++;
-            }
+				j++;
+				u++;
+			}
             if (result[u] == '\0') 
-                printf("%s", &str[j+1]);
+				printf("%s", &str[j+1]);
             free(env_var);
             break;
 		}
@@ -147,6 +148,11 @@ int	echo_builtin(t_vars *mini)
 	j = 0;
 	new_line = 1;
 	split = ft_split(mini->input, ' ');
+	if (split[1] == NULL)
+	{
+		printf("\n");
+		return (0);
+	}
 	if (split[i] && ft_strchr(mini->input, ' '))
 	{
 		while (split[i] && is_flag(split[++i]))

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/19 18:25:13 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:28:48 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@ void	free_fd(int p, t_vars *mini)
 	int i;
 
 	i = 0;
-	while (i < p)
+	if (mini->fd)
 	{
-		close(mini->fd[2 * i]);
-		close(mini->fd[2 * i + 1]);
-		i++;
+		while (i < p)
+		{
+			close(mini->fd[2 * i]);
+			close(mini->fd[2 * i + 1]);
+			i++;
+		}
+		free(mini->fd);
+		mini->fd = 0;
 	}
-	free(mini->fd);
-	mini->fd = NULL;
 }
 
 void	free_array(char **array)

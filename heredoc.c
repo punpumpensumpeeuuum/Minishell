@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/21 11:29:44 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:07:39 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	fork_error(void)
 
 void	heredoc_child(int fd[2], char **limiters, t_vars *mini)
 {
-	// signal(SIGINT, heredoc_signal);
 	close(fd[0]);
 	heredoc_input(fd, limiters, mini);
 	// close unprotected fds();

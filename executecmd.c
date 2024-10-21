@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:08:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/12 16:07:53 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:13:28 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	execute(t_vars *mini, int i, int p)
 	else
 		executeone(mini);
 	waitpid(mini->pid, NULL, 0);
-	closeall(mini);
+	//closeall(mini);
 }
 
 void	veryexecute(t_vars *mini, int i)
