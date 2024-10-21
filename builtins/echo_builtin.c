@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/15 14:16:49 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:31:11 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,7 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 	j = 0;
 	i = 0;
 	u = 0;
-	//printf("a str = %s\n", str);
 	result = ft_strdup(str + k);
-	// printf("o result = %s\n", result);
 	if (!str || !mini || !result)
 		return ;
 	while (i < mini->exp_len && mini->export[i])

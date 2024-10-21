@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/14 17:38:40 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:29:44 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@ int		count_limiters(char **split)
 		i++;
 	}
 	return (count);
-}
-
-void	free_array(char **array)
-{
-	int	i;
-	
-	i = 0;
-	while (array[i])
-		free(array[i++]);
-	free(array);
 }
 
 void	heredoc_lim_array(t_vars *mini)
@@ -84,7 +74,7 @@ int ft_strcmp(const char *s1, const char *s2)
     return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
-void	heredoc_input(int fd[2], char **limiters)
+void	heredoc_input(int fd[2], char **limiters, t_vars *mini)
 {
 	char	*line;
 	int		total_lim;
@@ -107,6 +97,8 @@ void	heredoc_input(int fd[2], char **limiters)
 				break;
 			continue;
 		}
+		if (dollar_flag_count(line) > 0)
+			echo_dollar_finish(line, 0, mini);
 		if ((i == total_lim - 1 && line == NULL) || 
 		(ft_strcmp(line, limiters[i]) == 0))
 			ft_putendl_fd(line, fd[1]);
@@ -121,11 +113,11 @@ void	fork_error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	heredoc_child(int fd[2], char **limiters)
+void	heredoc_child(int fd[2], char **limiters, t_vars *mini)
 {
 	// signal(SIGINT, heredoc_signal);
 	close(fd[0]);
-	heredoc_input(fd, limiters);
+	heredoc_input(fd, limiters, mini);
 	// close unprotected fds();
 	//free_minishell(mini);
 	exit(EXIT_SUCCESS);
@@ -145,7 +137,7 @@ int		heredoc(t_vars *mini)
 	pid_t	pid;
 	int		fd[2];
 	int		status;
-	//int		exit_status;
+	int		exit_status;
 
 	fd[0] = -1;
 	fd[1] = -1;
@@ -158,19 +150,19 @@ int		heredoc(t_vars *mini)
 	if (pid < 0)
 		fork_error();
 	else if (pid == 0)
-		heredoc_child(fd, mini->limiters);
+		heredoc_child(fd, mini->limiters, mini);
 	close(fd[1]);
 	close(fd[0]);
 	dup2(fd[0], STDIN_FILENO);
 	wait(&status);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	//exit_status = WEXITSTATUS(status);
-	// if (exit_status == EXIT_FAILURE || xit_status == EXIT_HEREDOC_BREAK)
-	//{
-	//	free_minishell(mini);
-	//	return (exit_status);
-	//}
+	exit_status = WEXITSTATUS(status);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	{
+		//free_minishell(mini);
+		return (exit_status);
+	}
 	return (EXIT_SUCCESS);
 }
 

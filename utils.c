@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/16 18:52:30 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:54:10 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	inputnum(char *input)
 			return (i);
 		else if (ft_strncmp(&input[i], ">", 1) == 0)
 			return (i);
-		else if (ft_strncmp(&input[i], ">>", 1) == 0)
-			return (-3);
 		i++;
 	}
 	return (-1);

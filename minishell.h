@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/17 16:26:48 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:51:25 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,43 +24,32 @@
 # include <limits.h>
 # include <string.h>
 
-typedef struct s_flags
-{
-	int		redout;
-	int		redin;
-	int		dredout;
-	int		heredoc;
-	int		pipe;
-	int		built;
-}	t_flags;
-
 typedef struct s_vars
 {
-	t_flags			*sflags;
-	char			*input;
+	char	*input;
 	// builtins
-	char			**env;
-	char			**new_env;
-	char			**export;
-	char			**new_export;
-	int				exp_len;
-	int				env_len;
-	int				flag_env;
+	char	**env;
+	char	**new_env;
+	char	**export;
+	char	**new_export;
+	int		exp_len;
+	int		env_len;
+	int		flag_env;
 	// paths
-	char			**flag;
-	char			**trueflag;
-	char			**allpaths;
-	char			*check;
+	char	**flag;
+	char	**trueflag;
+	char	**allpaths;
+	char	*check;
 	// parsing
-	char			*redrct;
-	int				flagfdin;
-	int				flagfdout;
-	int				*fd;
-	int				pid;
-	int				i;
+	char	*redrct;
+	int		flagfdin;
+	int		flagfdout;
+	int		*fd;
+	int		pid;
+	int		i;	
 	// heredoc
-	char			**limiters;
-	int				heredoc_on;
+	char	**limiters;
+	int		heredoc_on;
 }	t_vars;
 
 // parsing
@@ -99,6 +88,7 @@ void	env_update(t_vars *mini, char *str);
 void	create_env(t_vars *mini);
 void	free_first_string(char **arr);
 void	shlvl_update(t_vars *mini);
+t_vars 	*init_mini(void);
 
 // builtin export
 void	init_export(t_vars *mini);
@@ -127,6 +117,7 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini);
 int		echo_compare(const char *s1, const char *s2);
 char	*take_equal(char *str);
 void	dollar_quote(t_vars *mini, char *str);
+int		dollar_flag_count(char *str);
 
 //builtin cd
 int		find_var(t_vars *mini, char *to_find);
@@ -148,19 +139,29 @@ void    quote_together(char *cmd);
 
 //builtin unset
 int		unset_builtin(t_vars *mini);
+void	pwd_builtin(void);
 
 //heredoc.c
 int		count_limiters(char **split);
 void	free_array(char **array);
 void	heredoc_lim_array(t_vars *mini);
-void	heredoc_input(int fd[2], char **limiters);
+void	heredoc_input(int fd[2], char **limiters, t_vars *mini);
 void	fork_error(void);
-void	heredoc_child(int fd[2], char **limiters);
+void	heredoc_child(int fd[2], char **limiters, t_vars *mini);
 void	creat_pipe(int fd[2]);
 int		heredoc(t_vars *mini);
 int		check_heredoc(t_vars *mini);
 
 // free.c
 void	free_double_array(char **str, t_vars *mini);
+void	free_env_export(t_vars *mini);
+void	free_fd(int p, t_vars *mini);
+
+// signals.c
+void    sigint_handler(int sig);
+void    signal_heredoc(int sig);
+void    signals_handler(void);
+void    child_handler(int signal);
+void    child_signals_handler(void);
 
 #endif

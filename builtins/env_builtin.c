@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:26:12 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/15 13:20:05 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:40:39 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,49 +43,24 @@ void	env_update1(t_vars *mini)
 		j++;
 	}
 	mini->env[j] = NULL;
-	//printf("\n\n----- UPDATED ENV ------\n\n\n");
-	//j = -1;
-	//while (++j < mini->env_len)
-	//{
-	//	if (!mini->new_env[j])
-	//		continue;
-	//	printf("%s\n", mini->new_env[j]);
-	//}
 }
 
 void	env_update(t_vars *mini, char *str)
 {
 	int	i;
-	int k;
-
+	
 	i = 0;
-	k = 0;
-	while (k < mini->env_len)
-	{
-		if (mini->new_env[k])
-		{
-			free(mini->new_env[k]);
-			mini->new_env[k] = NULL;
-		}
-		k++;
-	}	
 	while (i < mini->env_len)
 	{
-		if ((mini->env[i] && 
-		ft_strncmp(mini->env[i], str, ft_strlen(str)) == 0) ||
-		!mini->env[i])
+		if (mini->env[i] && 
+		ft_strncmp(mini->env[i], str, ft_strlen(str)) == 0)
 		{
-			i++;
-			continue;
-		}
-		if (mini->env[i])
-		{
-			mini->new_env[i] = ft_strdup(mini->env[i]);
-			i++;
-		}
+			free(mini->env[i]);
+			mini->env[i] = ft_strjoin("/3/4", str);
+		}	
+		i++;
 	}
-	mini->new_env[i] = NULL;
-	env_update1(mini);
+	mini->env[i] = NULL;
 }
 
 void free_first_string(char **arr)
@@ -129,31 +104,93 @@ void	create_env(t_vars *mini)
 	mini->flag_env = 1;
 }
 
-void	init_env(char **env, t_vars *mini)
+t_vars 	*init_mini(void)
 {
-	int	i;
+	t_vars *mini = malloc(sizeof(t_vars));
+	if (!mini)
+		return (NULL);
+    mini->env = NULL;
+    mini->new_env = NULL;
+    mini->export = NULL;
+    mini->new_export = NULL;
+	mini->fd = NULL;
+	mini->check = NULL;
+	return (mini);
+}
+
+// void	init_env(char **env, t_vars *mini)
+// {
+// 	int	i;
 	
-	i = 0;
-	mini->flag_env = 0;
-	if (!*env || !env)
-		create_env(mini);
-	if (env && mini->flag_env == 0)
-	{	
-		while (env[i])
-			i++;
-		mini->env = malloc(sizeof(char *) * (i + 1));
-		mini->new_env = malloc(sizeof(char *) * (i + 10));
-		if (!mini->env || !mini->new_env)
-			return ;
-		mini->env_len = i;
-		i = 0;
-		while (i < mini->env_len)
+// 	i = 0;
+	
+// 	mini->flag_env = 0;
+// 	if (!*env || !env)
+// 	{
+// 		create_env(mini);
+// 		return;
+// 	}
+// 	if (env && mini->flag_env == 0)
+// 	{	
+// 		while (env[i])
+// 			i++;
+// 		mini->env = malloc(sizeof(char *) * (i + 1));
+// 		mini->new_env = malloc(sizeof(char *) * (i + 10));
+// 		if (!mini->env || !mini->new_env)
+// 		{
+// 			free_array(mini->env);
+// 			free_array(mini->new_env);
+// 			return;
+// 		}
+// 		mini->env_len = i;
+// 		i = 0;
+// 		while (i < mini->env_len)
+// 		{
+// 			mini->env[i] = ft_strdup(env[i]);
+// 			if (!mini->env)
+// 				mini->env = NULL;
+// 			i++;
+// 		}
+// 		mini->env[i] = NULL;
+// 	}
+// }
+
+void init_env(char **env, t_vars *mini) 
+{
+    int i = 0;
+
+    mini->flag_env = 0;
+    if (!env || !*env) 
+	{
+        create_env(mini);
+        return;
+    }
+    while (env[i])
+		i++;
+    mini->env = malloc(sizeof(char *) * (i + 1));
+	mini->new_env = calloc(i + 10, sizeof(char *));
+    if (!mini->env || !mini->new_env) 
+	{
+        free(mini->env);
+        free(mini->new_env);
+        return;
+    }
+    mini->env_len = i;
+    i = 0;
+    while (i < mini->env_len) 
+	{
+        mini->env[i] = ft_strdup(env[i]);
+        if (!mini->env[i]) 
 		{
-			mini->env[i] = ft_strdup(env[i]);
-			i++;
-		}
-		mini->env[i] = NULL;
-	}
+            while (i > 0) 
+                free(mini->env[--i]);
+            free(mini->env);
+            free(mini->new_env);
+            return;
+        }
+        i++;
+    }
+    mini->env[i] = NULL;
 }
 
 void	env_builtin(t_vars *mini)
@@ -161,17 +198,12 @@ void	env_builtin(t_vars *mini)
 	int	i;
 
 	i = 0;
-	printf("len = %d\n", mini->env_len);
 	while (i < mini->env_len)
 	{
-		if (!mini->env[i])
-			i++;
-		if (mini->env[i])
-		{
-			//printf("o %s existe em %p\n\n",mini->env[i], mini->env[i]);
+		if (mini->env[i] && \
+		!(ft_strncmp(mini->env[i], "/3/4", 2) == 0))
 			printf("%s\n", mini->env[i]);
-			i++;
-		}
+		i++;
 	}
 }
 
@@ -181,6 +213,7 @@ void	shlvl_update(t_vars *mini)
 	char *shell_level;
 	char *new_shell_level;
 	int increment;
+	char *number;
 
 	i = find_var(mini, "SHLVL");
 	if (i == -1)
@@ -188,8 +221,12 @@ void	shlvl_update(t_vars *mini)
 	shell_level = ft_strchr(mini->env[i], '=') + 1;
 	increment = ft_atoi(shell_level);
 	increment++;
-	new_shell_level = ft_strjoin("SHLVL=", ft_itoa(increment));
+	number = ft_itoa(increment);
+	new_shell_level = ft_strjoin("SHLVL=", number);
+	if (!new_shell_level)
+		return;
 	free(mini->env[i]);
+	free(number);
 	mini->env[i] = ft_strdup(new_shell_level);
 	free(new_shell_level);
 }

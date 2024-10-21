@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/10/16 18:50:33 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/10/19 21:30:57 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,41 @@ void	closeall(t_vars *mini)
 		free(mini->fd);
 }
 
+//void	allocfd(int p, t_vars *mini)
+//{
+//	int	i;
+//
+//	i = 0;
+//	mini->fd = malloc(sizeof(int) * (p + 1));
+//	while (i < p)
+//	{
+//		if (pipe(mini->fd + 2 * i) < 0)
+//			return ;
+//		i++;
+//	}
+//}
+
 void	allocfd(int p, t_vars *mini)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	mini->fd = malloc(sizeof(int) * (p + 1));
+	if (p <= 0)
+		return;
+	mini->fd = malloc(sizeof(int) * 2 * p);
+	if (!mini->fd)
+		return;
 	while (i < p)
 	{
 		if (pipe(mini->fd + 2 * i) < 0)
-			return ;
+		{
+			free(mini->fd);
+			return;
+		}
 		i++;
 	}
 }
+
 
 void	checkpath(char *cmd, t_vars *mini)
 {
@@ -46,22 +68,30 @@ void	checkpath(char *cmd, t_vars *mini)
 	char	*boas;
 
 	i = 0;
+	if (!mini->input)
+		return;
 	boas = ft_strdup(trimtrimtrim(mini->input, 0));
 	if (access(boas, X_OK) == 0)
 	{
+		free(mini->check);
 		mini->check = ft_strdup(boas);
 		free(boas);
-		return ;
+		return;
 	}
 	if (access(cmd, X_OK) == 0)
 	{
+		free(mini->check);
 		mini->check = ft_strdup(cmd);
-		return ;
+		free(boas);
+		return;
 	}
-	if (access(mini->check, X_OK) == 0)
-		return ;
+	if (mini->check && access(mini->check, X_OK) == 0)
+	{
+		free(boas);
+		return;
+	}
+	free(boas);
 	checkhelp(cmd, mini->env, i, mini);
-	return ;
 }
 
 void	checkhelp(char *comand, char **env, int i, t_vars *mini)
@@ -95,23 +125,30 @@ void	checkhelp(char *comand, char **env, int i, t_vars *mini)
 
 int	fastcheckpath(t_vars *mini, int flag, int i)
 {
+	char *joined;
+
 	if (flag == 0)
 	{
 		mini->flag = ft_split(mini->input, ' ');
 		mini->trueflag = ft_goodsplit(mini->input);
-		checkpath(ft_strjoin("/", mini->trueflag
-			[findcmdinmatrix(mini->trueflag, mini)]), mini);
+		joined = ft_strjoin("/", mini->trueflag
+			[findcmdinmatrix(mini->trueflag, mini)]);
+		checkpath(joined, mini);
+		free(joined);
 		if (mini->check != NULL)
 			return (1);
+			
 	}
 	else
 	{
 		mini->flag = ft_split(mini->input, '|');
 		while (mini->flag[i])
 		{
+			joined = ft_strjoin("/", \
+				mini->trueflag[0]);
 			mini->trueflag = ft_goodsplit(mini->flag[i]);
-			checkpath(ft_strjoin("/", \
-				mini->trueflag[0]), mini);
+			checkpath(joined, mini);
+			free(joined);
 			if (mini->check != NULL)
 				i++;
 			else

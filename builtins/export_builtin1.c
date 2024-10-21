@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/15 12:20:42 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:07:21 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void    export_var(t_vars *mini)
 
     i = 1;
     split = ft_split(mini->input, ' ');
-	mini->new_export = malloc(sizeof(char *) * (mini->exp_len + 10));
 	if (!mini->new_export)
 		return;
     while (split[i]) 
@@ -85,17 +84,6 @@ void	export_update(t_vars *mini, char *str)
         printf("Error: mini->new_export not initialized.\n");
         return;
 	}
-	// while (k < mini->exp_len)
-	// {
-	// 	if (mini->new_export[k])
-	// 	{
-	// 		free(mini->new_export[k]);
-	// 		mini->new_export[k] = NULL;
-	// 	}
-	// 	k++;
-	// }
-	printf("mini->exp_len = %d\n", mini->exp_len);
-	//free_double_array(mini->new_export, mini);
 	while (i < mini->exp_len)
 	{
 		if (mini->export[i] && str_compare(mini->export[i], str) == 0)
@@ -159,52 +147,27 @@ void	free_double_array(char **str, t_vars *mini)
 	}
 }
 
-void	exp_update1(t_vars *mini)
-{
-	int i;
-	char **temp;
+		void	exp_update(t_vars *mini, char *str)
+		{
+			int	i;
+			char *new_str;
 
-	i = 0;
-	free_double_array(mini->export, mini);
-	temp = realloc(mini->export, sizeof(char *) * (mini->exp_len + 1));
-	if (!temp)
-		return;
-	mini->export = temp;
-	while (i < mini->exp_len)
-	{
-		if (mini->new_export[i])
-			mini->export[i] = ft_strdup(mini->new_export[i]);
-		else
+			i = 0;
+			new_str = ft_strjoin("/3/4", str);
+			if (!new_str)
+				return;
+			while (mini->export[i] && i < mini->exp_len)
+			{
+				if (mini->export[i] && 
+				ft_strncmp(mini->export[i], str, ft_strlen(str)) == 0)
+				{
+					free(mini->export[i]);
+					mini->export[i] = ft_strdup(new_str);
+					free(new_str);
+					return;
+				}
+				i++;
+			}
+			free(new_str);
 			mini->export[i] = NULL;
-		i++;
-	}
-	mini->export[i] = NULL;
-}
-
-void	exp_update(t_vars *mini, char *str)
-{
-	int	i;
-
-	i = 0;
-	free_double_array(mini->new_export, mini);
-	while (i < mini->exp_len)
-	{
-		if ((mini->export[i] && 
-		ft_strncmp(mini->export[i], str, ft_strlen(str)) == 0) ||
-		!mini->export[i])
-		{
-			printf("valor do iiiii = %d\n", i);
-			i++;
-			continue;
 		}
-		if (mini->export[i])
-		{
-			printf("valor do i = %d\n", i);
-			mini->new_export[i] = ft_strdup(mini->export[i]);
-			printf("mini->new_export = %s\n", mini->export[i]);
-			i++;
-		}
-	}
-	mini->new_export[i] = NULL;
-	exp_update1(mini);
-}
