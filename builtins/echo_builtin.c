@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/23 02:37:30 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 13:36:49 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,61 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 	free(result);
 }
 
+void	echo_special(t_vars *mini, char *str)
+{
+	int		i;
+	char	**split;
+	//int		j;
+	int		flag;
+
+	i = 0;
+	//j = 0;
+	flag = 0;
+	if (str)
+	{
+		split = ft_split(str, '\'');
+		while (str[i])
+		{
+			if (str[i] == '\'' && flag == 0)
+			{
+				printf("%c", '\'');
+				i++;
+			}	
+			else if (flag == 0 && (str[i + 1] != '\'' || str[i + 1] != '\0'))
+			{
+				while (str[i] != '\'')
+					i++;
+				flag = 1;
+			}
+			else if (str[i] == '\'' && flag != 0)
+			{
+				echo_dollar_finish(split[0], 1, mini);
+				flag = 0;
+			}
+			else
+				i++;
+		}
+		free_split(split);
+	}
+}
+
+int		echo_quote(char *str)
+{
+	int i;
+
+	i = 0;
+	if (str)
+	{
+		while (str[i])
+		{
+			if (str[i] && str[i] == '\'')
+				return (1);
+			i++;
+		}
+	}
+	return (0);
+}
+
 int	echo_builtin(t_vars *mini)
 {
 	int		i;
@@ -164,13 +219,14 @@ int	echo_builtin(t_vars *mini)
 			remove_single_quote(split[i]);
 			printf("%s", split[i]);
 		}
-		else if (split[i][0] == '"' && split[i][1] == '$' && 
+		else if (split[i][0] == '"' && 
 		split[i][ft_strlen(split[i]) - 1] == '"')
 		{
-			// VERIFICAR SE DENTRO DAS DOUBLES TEM AS SINGLES SE 
-			// SIM PRINTAR E CONTINUAR 
 			remove_double_quote(split[i]);
-			echo_dollar_finish(split[i], 1, mini);
+			if (echo_quote(split[i]) == 1)
+				echo_special(mini, split[i]);
+			else
+				echo_dollar_finish(split[i], 1, mini);
 		}
 		else if (split[i][0] == '$')
 			echo_dollar_finish(split[i], 1, mini);

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/23 02:24:43 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 13:09:20 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ int		echo_compare(const char *s1, const char *s2);
 char	*take_equal(char *str);
 void	dollar_quote(t_vars *mini, char *str);
 int		dollar_flag_count(char *str);
+void	echo_special(t_vars *mini, char *str);
+int		echo_quote(char *str);
 
 //builtin cd
 int		find_var(t_vars *mini, char *to_find);
