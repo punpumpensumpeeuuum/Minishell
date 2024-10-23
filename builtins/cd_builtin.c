@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/09 18:58:43 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:38:50 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,30 +91,29 @@ char	*ft_getenv(t_vars *mini ,char	*to_find)
 
 int		cd_special_1(t_vars *mini)
 {
-	char **split;
-	
+	char	**split;
+	split = ft_split(mini->input, ' ');
 	if (ft_countwords(mini->input, ' ') == 2)
 	{
-		split = ft_split(mini->input, ' ');
 		if (split[1] && ft_strncmp(split[1], "~", 1) == 0)
+		{
+			free_split(split);
 			return (0);
-		else
-			return (-1);
+		}
 	}
-	else
-		return (-1);
+	free_split(split);
+	return (-1);
 }
 
 void	cd_1_arg(t_vars *mini)
 {
 	char *directory;
 	
-	directory = NULL;
 	directory = ft_getenv(mini, "HOME");
 	if (!directory)
 	{
 		ft_putstr_fd("minishel: cd: HOME not set", STDERR_FILENO);
-		// error code = 1;
+		return;
 	}
 	if (directory)
 		in_directory(directory, mini);
@@ -123,8 +122,8 @@ void	cd_1_arg(t_vars *mini)
 
 void	cd_2_args(t_vars *mini)
 {
-	char **split;
-	char *directory;
+	char	**split;
+	char	*directory;
 	
 	directory = NULL;
 	split = ft_split(mini->input, ' ');
@@ -134,14 +133,18 @@ void	cd_2_args(t_vars *mini)
 		if (!directory)
 		{
 			ft_putstr_fd("minishel: cd: OLDPWD not set", STDERR_FILENO);
-			// error code = 1;
+			free_split(split);
+			return;
 		}
 	}
 	else
 		directory = ft_strdup(split[1]);
 	if (directory)
+	{
 		in_directory(directory, mini);
-	free(directory);
+		free(directory);
+		free_split(split);
+	}
 }
 
 void	cd_builtin(t_vars *mini)
@@ -156,6 +159,6 @@ void	cd_builtin(t_vars *mini)
 	else
 	{
 		ft_putendl_fd("minishell: cd: Too many arguments", STDERR_FILENO);
-		// error code = 1;
+		return;
 	}
 }

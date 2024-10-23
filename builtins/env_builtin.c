@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:26:12 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/22 18:20:07 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:58:26 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,43 +119,6 @@ t_vars 	*init_mini(void)
 	mini->check = NULL;
 	return (mini);
 }
-
-// void	init_env(char **env, t_vars *mini)
-// {
-// 	int	i;
-	
-// 	i = 0;
-	
-// 	mini->flag_env = 0;
-// 	if (!*env || !env)
-// 	{
-// 		create_env(mini);
-// 		return;
-// 	}
-// 	if (env && mini->flag_env == 0)
-// 	{	
-// 		while (env[i])
-// 			i++;
-// 		mini->env = malloc(sizeof(char *) * (i + 1));
-// 		mini->new_env = malloc(sizeof(char *) * (i + 10));
-// 		if (!mini->env || !mini->new_env)
-// 		{
-// 			free_array(mini->env);
-// 			free_array(mini->new_env);
-// 			return;
-// 		}
-// 		mini->env_len = i;
-// 		i = 0;
-// 		while (i < mini->env_len)
-// 		{
-// 			mini->env[i] = ft_strdup(env[i]);
-// 			if (!mini->env)
-// 				mini->env = NULL;
-// 			i++;
-// 		}
-// 		mini->env[i] = NULL;
-// 	}
-// }
 
 void init_env(char **env, t_vars *mini) 
 {

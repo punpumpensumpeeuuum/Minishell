@@ -83,7 +83,6 @@ int	checkinput(t_vars *mini)
 	}
 	if (fastcheckpath(mini, 0, 0) == 1)
 	{
-		printf("\nOLA\n");
 		execute(mini, 0, numpipe(mini->input));
 		free(mini->check);
 		return (4);
