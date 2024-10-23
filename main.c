@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/21 16:15:22 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:19:58 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	checkinput(t_vars *mini)
 int	main(int ac, char **av, char **env)
 {
 	t_vars	*mini;
+	int		exit_value;
 
 	(void)ac;
 	(void)av;
@@ -111,10 +112,12 @@ int	main(int ac, char **av, char **env)
 	init_env(env, mini);
 	shlvl_update(mini);
 	init_export(mini);
-	while (1)
+	while (mini->running)
 	{
 		signals_handler();
 		mini->input = readline("a espera> ");
+		if (!mini->input)
+			break;
 		if (ft_strlen(mini->input) > 0)
 		{
 			add_history(mini->input);
@@ -126,6 +129,9 @@ int	main(int ac, char **av, char **env)
 			free(mini->input);
 		}
 	}
+	exit_value = mini->exit_code;
+	free_env_export(mini);
+	return (exit_value);
 }
 // dois redirects ao memo tempo
 // organizar o goodsplit com um swapstrings

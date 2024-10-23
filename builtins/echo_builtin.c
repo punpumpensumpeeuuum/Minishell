@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/21 16:24:48 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 02:37:30 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	dollar_flag(char *str)
 		{
 			i++;
 			n = 1;
+			return (1);
 		}
 		if (n == 0 && str[i] == '$')
 			return (0);
@@ -105,7 +106,6 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 	j = 0;
 	i = 0;
 	u = 0;
-	printf("str = %s\n", str);
 	result = ft_strdup(str + k);
 	if (!str || !mini || !result)
 		return ;
@@ -141,46 +141,103 @@ int	echo_builtin(t_vars *mini)
 	int		i;
 	char	**split;
 	int		new_line;
-	char	**last_split;
-	int		j;
-	
+
 	i = 0;
-	j = 0;
 	new_line = 1;
 	split = ft_split(mini->input, ' ');
 	if (split[1] == NULL)
 	{
 		printf("\n");
+		free_split(split);
 		return (0);
 	}
 	if (split[i] && ft_strchr(mini->input, ' '))
 	{
-		while (split[i] && is_flag(split[++i]))
+		while (split[++i] && is_flag(split[i]))
 			new_line = 0;
 	}
-	while (split[i] && dollar_flag(split[i]) == 0)
+	while (split[i])
 	{
-		last_split = ft_split(split[i], '$');
-		echo_dollar_finish(split[i], 1, mini);
-		if (dollar_flag_count(split[i]) > 1)
+		if (split[i][0] == '\'' && 
+		split[i][ft_strlen(split[i]) - 1] == '\'')
 		{
-			while (last_split[j])
-				echo_dollar_finish(last_split[j++], 0, mini);
+			remove_single_quote(split[i]);
+			printf("%s", split[i]);
 		}
-		if (split[i + 1])
-			printf(" ");
-		i++;
-	}
-	while (split[i] && dollar_flag(split[i]) != 0)
-	{
-		remove_single_quote(split[i]);
-		printf("%s", split[i]);
+		else if (split[i][0] == '"' && split[i][1] == '$' && 
+		split[i][ft_strlen(split[i]) - 1] == '"')
+		{
+			// VERIFICAR SE DENTRO DAS DOUBLES TEM AS SINGLES SE 
+			// SIM PRINTAR E CONTINUAR 
+			remove_double_quote(split[i]);
+			echo_dollar_finish(split[i], 1, mini);
+		}
+		else if (split[i][0] == '$')
+			echo_dollar_finish(split[i], 1, mini);
+		else
+			printf("%s", split[i]);
 		if (split[i + 1])
 			printf(" ");
 		i++;
 	}
 	if (new_line)
 		printf("\n");
+	free_split(split);
 	return (0);
 }
+
+//int	echo_builtin(t_vars *mini)
+//{
+//	int		i;
+//	char	**split;
+//	int		new_line;
+//	char	**last_split;
+//	int		j;
+//	
+//	i = 0;
+//	j = 0;
+//	new_line = 1;
+//	split = ft_split(mini->input, ' ');
+//	while (split[i])
+//		printf("split = %s\n", split[i++]);
+//	i = 0;
+//	if (split[1] == NULL)
+//	{
+//		printf("\n");
+//		free_split(split);
+//		return (0);
+//	}
+//	while (split[i] != NULL)
+//		remove_double_quote(split[i++]);
+//	i = 0;
+//	if (split[i] && ft_strchr(mini->input, ' '))
+//	{
+//		while (split[i] && is_flag(split[++i]))
+//			new_line = 0;
+//	}
+//	while (split[i] && dollar_flag(split[i]) == 0)
+//	{
+//		last_split = ft_split(split[i], '$');
+//		echo_dollar_finish(split[i], 1, mini);
+//		if (dollar_flag_count(split[i]) > 1)
+//		{
+//			while (last_split[j])
+//				echo_dollar_finish(last_split[j++], 0, mini);
+//		}
+//		if (split[i + 1])
+//			printf(" ");
+//		i++;
+//	}
+//	while (split[i] && dollar_flag(split[i]) != 0)
+//	{
+//		remove_single_quote(split[i]);
+//		printf("%s", split[i]);
+//		if (split[i + 1])
+//			printf(" ");
+//		i++;
+//	}
+//	if (new_line)
+//		printf("\n");
+//	return (0);
+//}
 

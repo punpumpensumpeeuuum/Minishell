@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:26:12 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/19 18:40:39 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:20:07 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ t_vars 	*init_mini(void)
 	t_vars *mini = malloc(sizeof(t_vars));
 	if (!mini)
 		return (NULL);
+	mini->exit_code = 0;
+	mini->running = 1;
     mini->env = NULL;
     mini->new_env = NULL;
     mini->export = NULL;

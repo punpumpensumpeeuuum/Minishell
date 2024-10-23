@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/21 16:28:48 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:24:34 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ void	free_env_export(t_vars *mini)
 			mini->new_export = NULL;
 			printf("test4\n");
 		}
-		if (mini->fd)
-			free_fd(numpipe(mini->input), mini);
-		printf("test5\n");
+		//if (mini->fd)
+		//	free_fd(numpipe(mini->input), mini);
 	}
 }

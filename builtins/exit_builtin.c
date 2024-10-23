@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:11:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/18 13:11:26 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:23:16 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,43 +52,42 @@ void	exit_anyways(char **str)
 int	exit_builtin(t_vars *mini)
 {
 	char	**str;
-	int		exit_status;
 
 	printf("exit\n");
-	exit_status = 0;
-	if (ft_strchr(mini->input, ' '))
+	mini->running = 0;
+	if (ft_countwords(mini->input, ' ') > 1)
 	{
 		str = ft_split(mini->input, ' ');
+		mini->exit_code = ft_atoi(str[1]);
 		if (!str)
 		{
-			//free_env_export(mini);
-			return (1);
+			mini->exit_code = 0;
+			return (0);
 		}
-		exit_status = ft_atoi(str[1]);
 		if (not_number(str[1]))
 		{
 			exit_anyways(str);
-			//free_env_export(mini);
-			exit(2);
+			mini->exit_code = 2;
+			return(mini->exit_code);
 		}
 		else if (str[2])
 		{
+			mini->running = 1;
 			printf("exit: too many arguments\n");
 			free_split(str);
-			//free_env_export(mini);
-			return (1);
+			mini->exit_code = 1;
+			return (mini->exit_code);
 		}
 		else
 		{
 			free_split(str);
-			//free_env_export(mini);
-			exit(exit_status % 256);
+			mini->exit_code = mini->exit_code % 256;
+			return(mini->exit_code);
 		}
 	}
 	else
 	{
-		free_env_export(mini);
-		exit(1);
-	}	
-	return (0);
+		mini->exit_code = 0;
+		return(mini->exit_code);
+	}
 }

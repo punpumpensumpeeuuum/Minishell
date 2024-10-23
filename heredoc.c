@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/21 16:07:39 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 02:26:54 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	heredoc_input(int fd[2], char **limiters, t_vars *mini)
 			continue;
 		}
 		if (dollar_flag_count(line) > 0)
-			echo_dollar_finish(line, 0, mini);
+			echo_dollar_finish(line, 1, mini);
 		if ((i == total_lim - 1 && line == NULL) || 
 		(ft_strcmp(line, limiters[i]) == 0))
 			ft_putendl_fd(line, fd[1]);

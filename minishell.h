@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/21 11:51:25 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 02:24:43 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ typedef struct s_vars
 	// heredoc
 	char	**limiters;
 	int		heredoc_on;
+	// exit
+	int		exit_code;
+	int		running;
 }	t_vars;
 
 // parsing
