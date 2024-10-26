@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:08:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/21 16:13:28 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/25 23:22:34 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	execute(t_vars *mini, int i, int p)
 		{
 			ft_printf("1a\n");
 			mini->flag = ft_split(mini->input, '|');
+			printf("mini->flag = %s\n", mini->flag[0]);
+			printf("mini->flag = %s\n", mini->flag[1]);
 			mini->trueflag = ft_goodsplit(mini->flag[i]);
 			if (getpipepath(mini->trueflag, mini) == 0)
 				return ;
