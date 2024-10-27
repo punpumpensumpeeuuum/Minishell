@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/26 14:47:00 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:00:53 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ void	free_env_export(t_vars *mini)
 			free_array(mini->new_export);
 			mini->new_export = NULL;
 		}
-		if (mini->limiters)
-			free_array(mini->limiters);
 		// if (mini->fd)
 		// 	free_fd(numpipe(mini->input), mini);
 		free(mini);

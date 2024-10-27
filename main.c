@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/22 18:19:58 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:24:42 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,41 +64,195 @@ int	checkbuiltin(t_vars *mini)
 		return (1);
 }
 
-int	checkinput(t_vars *mini)
+char	***paodelosplit(char *str , int	pipes)
 {
-	mini->flagfdin = 0;
-	mini->flagfdout = 0;
-	allocfd(numpipe(mini->input), mini);
-	if (checkbuiltin(mini) == 0)
-		return (2);
-	if (check_heredoc(mini) == 0)
-	{
-		heredoc(mini);
-		return (0);
+	int 	i = 0;
+	int		j = 0;
+	char	***res = malloc(sizeof(char **) * (pipes + 1));
+	char	**a = ft_split(str, '|');
+	char	**b;
+
+	while (j <= pipes)
+	{		
+		b = ft_split(a[j], ' ');
+		res[j] = malloc(sizeof(char *) * (ft_countwords(a[j], ' ') + 1));
+		while (i < ft_countwords(a[j], ' '))
+		{
+			res[j][i] = ft_strdup(b[i]);
+			i++;
+		}
+		res[j][i] = NULL;
+		j++;
+		i = 0;
+		free(b);
 	}
-	if (numpipe(mini->input) > 0)
+	res[j] = NULL;
+	return (res);
+}
+
+void	fdfd(t_vars *mini)
+{
+	int i = 0;
+
+	while (i < numpipe(mini->input) + 1)
 	{
-		execute(mini, 0, numpipe(mini->input));
-		return (3);
+		if (pipe(mini->fd + 2 * i) < 0)
+			return ;
+		i++;
 	}
-	if (fastcheckpath(mini, 0, 0) == 1)
+}
+
+int	setinfile(char *str, t_vars *mini, int i)
+{
+	if (i == 0)
 	{
-		execute(mini, 0, numpipe(mini->input));
-		free(mini->check);
-		return (4);
+		mini->fd[0] = open(str, O_RDONLY);
+		if (mini->fd[0] == -1)
+		{
+			ft_printf("%s: No such file or directory\n", str);
+			return (-1);
+		}
+		dup2(mini->fd[0], 0);
+		close(mini->fd[0]);
 	}
-	if (inputnum(mini->input) != -1)
+	else if (i == 1)
 	{
-		printf("mini->input[findcmdplace(mini->input, mini)] = %s\n", &mini->input[findcmdplace(mini->input, mini)]);
-		checkpath(&mini->input[findcmdplace(mini->input, mini)], mini);
-		//arrangegoodsplit(mini);
-		execute(mini, 0, numpipe(mini->input));
-		free(mini->check);
-		return (5);
+		mini->fd[1] = open(str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		dup2(mini->fd[1], 0);
+		close(mini->fd[1]);
 	}
-	ft_printf("%s: command not found\n", mini->flag[0]);
 	return (0);
 }
+
+int	forredirect(char **str, t_vars *mini)
+{
+	int	j;
+	
+	j = 0;
+	while (str[j])
+	{
+		if (ft_strncmp(str[j], "<", 1))
+		{
+			if (str[j + 1] && access(str[j + 1], R_OK) == 0)
+			{
+				if (setinfile(str[j + 1], mini, 0) == 0)				
+					return (1);
+				else
+					return (-1);
+			}
+			else
+				return (-1);
+		}
+		else
+			j++;
+	}
+	return (0);
+}
+
+int	forredirectout(char **str, t_vars *mini)
+{
+	int	j;
+	
+	j = 0;
+	while (str[j])
+	{
+		if (ft_strncmp(str[j], ">", 1))
+		{
+			if (str[j + 1] && access(str[j + 1], W_OK) == 0)
+			{
+				if (setinfile(str[j + 1], mini, 1) == 0)				
+					return (1);
+				else
+					return (-1);
+			}
+			else
+				return (-1);
+		}
+		else
+			j++;
+	}
+	return (0);
+}
+
+void	comandddd(char ***str, t_vars *mini)
+{
+	int		i;
+	char	*sim;
+
+	i = findcmdinmatrix(str[mini->p], mini);
+	// if (forredirectout(str[mini->p], mini) == 0)
+	// {
+	// 	if (str[mini->p + 1])
+	// 		// mandar fd para o pipe
+	// }
+	mini->pid = fork();
+	if (mini->pid == 0)
+	{
+		sim = ft_strjoin("/", str[mini->p][i]);
+		if (execve(sim, str[mini->p], mini->env) == -1)
+			ft_printf("%s: command not found\n", str[mini->p][i]);
+		free(sim);
+		exit(1);
+	}
+	else
+		return ;
+}
+
+int	checkinput(t_vars *mini)
+{
+	mini->p = 0;
+	mini->i = 0;
+	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
+
+	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
+	{
+		while (tudo[mini->p][mini->i])
+		{
+			if (forredirect(tudo[mini->p], mini) == 0 && forredirectout(tudo[mini->p], mini) == 0)
+				comandddd(tudo, mini);
+			mini->i++;
+		}
+		mini->p++;
+	}	
+	waitpid(mini->pid, NULL, 0);
+	return (0);
+}
+
+// int	checkinput(t_vars *mini)
+// {
+// 	mini->flagfdin = 0;
+// 	mini->flagfdout = 0;
+// 	allocfd(numpipe(mini->input), mini);
+// 	if (checkbuiltin(mini) == 0)
+// 		return (2);
+// 	if (check_heredoc(mini) == 0)
+// 	{
+// 		heredoc(mini);
+// 		return (0);
+// 	}
+// 	if (numpipe(mini->input) > 0)
+// 	{
+// 		execute(mini, 0, numpipe(mini->input));
+// 		return (3);
+// 	}
+// 	if (fastcheckpath(mini, 0, 0) == 1)
+// 	{
+// 		execute(mini, 0, numpipe(mini->input));
+// 		free(mini->check);
+// 		return (4);
+// 	}
+// 	if (inputnum(mini->input) != -1)
+// 	{
+// 		printf("mini->input[findcmdplace(mini->input, mini)] = %s\n", &mini->input[findcmdplace(mini->input, mini)]);
+// 		checkpath(&mini->input[findcmdplace(mini->input, mini)], mini);
+// 		//arrangegoodsplit(mini);
+// 		execute(mini, 0, numpipe(mini->input));
+// 		free(mini->check);
+// 		return (5);
+// 	}
+// 	ft_printf("%s: command not found\n", mini->flag[0]);
+// 	return (0);
+// }
 
 int	main(int ac, char **av, char **env)
 {
@@ -122,10 +276,11 @@ int	main(int ac, char **av, char **env)
 			add_history(mini->input);
 			mini->input = quotescrazy(mini->input);
 			if (mini->input == NULL)
-				printf ("Quote error\n");
+				printf("Quote error\n");
 			else
-				checkinput(mini);
+				printf("%d\n", checkinput(mini));
 			free(mini->input);
+			free(mini->fd);
 		}
 	}
 	exit_value = mini->exit_code;

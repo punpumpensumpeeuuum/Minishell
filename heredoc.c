@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/26 14:46:39 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 02:26:54 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	heredoc_input(int fd[2], char **limiters, t_vars *mini)
 	total_lim = 0;
 	while (limiters[total_lim])
 		total_lim++;
-	child_signals_handler();
+	printf("total = %d\n", total_lim);
 	while (1)
 	{
 		line = readline("> ");

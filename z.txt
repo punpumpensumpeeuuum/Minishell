@@ -1,2 +1,2 @@
-ls
-ol
+jomendes
+exit
