@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/10/16 03:58:16 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:07:43 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,44 +77,30 @@ char	*trimtrimtrim(char *str, int i)
 int	findcmdinmatrix(char **puzle, t_vars *mini)
 {
 	int	i;
-	int	ver;
 
 	i = 0;
 	while (puzle[i])
 	{
-		ver = findcmdplace(puzle[i], mini);
-		if (ver >= 0)
-			return (i);
+		if (ft_strncmp(puzle[i], "<", 1) != 0 && ft_strncmp(puzle[i], ">", 1) != 0)
+		{
+			checkpath(ft_strjoin("/", puzle[i]), mini);
+			if (mini->check != NULL)
+				return (i);			
+		}
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 int	findcmdplace(char *input, t_vars *mini)
 {
-	char	*word;
-	char	*path;
-	int		start;
-	int		end;
+	int	i;
 
-	start = 0;
-	while (input[start])
+	i = 0;
+	while (input[i])
 	{
-		while (input[start] && !ft_isprint(input[start]))
-			start++;
-		if (!input[start])
-			break ;
-		end = start;
-		while (input[end] && ft_isprint(input[end]))
-			end++;
-		word = strndup(input + start, end - start);
-		path = ft_strjoin("/", word);
-		free(word);
-		checkpath(path, mini);
-		free(path);
-		if (mini->check != NULL)
-			return (start);
-		start = end;
+		checkpath(input, mini);
+		i++;
 	}
 	return (-1);
 }

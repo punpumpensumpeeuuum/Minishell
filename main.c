@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/28 15:45:30 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:21:47 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	setinfile(char *str, t_vars *mini, int i)
 	else if (i == 1)
 	{
 		mini->fd[1] = open(str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		dup2(mini->fd[1], 0);
+		dup2(mini->fd[1], 1);
 		close(mini->fd[1]);
 	}
 	return (0);
@@ -142,10 +142,16 @@ int	forredirect(char **str, t_vars *mini)
 				if (setinfile(str[j + 1], mini, 0) == 0)
 					return (1);
 				else
+				{
+					ft_printf("%s: No such file or directory\n", str[j + 1]);
 					return (-40);
+				}
 			}
 			else
+			{
+				ft_printf("%s: No such file or directory\n", str[j + 1]);
 				return (-20);
+			}
 		}
 		else
 			j++;
@@ -154,15 +160,12 @@ int	forredirect(char **str, t_vars *mini)
 }
 
 int	forredirectout(char ***str, t_vars *mini)
-{
-	int	j;
-	
-	j = findcmdinmatrix(str[mini->p], mini);
-	if (str[mini->p][j + 1] && ft_strncmp(str[mini->p][j + 1], ">", 1) == 0)
+{	
+	if (str[mini->p][mini->i + 1] && ft_strncmp(str[mini->p][mini->i + 1], ">", 1) == 0)
 	{
-		if (str[mini->p][j + 2] && access(str[mini->p][j + 2], W_OK) == 0)
+		if (str[mini->p][mini->i + 2])
 		{
-			if (setinfile(str[mini->p][j + 1], mini, 1) == 0)				
+			if (setinfile(str[mini->p][mini->i + 2], mini, 1) == 0)				
 				return (1);
 			else
 				return (-100);
@@ -175,7 +178,7 @@ int	forredirectout(char ***str, t_vars *mini)
 	return (0);
 }
 
-char	**findflags(char **str, int i, t_vars *mini)
+char	**findflags(char **str, int i)
 {
 	char	**s;
 	int		h;
@@ -184,16 +187,10 @@ char	**findflags(char **str, int i, t_vars *mini)
 
 	h = 0;
 	j = 0;
-	while (str[h] && ft_strncmp(str[h], "<", 1) != 0)
+	while (str[h])
 	{
-		checkpath(ft_strjoin("/", str[h]), mini);
-		if (mini->check != NULL)
-		{
-			printf("1972G28F%s\n", str[h]);
-			i = h;
-		}
 		if (ft_strncmp(str[h], "<", 1) != 0)
-			j++;			
+			j++;
 		else if (ft_strncmp(str[h], ">", 1) != 0)
 			break;
 		h++;
@@ -202,12 +199,11 @@ char	**findflags(char **str, int i, t_vars *mini)
 	s = malloc(sizeof(char *) * j + 1);
 	if (!s)
 		return (NULL);
-	printf ("AAAAAAAAAAA%s\n", str[i]);
-	s[l] = str[i];
+	s[l] = ft_strdup(str[i]);
 	l++;
 	j = i + 1;
-	while (j <= h)
-	{	
+	while (j < h)
+	{
 		s[l] = ft_strdup(str[j]);	
 		l++;
 		j++;
@@ -223,53 +219,52 @@ char	**findflags(char **str, int i, t_vars *mini)
 
 void	comandddd(char ***str, t_vars *mini)
 {
-	int		i;
 	char	*sim;
 	char	**nao;
 
-	i = findcmdinmatrix(str[mini->p], mini);
 	mini->pid = fork();
 	if (mini->pid == 0)
 	{
-		if (checkbuiltin(str[mini->p][i], mini) == 0)
+		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0)
+			exit (3);
+		if (checkbuiltin(str[mini->p][mini->i], mini) == 0)
 			exit(2);
-		sim = ft_strjoin("/", str[mini->p][i]);
-		nao = findflags(str[mini->p], i, mini);
-		printf("ola\n");
-		printf("%s\n", sim);
-		printf("%s\n", nao[0]);
-		printf("%s\n", nao[1]);
-		printf("%s\n", nao[2]);
-		printf("ola\n");
-		if (execve(sim, nao, mini->env) == -1)
-			ft_printf("%s: command not found\n", str[mini->p][i]);
+		sim = ft_strjoin("/", str[mini->p][mini->i]);
+		checkpath(sim, mini);
+		nao = findflags(str[mini->p], mini->i);
+		if (execve(mini->check, nao, mini->env) == -1)
+			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
 		free(sim);
-		free(nao);	
+		free(nao);
 		exit(1);
 	}
 	else
 		return ;
+	// VER QUNADO O COMANDO NAO ]E VALIDO
+	// VER PIPES
+	// ENTREgar
 }
 
 int	checkinput(t_vars *mini)
 {
 	mini->p = 0;
-	mini->i = 0;
 	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
 
 	fdfd(mini);
-	if (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
+	mini->i = findcmdinmatrix(tudo[mini->p], mini);
+	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
+		if (mini->check != NULL)
+			free(mini->check);
 		if (tudo[mini->p])
 		{
-			if (forredirect(tudo[mini->p], mini) < 0 || forredirectout(tudo, mini) < 0)
-				return (1);
 			comandddd(tudo, mini);
 		}
 		mini->p++;
 	}	
 	waitpid(mini->pid, NULL, 0);
 	free(mini->fd);
+	free(tudo);
 	return (0);
 }
 

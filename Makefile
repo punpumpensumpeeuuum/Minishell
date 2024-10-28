@@ -8,7 +8,7 @@ GNL = get_next_line_utils.c get_next_line.c
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra #--suppressions=supp.supp #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra  #-fsanitize=address #--suppressions=supp.supp
 
 RM = rm -f
 
