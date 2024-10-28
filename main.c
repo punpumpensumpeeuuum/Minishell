@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/27 22:24:42 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:45:30 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,39 @@ int	more(char *input, int i)
 	return (0);
 }
 
-int	checkbuiltin(t_vars *mini)
+int	checkbuiltin(char *str, t_vars *mini)
 {
-	if (!(ft_strncmp(mini->input, "env", 3)) && !(more(mini->input, 3)))
+	if (!(ft_strncmp(str, "env", 3)) && !(more(mini->input, 3)))
 	{
 		env_builtin(mini);
 		return (0);
 	}
-	else if ((ft_strncmp(mini->input, "pwd", 3) == 0))
+	else if ((ft_strncmp(str, "pwd", 3) == 0))
 	{
 		pwd_builtin();
 		return (0);
 	}
-	else if ((ft_strncmp(mini->input, "export", 6) == 0))
+	else if ((ft_strncmp(str, "export", 6) == 0))
 	{
 		export_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(mini->input, "cd", 2) == 0)
+	else if (ft_strncmp(str, "cd", 2) == 0)
 	{
 		cd_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(mini->input, "echo", 4) == 0)
+	else if (ft_strncmp(str, "echo", 4) == 0)
 	{
 		echo_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(mini->input, "unset", 5) == 0)
+	else if (ft_strncmp(str, "unset", 5) == 0)
 	{
 		unset_builtin(mini);
 		return (0);
 	}
-	else if (!(ft_strncmp(mini->input, "exit", 4)))
+	else if (!(ft_strncmp(str, "exit", 4)))
 	{
 		exit_builtin(mini);
 		return (0);
@@ -86,6 +86,7 @@ char	***paodelosplit(char *str , int	pipes)
 		i = 0;
 		free(b);
 	}
+	free(a);
 	res[j] = NULL;
 	return (res);
 }
@@ -94,6 +95,9 @@ void	fdfd(t_vars *mini)
 {
 	int i = 0;
 
+	mini->fd = malloc(sizeof(int) * (numpipe(mini->input) + 1) * 2);
+	if (!mini->fd)
+		return;
 	while (i < numpipe(mini->input) + 1)
 	{
 		if (pipe(mini->fd + 2 * i) < 0)
@@ -131,17 +135,17 @@ int	forredirect(char **str, t_vars *mini)
 	j = 0;
 	while (str[j])
 	{
-		if (ft_strncmp(str[j], "<", 1))
+		if (ft_strncmp(str[j], "<", 1) == 0)
 		{
 			if (str[j + 1] && access(str[j + 1], R_OK) == 0)
 			{
-				if (setinfile(str[j + 1], mini, 0) == 0)				
+				if (setinfile(str[j + 1], mini, 0) == 0)
 					return (1);
 				else
-					return (-1);
+					return (-40);
 			}
 			else
-				return (-1);
+				return (-20);
 		}
 		else
 			j++;
@@ -149,49 +153,98 @@ int	forredirect(char **str, t_vars *mini)
 	return (0);
 }
 
-int	forredirectout(char **str, t_vars *mini)
+int	forredirectout(char ***str, t_vars *mini)
 {
 	int	j;
 	
-	j = 0;
-	while (str[j])
+	j = findcmdinmatrix(str[mini->p], mini);
+	if (str[mini->p][j + 1] && ft_strncmp(str[mini->p][j + 1], ">", 1) == 0)
 	{
-		if (ft_strncmp(str[j], ">", 1))
+		if (str[mini->p][j + 2] && access(str[mini->p][j + 2], W_OK) == 0)
 		{
-			if (str[j + 1] && access(str[j + 1], W_OK) == 0)
-			{
-				if (setinfile(str[j + 1], mini, 1) == 0)				
-					return (1);
-				else
-					return (-1);
-			}
+			if (setinfile(str[mini->p][j + 1], mini, 1) == 0)				
+				return (1);
 			else
-				return (-1);
+				return (-100);
 		}
-		else
-			j++;
 	}
+	// if (str[mini->p + 1])
+	// {
+		
+	// }
 	return (0);
+}
+
+char	**findflags(char **str, int i, t_vars *mini)
+{
+	char	**s;
+	int		h;
+	int		j;
+	int		l;
+
+	h = 0;
+	j = 0;
+	while (str[h] && ft_strncmp(str[h], "<", 1) != 0)
+	{
+		checkpath(ft_strjoin("/", str[h]), mini);
+		if (mini->check != NULL)
+		{
+			printf("1972G28F%s\n", str[h]);
+			i = h;
+		}
+		if (ft_strncmp(str[h], "<", 1) != 0)
+			j++;			
+		else if (ft_strncmp(str[h], ">", 1) != 0)
+			break;
+		h++;
+	}
+	l = 0;
+	s = malloc(sizeof(char *) * j + 1);
+	if (!s)
+		return (NULL);
+	printf ("AAAAAAAAAAA%s\n", str[i]);
+	s[l] = str[i];
+	l++;
+	j = i + 1;
+	while (j <= h)
+	{	
+		s[l] = ft_strdup(str[j]);	
+		l++;
+		j++;
+	}
+	if (l < h)
+	{
+		s[l] = ft_strdup(str[i - 1]);
+		l++;
+	}
+	s[l] = NULL;
+	return (s);
 }
 
 void	comandddd(char ***str, t_vars *mini)
 {
 	int		i;
 	char	*sim;
+	char	**nao;
 
 	i = findcmdinmatrix(str[mini->p], mini);
-	// if (forredirectout(str[mini->p], mini) == 0)
-	// {
-	// 	if (str[mini->p + 1])
-	// 		// mandar fd para o pipe
-	// }
 	mini->pid = fork();
 	if (mini->pid == 0)
 	{
+		if (checkbuiltin(str[mini->p][i], mini) == 0)
+			exit(2);
 		sim = ft_strjoin("/", str[mini->p][i]);
-		if (execve(sim, str[mini->p], mini->env) == -1)
+		nao = findflags(str[mini->p], i, mini);
+		printf("ola\n");
+		printf("%s\n", sim);
+		printf("%s\n", nao[0]);
+		printf("%s\n", nao[1]);
+		printf("%s\n", nao[2]);
+		printf("ola\n");
+		if (execve(sim, nao, mini->env) == -1)
 			ft_printf("%s: command not found\n", str[mini->p][i]);
 		free(sim);
+		free(nao);	
 		exit(1);
 	}
 	else
@@ -204,17 +257,19 @@ int	checkinput(t_vars *mini)
 	mini->i = 0;
 	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
 
-	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
+	fdfd(mini);
+	if (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
-		while (tudo[mini->p][mini->i])
+		if (tudo[mini->p])
 		{
-			if (forredirect(tudo[mini->p], mini) == 0 && forredirectout(tudo[mini->p], mini) == 0)
-				comandddd(tudo, mini);
-			mini->i++;
+			if (forredirect(tudo[mini->p], mini) < 0 || forredirectout(tudo, mini) < 0)
+				return (1);
+			comandddd(tudo, mini);
 		}
 		mini->p++;
 	}	
 	waitpid(mini->pid, NULL, 0);
+	free(mini->fd);
 	return (0);
 }
 
@@ -280,7 +335,6 @@ int	main(int ac, char **av, char **env)
 			else
 				printf("%d\n", checkinput(mini));
 			free(mini->input);
-			free(mini->fd);
 		}
 	}
 	exit_value = mini->exit_code;
