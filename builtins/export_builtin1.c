@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/19 16:07:21 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:51:55 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,14 @@
 
 int     export_check(char *str)
 {
-    int i;
-
-    i = 0;
-    while (str[i])
-    {
-		if (str[0] == '=')
-		{
-			printf("export: `%c': not a valid identifier\n", str[i]);
-    		return (1);
-		}
-        if ((str[i] >= 'a' && str[i] <= 'z') || 
-        (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_') ||
-		str[i] == '=')
-            return (0);
-        i++;
-    }
-	printf("export: `%c': not a valid identifier\n", str[i]);
-    return (1);
+    if (!(str[0] >= 'a' && str[0] <= 'z') || 
+    (str[0] >= 'A' && str[0] <= 'Z') || (str[0] == '_') ||
+	str[0] == '=')
+	{
+		printf("export: `%s': not a valid identifier\n", str);
+    	return (1);
+	}
+    return (0);
 }
 
 int		str_compare(char *s1, char *s2)
@@ -61,15 +51,15 @@ void    export_var(t_vars *mini)
     split = ft_split(mini->input, ' ');
 	if (!mini->new_export)
 		return;
-    while (split[i]) 
-    {
-		mini->exp_len = export_len(mini->export) + 1;
-        if (export_check(split[i]) == 0)
-        {
+	if (export_check(split[i]) == 0)
+	{
+		 while (split[i]) 
+    	{
+			mini->exp_len = export_len(mini->export) + 1;
 			export_update(mini, split[i]);
 			i++;
 		}
-    }
+	}
 }
 
 void	export_update(t_vars *mini, char *str)
