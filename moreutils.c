@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/10/29 13:37:23 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:12:58 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,19 @@ int	findmistake(char **str)
 		return (0);
 }
 
-int	findbuiltimatrix(char **str)
+int	truecheckbuilt(char *str)
+{
+	if (ft_strncmp(str, "cd", 2) == 0 || ft_strncmp(str, "unset", 5) == 0 || \
+		ft_strncmp(str, "exit", 4) == 0)
+		return (0);
+	else if (ft_strncmp(str, "pwd", 3) == 0 || ft_strncmp(str, "env", 3) == 0 || \
+		ft_strncmp(str, "export", 6) == 0 || ft_strncmp(str, "echo", 4) == 0)
+		return (1);
+	else
+		return (-2);
+}
+
+int	findbuiltimatrix(char **str, t_vars *mini)
 {
 	int	i;
 
@@ -94,8 +106,14 @@ int	findbuiltimatrix(char **str)
 	{
 		if (ft_strncmp(str[i], "<", 1) != 0 && ft_strncmp(str[i], ">", 1) != 0)
 		{	
-			if (truecheckbuilt(str[i]) == 0)
-				return (i);			
+			if (truecheckbuilt(str[i]) == 1)
+				return (i);	
+			else if (truecheckbuilt(str[i]) == 0)
+			{
+				printf("%s\n", str[i]);
+				checkbuiltin(str[i], mini);	
+				return (-15);
+			}
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/29 13:50:36 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:31:58 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,41 +23,29 @@ int	more(char *input, int i)
 	return (0);
 }
 
-int	truecheckbuilt(char *str)
-{
-	if (ft_strncmp(str, "pwd", 3) == 0 || ft_strncmp(str, "env", 3) == 0 || \
-		ft_strncmp(str, "export", 6) == 0 || ft_strncmp(str, "cd", 2) == 0 || \
-		ft_strncmp(str, "echo", 4) == 0 || ft_strncmp(str, "unset", 5) == 0 || \
-		ft_strncmp(str, "exit", 4) == 0)
-		return (0);
-	else
-		return (-2);
-}
-
 int	checkbuiltin(char *str, t_vars *mini)
 {
-	if (!(ft_strncmp(str, "env", 3)) && !(more(mini->input, 3)))
+	if (!(ft_strncmp(str, "env", 3)) && !(more(mini->input, 3))) //
 	{
 		env_builtin(mini);
 		return (0);
 	}
-	else if ((ft_strncmp(str, "pwd", 3) == 0))
+	else if ((ft_strncmp(str, "pwd", 3) == 0)) //
 	{
 		pwd_builtin();
 		return (0);
 	}
-	else if ((ft_strncmp(str, "export", 6) == 0))
+	else if ((ft_strncmp(str, "export", 6) == 0)) //
 	{
 		export_builtin(mini);
 		return (0);
 	}
 	else if (ft_strncmp(str, "cd", 2) == 0)
-	{	printf("A: %s\n", str);
-
+	{
 		cd_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(str, "echo", 4) == 0)
+	else if (ft_strncmp(str, "echo", 4) == 0) //
 	{
 		echo_builtin(mini);
 		return (0);
@@ -180,12 +168,17 @@ int	forredirect(char **str, t_vars *mini)
 }
 
 int	forredirectout(char ***str, t_vars *mini)
-{	
-	if (str[mini->p][mini->i + 1] && ft_strncmp(str[mini->p][mini->i + 1], ">", 1) == 0)
+{
+	int	j;
+
+	j = 0;
+	while (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) != 0)
+		j++;
+	if (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) == 0)
 	{
-		if (str[mini->p][mini->i + 2])
+		if (str[mini->p][j + 1])
 		{
-			if (setinfile(str[mini->p][mini->i + 2], mini, 1) == 0)				
+			if (setinfile(str[mini->p][j + 1], mini, 1) == 0)				
 				return (1);
 			else
 				return (-100);
@@ -219,7 +212,7 @@ char	**findflags(char **str, int i)
 	{
 		if (ft_strncmp(str[h], "<", 1) != 0)
 			j++;
-		else if (ft_strncmp(str[h], ">", 1) != 0)
+		if (ft_strncmp(str[h], ">", 1) == 0)
 			break;
 		h++;
 	}
@@ -273,32 +266,45 @@ void	comandddd(char ***str, t_vars *mini)
 	// ENTREgar
 }
 
+int	decide(char **str, t_vars *mini)
+{
+	mini->i = findbuiltimatrix(str, mini);
+	if (mini->i == -2)
+		mini->i = findcmdinmatrix(str, mini);
+	if (mini->i == -15)
+		return (1);
+	if (mini->i == -1)
+	{
+		printf("%s\n", str[0]);
+		printf("%s\n", str[1]);
+		ft_printf("%s: command not found\n", str[findmistake(str)]);
+	}
+	return (0);
+}
+
 int	checkinput(t_vars *mini)
 {
 	mini->p = 0;
 	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
 
 	fdfd(mini);
-	mini->i = findbuiltimatrix(tudo[mini->p]);
-	if (mini->i == -2)
-		mini->i = findcmdinmatrix(tudo[mini->p], mini);
-	if (mini->i == -1)
+	if (decide(tudo[mini->p], mini) == 0)
 	{
-		printf("%s\n", tudo[mini->p][0]);
-		printf("%s\n", tudo[mini->p][1]);
-		ft_printf("%s: command not found\n", tudo[mini->p][findmistake(tudo[mini->p])]);
-	}
-	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
-	{
-		if (mini->check != NULL)
-			free(mini->check);
-		if (tudo[mini->p])
+		while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 		{
-			comandddd(tudo, mini);
-			waitpid(mini->pid, NULL, 0);
-		}
-		mini->p++;
-	}	
+			if (mini->check != NULL)
+			{
+				free(mini->check);
+				mini->check = NULL;
+			}
+			if (tudo[mini->p])
+			{
+				comandddd(tudo, mini);
+				waitpid(mini->pid, NULL, 0);
+			}
+			mini->p++;
+		}	
+	}
 	free(tudo);	
 	free(mini->fd);
 	return (0);
