@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/29 12:05:30 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:37:27 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ char	*trimtrimtrim(char *str, int i);
 int		ft_checkprint(char *str);
 
 int		checkbuiltin(char *str, t_vars *mini);
-int		findbuiltimatrix(char **str, t_vars *mini);
+int		truecheckbuilt(char *str);
+int		findbuiltimatrix(char **str);
+int		findmistake(char **str);
 
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);

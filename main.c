@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/29 12:06:02 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:50:36 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@ int	more(char *input, int i)
 		i++;
 	}
 	return (0);
+}
+
+int	truecheckbuilt(char *str)
+{
+	if (ft_strncmp(str, "pwd", 3) == 0 || ft_strncmp(str, "env", 3) == 0 || \
+		ft_strncmp(str, "export", 6) == 0 || ft_strncmp(str, "cd", 2) == 0 || \
+		ft_strncmp(str, "echo", 4) == 0 || ft_strncmp(str, "unset", 5) == 0 || \
+		ft_strncmp(str, "exit", 4) == 0)
+		return (0);
+	else
+		return (-2);
 }
 
 int	checkbuiltin(char *str, t_vars *mini)
@@ -41,7 +52,8 @@ int	checkbuiltin(char *str, t_vars *mini)
 		return (0);
 	}
 	else if (ft_strncmp(str, "cd", 2) == 0)
-	{
+	{	printf("A: %s\n", str);
+
 		cd_builtin(mini);
 		return (0);
 	}
@@ -55,7 +67,7 @@ int	checkbuiltin(char *str, t_vars *mini)
 		unset_builtin(mini);
 		return (0);
 	}
-	else if (!(ft_strncmp(str, "exit", 4)))
+	else if ((ft_strncmp(str, "exit", 4) == 0))
 	{
 		exit_builtin(mini);
 		return (0);
@@ -93,6 +105,9 @@ char	***paodelosplit(char *str , int	pipes)
 
 // void	piping(char ***str, t_vars *mini)
 // {
+// 	int	o;
+
+// 	o = numpipe(mini->input);
 // 	if ()
 // }
 
@@ -264,9 +279,15 @@ int	checkinput(t_vars *mini)
 	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
 
 	fdfd(mini);
-	mini->i = findcmdinmatrix(tudo[mini->p], mini);
+	mini->i = findbuiltimatrix(tudo[mini->p]);
+	if (mini->i == -2)
+		mini->i = findcmdinmatrix(tudo[mini->p], mini);
 	if (mini->i == -1)
-		mini->i = findbuiltimatrix(tudo[mini->p], mini);
+	{
+		printf("%s\n", tudo[mini->p][0]);
+		printf("%s\n", tudo[mini->p][1]);
+		ft_printf("%s: command not found\n", tudo[mini->p][findmistake(tudo[mini->p])]);
+	}
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
 		if (mini->check != NULL)
