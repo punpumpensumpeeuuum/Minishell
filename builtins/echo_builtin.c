@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/23 13:36:49 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:59:36 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char *take_equal(char *str)
 }
 
 
-void	echo_dollar_finish(char *str, int k, t_vars *mini)
+void	echo_dollar_finish(char *str, int k, t_vars *mini, int fd)
 {
 	int i;
 	char *result;
@@ -126,7 +126,7 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 				u++;
 			}
             if (result[u] == '\0') 
-				printf("%s", &str[j+1]);
+				ft_putstr_fd(&str[j + 1], fd);
             free(env_var);
             break;
 		}
@@ -164,7 +164,7 @@ void	echo_special(t_vars *mini, char *str)
 			}
 			else if (str[i] == '\'' && flag != 0)
 			{
-				echo_dollar_finish(split[0], 1, mini);
+				echo_dollar_finish(split[0], 1, mini, STDOUT_FILENO);
 				flag = 0;
 			}
 			else
@@ -226,10 +226,10 @@ int	echo_builtin(t_vars *mini)
 			if (echo_quote(split[i]) == 1)
 				echo_special(mini, split[i]);
 			else
-				echo_dollar_finish(split[i], 1, mini);
+				echo_dollar_finish(split[i], 1, mini, STDOUT_FILENO);
 		}
 		else if (split[i][0] == '$')
-			echo_dollar_finish(split[i], 1, mini);
+			echo_dollar_finish(split[i], 1, mini, STDOUT_FILENO);
 		else
 			printf("%s", split[i]);
 		if (split[i + 1])

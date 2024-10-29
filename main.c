@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/28 17:21:47 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:33:04 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,13 +143,18 @@ int	forredirect(char **str, t_vars *mini)
 					return (1);
 				else
 				{
-					ft_printf("%s: No such file or directory\n", str[j + 1]);
+					ft_printf("%s: No suc3232h file or directory\n", str[j + 1]);
 					return (-40);
 				}
 			}
+			else if (ft_strncmp(str[j], "<<", 2) == 0)
+			{
+				if (heredoc(mini) == 0)
+					return (0);
+			}
 			else
 			{
-				ft_printf("%s: No such file or directory\n", str[j + 1]);
+				ft_printf("%s: No such fissssle or directory\n", str[j + 1]);
 				return (-20);
 			}
 		}
