@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/29 10:46:28 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:05:30 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int		getpipepath(char **trueflag, t_vars *mini);
 char	*trimtrimtrim(char *str, int i);
 int		ft_checkprint(char *str);
 
+int		checkbuiltin(char *str, t_vars *mini);
+int		findbuiltimatrix(char **str, t_vars *mini);
 
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);
@@ -117,7 +119,7 @@ int		exit_builtin(t_vars *mini);
 int		echo_builtin(t_vars *mini);
 int		is_flag(char *str);
 int		dollar_flag(char *str);
-void	echo_dollar_finish(char *str, int k, t_vars *mini, int fd);
+void	echo_dollar_finish(char *str, int k, t_vars *mini);
 int		echo_compare(const char *s1, const char *s2);
 char	*take_equal(char *str);
 void	dollar_quote(t_vars *mini, char *str);

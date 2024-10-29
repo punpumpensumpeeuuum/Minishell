@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/29 10:46:17 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/23 02:26:54 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,39 @@ int ft_strcmp(const char *s1, const char *s2)
     return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
+void	heredoc_input(int fd[2], char **limiters, t_vars *mini)
+{
+	char	*line;
+	int		total_lim;
+	int		i;
+
+	i = 0;
+	total_lim = 0;
+	while (limiters[total_lim])
+		total_lim++;
+	printf("total = %d\n", total_lim);
+	while (1)
+	{
+		line = readline("> ");
+		if (line == NULL || (ft_strcmp(line, limiters[i]) == 0))
+		{
+			free(line);
+			i++;
+			printf("i = %d\n", i);
+			if (i == total_lim)
+				break;
+			continue;
+		}
+		if (dollar_flag_count(line) > 0)
+			echo_dollar_finish(line, 1, mini);
+		if ((i == total_lim - 1 && line == NULL) || 
+		(ft_strcmp(line, limiters[i]) == 0))
+			ft_putendl_fd(line, fd[1]);
+		free(line);
+	}
+	close(fd[1]);
+}
+
 void	fork_error(void)
 {
 	perror("Error forking\n");
@@ -98,60 +131,57 @@ void	creat_pipe(int fd[2])
 	}
 }
 
-void heredoc_input(int fd[2], char **limiters, t_vars *mini)
+int		heredoc(t_vars *mini)
 {
-	char *line;
-	int i = 0;
-	int total_lim = 0;
-	
-	while (limiters[total_lim])
-		total_lim++;
-	while (1)
-	{
-		line = readline("> ");
-		if (line == NULL || (ft_strcmp(line, limiters[i]) == 0))
-		{
-			free(line);
-			i++;
-			if (i == total_lim)
-				break;
-			continue;
-		}
-		if (dollar_flag_count(line) > 0)
-			echo_dollar_finish(line, 1, mini, fd[1]);
-		ft_putendl_fd(line, fd[1]);
-		free(line);
-	}
-	close(fd[1]);
-}
+	pid_t	pid;
+	int		fd[2];
+	int		status;
+	int		exit_status;
 
-int heredoc(t_vars *mini)
-{
-	pid_t pid;
-	int fd[2];
-	int status;
-
-	if (pipe(fd) < 0)
-	{
-		perror("Error creating pipe\n");
-		return (EXIT_FAILURE);
-	}
+	fd[0] = -1;
+	fd[1] = -1;
+	status = 0;
 	heredoc_lim_array(mini);
 	if (!mini->limiters)
 		return (EXIT_FAILURE);
+	creat_pipe(fd);
 	pid = fork();
 	if (pid < 0)
 		fork_error();
 	else if (pid == 0)
-	{
-		close(fd[0]);
-		heredoc_input(fd, mini->limiters, mini);
-		exit(EXIT_SUCCESS);
-	}
+		heredoc_child(fd, mini->limiters, mini);
 	close(fd[1]);
+	close(fd[0]);
 	dup2(fd[0], STDIN_FILENO);
-	waitpid(pid, &status, 0);
+	wait(&status);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
+	exit_status = WEXITSTATUS(status);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	{
+		//free_minishell(mini);
+		return (exit_status);
+	}
 	return (EXIT_SUCCESS);
 }
+
+int		check_heredoc(t_vars *mini)
+{
+	int i;
+
+	i = 0;
+	while (mini->input[i])
+	{
+		if (mini->input[i] == '<' && mini->input[i + 1] == '<')
+		{
+			mini->heredoc_on = 1;
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+// com cat << ola > z.txt substitui o que estiver no file z.txt pelo
+// output do heredoc
+// com cat << ola >> z.txt ele da append ao output do heredoc no file

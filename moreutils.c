@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/10/28 16:07:43 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:05:31 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,24 @@ char	*trimtrimtrim(char *str, int i)
 			return (s);
 	}
 	return (str);
+}
+
+int	findbuiltimatrix(char **str, t_vars *mini)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_strncmp(str[i], "<", 1) != 0 && ft_strncmp(str[i], ">", 1) != 0)
+		{
+			checkbuiltin(str[i], mini);
+			if (mini->check != NULL)
+				return (i);			
+		}
+		i++;
+	}
+	return (-1);
 }
 
 int	findcmdinmatrix(char **puzle, t_vars *mini)

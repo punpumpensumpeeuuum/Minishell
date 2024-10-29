@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/28 20:33:04 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:06:02 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ char	***paodelosplit(char *str , int	pipes)
 	return (res);
 }
 
+// void	piping(char ***str, t_vars *mini)
+// {
+// 	if ()
+// }
+
 void	fdfd(t_vars *mini)
 {
 	int i = 0;
@@ -143,18 +148,13 @@ int	forredirect(char **str, t_vars *mini)
 					return (1);
 				else
 				{
-					ft_printf("%s: No suc3232h file or directory\n", str[j + 1]);
+					ft_printf("%s: No such file or directory\n", str[j + 1]);
 					return (-40);
 				}
 			}
-			else if (ft_strncmp(str[j], "<<", 2) == 0)
-			{
-				if (heredoc(mini) == 0)
-					return (0);
-			}
 			else
 			{
-				ft_printf("%s: No such fissssle or directory\n", str[j + 1]);
+				ft_printf("%s: No such file or directory\n", str[j + 1]);
 				return (-20);
 			}
 		}
@@ -178,7 +178,15 @@ int	forredirectout(char ***str, t_vars *mini)
 	}
 	// if (str[mini->p + 1])
 	// {
-		
+	// 	piping(str, mini);
+	// 	printf("%d\n", mini->p);
+	// 	printf("%d\n", mini->fd[mini->p + 1]);
+	// 	printf("%d\n", mini->fd[0]);
+	// 	printf("%d\n", mini->fd[1]);
+	// 	printf("%d\n", mini->fd[2]);
+	// 	printf("%d\n", mini->fd[3]);
+	// 	printf("%d\n", mini->fd[4]);
+
 	// }
 	return (0);
 }
@@ -257,6 +265,8 @@ int	checkinput(t_vars *mini)
 
 	fdfd(mini);
 	mini->i = findcmdinmatrix(tudo[mini->p], mini);
+	if (mini->i == -1)
+		mini->i = findbuiltimatrix(tudo[mini->p], mini);
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
 		if (mini->check != NULL)
@@ -264,12 +274,12 @@ int	checkinput(t_vars *mini)
 		if (tudo[mini->p])
 		{
 			comandddd(tudo, mini);
+			waitpid(mini->pid, NULL, 0);
 		}
 		mini->p++;
 	}	
-	waitpid(mini->pid, NULL, 0);
+	free(tudo);	
 	free(mini->fd);
-	free(tudo);
 	return (0);
 }
 
