@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/30 16:54:32 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:00:24 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,6 @@ char	***paodelosplit(char *str , int	pipes)
 	return (res);
 }
 
-// void	piping(char ***str, t_vars *mini)
-// {
-// 	int	o;
-
-// 	o = numpipe(mini->input);
-// 	if ()
-// }
-
 void	fdfd(t_vars *mini)
 {
 	int i = 0;
@@ -111,6 +103,33 @@ void	fdfd(t_vars *mini)
 		if (pipe(mini->fd + 2 * i) < 0)
 			return ;
 		i++;
+	}
+}
+
+void	piping(char ***str, t_vars *mini, int ta)
+{
+	int	o;
+
+	o = numpipe(mini->input);
+	// printf("%d\n", mini->fd[0]); 3
+	// printf("%d\n", mini->fd[1]); 4
+	// printf("%d\n", mini->fd[2]); 5
+	// printf("%d\n", mini->fd[3]); 6
+	if (mini->p == 0 && str[mini->p + 1])
+	{
+		if (ta == 1)
+			return ;
+		dup2(mini->fd[mini->p + 1], 1);
+	}
+	// else if (mini->p > 0 && mini->p < o && str[mini->p + 1])
+	// {
+	// 	pipe meio
+	// }
+	if (mini->p == o && !str[mini->p + 1])
+	{
+		if (ta == 1)
+			return ;
+		dup2(mini->fd[2 * (mini->p - 1)], 0);
 	}
 }
 
@@ -189,12 +208,10 @@ int		check_quote_redir(t_vars* mini, char *str)
 	int i;
 
 	i = 0;
-	//printf("str = %s\n", str);
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
 		{
-			printf("str = %s\n", str);
 			mini->redir++;
 			return (0);
 		}
@@ -227,9 +244,10 @@ void	codifiqing(char *str)
 int	forredirectout(char ***str, t_vars *mini)
 {
 	int	j;
+	int	ta;
 
 	j = 0;
-
+	ta = 0;
 	if (ft_countwords(mini->input, ' ') == 1)
 		return (0);
 	while (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) != 0)
@@ -238,24 +256,16 @@ int	forredirectout(char ***str, t_vars *mini)
 	{
 		if (str[mini->p][j + 1])
 		{
-			if (setinfile(str[mini->p][j + 1], mini, 1) == 0)				
-				return (1);
+			if (setinfile(str[mini->p][j + 1], mini, 1) == 0)
+				ta = 1;
 			else
 				return (-100);
 		}
 	}
-	// if (str[mini->p + 1])
-	// {
-	// 	piping(str, mini);
-	// 	printf("%d\n", mini->p);
-	// 	printf("%d\n", mini->fd[mini->p + 1]);
-	// 	printf("%d\n", mini->fd[0]);
-	// 	printf("%d\n", mini->fd[1]);
-	// 	printf("%d\n", mini->fd[2]);
-	// 	printf("%d\n", mini->fd[3]);
-	// 	printf("%d\n", mini->fd[4]);
-
-	// }
+	if (numpipe(mini->input) > 0)
+	{
+		piping(str, mini, ta);
+	}
 	return (0);
 }
 
@@ -313,9 +323,9 @@ void	comandddd(char ***str, t_vars *mini)
 		sim = ft_strjoin("/", str[mini->p][mini->i]);
 		checkpath(sim, mini);
 		nao = findflags(str[mini->p], mini->i);
-		//printf("mini->check = %s\n", mini->check);
-		//printf("nao = %s\n", nao[0]);
-		//printf("nao = %s\n", nao[1]);
+		// printf("mini->check = %s\n", mini->check);
+		// printf("nao = %s\n", nao[0]);
+		// printf("nao = %s\n", nao[1]);
 		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
 		{
 			free(nao[1]);
@@ -323,14 +333,14 @@ void	comandddd(char ***str, t_vars *mini)
 			nao[1] = ft_strdup("heredoc_tmp.txt");
 			nao[2] = NULL;
 		}
+		// printf("entreo %d\n", mini->p);
 		if (execve(mini->check, nao, mini->env) == -1)
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
+		closeall(mini);
 		free(sim);
 		free(nao);
 		exit(1);
 	}
-	//else if(mini->pid > 0)
-	//	waitpid(mini->pid, NULL, 0);
 	else
 		return;
 	// VER QUNADO O COMANDO NAO ]E VALIDO
@@ -344,7 +354,12 @@ int	decide(char **str, t_vars *mini)
 	if (mini->i == -2)
 		mini->i = findcmdinmatrix(str, mini);
 	if (mini->i == -1)
+	{
+		if (findmistake(str) == -1)
+			return (3);
+		de_codifiqing(str[findmistake(str)]);
 		ft_printf("%s: command not found\n", str[findmistake(str)]);
+	}
 	else if (mini->i == -15)
 		return (1);
 	return (0);
@@ -378,42 +393,6 @@ int	checkinput(t_vars *mini)
 	return (0);
 }
 
-// int	checkinput(t_vars *mini)
-// {
-// 	mini->flagfdin = 0;
-// 	mini->flagfdout = 0;
-// 	allocfd(numpipe(mini->input), mini);
-// 	if (checkbuiltin(mini) == 0)
-// 		return (2);
-// 	if (check_heredoc(mini) == 0)
-// 	{
-// 		heredoc(mini);
-// 		return (0);
-// 	}
-// 	if (numpipe(mini->input) > 0)
-// 	{
-// 		execute(mini, 0, numpipe(mini->input));
-// 		return (3);
-// 	}
-// 	if (fastcheckpath(mini, 0, 0) == 1)
-// 	{
-// 		execute(mini, 0, numpipe(mini->input));
-// 		free(mini->check);
-// 		return (4);
-// 	}
-// 	if (inputnum(mini->input) != -1)
-// 	{
-// 		printf("mini->input[findcmdplace(mini->input, mini)] = %s\n", &mini->input[findcmdplace(mini->input, mini)]);
-// 		checkpath(&mini->input[findcmdplace(mini->input, mini)], mini);
-// 		//arrangegoodsplit(mini);
-// 		execute(mini, 0, numpipe(mini->input));
-// 		free(mini->check);
-// 		return (5);
-// 	}
-// 	ft_printf("%s: command not found\n", mini->flag[0]);
-// 	return (0);
-// }
-
 int	main(int ac, char **av, char **env)
 {
 	t_vars	*mini;
@@ -439,7 +418,7 @@ int	main(int ac, char **av, char **env)
 			if (mini->input == NULL)
 				printf("Quote error\n");
 			else
-				printf("%d\n", checkinput(mini));
+				checkinput(mini);
 			free(mini->input);
 		}
 	}

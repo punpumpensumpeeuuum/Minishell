@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/10/28 16:19:16 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:17:36 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	closeall(t_vars *mini)
 		close(mini->fd[i]);
 		i++;
 	}
-	if (mini->fd)
-		free(mini->fd);
 }
 
 void	allocfd(int p, t_vars *mini)

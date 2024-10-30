@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/10/30 16:55:36 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:18:20 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,12 @@ int	findmistake(char **str)
 
 	i = 0;
 	if (str[i][0] == '<')
-		return (2);
+	{
+		if (str[2])
+			return (2);
+		else
+			return (-1);
+	}
 	else
 		return (0);
 }
