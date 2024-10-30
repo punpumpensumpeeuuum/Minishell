@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/29 15:31:58 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:10:09 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,19 @@ int	setinfile(char *str, t_vars *mini, int i)
 		dup2(mini->fd[1], 1);
 		close(mini->fd[1]);
 	}
+	else if (i == 2)
+	{
+		heredoc(mini);
+		mini->fd[0] = open("heredoc_tmp.txt", O_RDONLY);
+		if (mini->fd[0] == -1)
+		{
+			ft_printf("%s: No such file or directory\n", str);
+			return (-1);
+		}
+		dup2(mini->fd[0], 0);
+		close(mini->fd[0]);
+		printf("AQUIEERERERE\n");
+	}
 	return (0);
 }
 
@@ -143,7 +156,12 @@ int	forredirect(char **str, t_vars *mini)
 	j = 0;
 	while (str[j])
 	{
-		if (ft_strncmp(str[j], "<", 1) == 0)
+		if (ft_strncmp(str[j], "<<", 2) == 0)
+		{
+			if (setinfile(str[j + 1], mini, 2) == 0)
+					return (1);
+		}
+		else if (ft_strncmp(str[j], "<", 1) == 0)
 		{
 			if (str[j + 1] && access(str[j + 1], R_OK) == 0)
 			{
@@ -253,14 +271,26 @@ void	comandddd(char ***str, t_vars *mini)
 		sim = ft_strjoin("/", str[mini->p][mini->i]);
 		checkpath(sim, mini);
 		nao = findflags(str[mini->p], mini->i);
+		//printf("mini->check = %s\n", mini->check);
+		//printf("nao = %s\n", nao[0]);
+		//printf("nao = %s\n", nao[1]);
+		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
+		{
+			free(nao[1]);
+			free(nao[2]);
+			nao[1] = ft_strdup("heredoc_tmp.txt");
+			nao[2] = NULL;
+		}
 		if (execve(mini->check, nao, mini->env) == -1)
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
 		free(sim);
 		free(nao);
 		exit(1);
 	}
+	else if(mini->pid > 0)
+		waitpid(mini->pid, NULL, 0);
 	else
-		return ;
+		return;
 	// VER QUNADO O COMANDO NAO ]E VALIDO
 	// VER PIPES
 	// ENTREgar

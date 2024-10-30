@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/29 15:11:21 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/10/29 20:07:58 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ void	export_update1(t_vars *mini);
 void	export_update(t_vars *mini, char *str);
 void	exp_update1(t_vars *mini);
 void	exp_update(t_vars *mini, char *str);
+int		export_redircheck(char *str);
+void	print_export(t_vars *mini);
 
 // builtin exit
 int		not_number(char *str);
@@ -157,12 +159,11 @@ void	pwd_builtin(void);
 int		count_limiters(char **split);
 void	free_array(char **array);
 void	heredoc_lim_array(t_vars *mini);
-void	heredoc_input(int fd[2], char **limiters, t_vars *mini);
+void	heredoc_input(int fd, char **limiters, t_vars *mini);
 void	fork_error(void);
-void	heredoc_child(int fd[2], char **limiters, t_vars *mini);
+void	heredoc_child(char **limiters, t_vars *mini);
 void	creat_pipe(int fd[2]);
 int		heredoc(t_vars *mini);
-int		check_heredoc(t_vars *mini);
 
 // free.c
 void	free_double_array(char **str, t_vars *mini);

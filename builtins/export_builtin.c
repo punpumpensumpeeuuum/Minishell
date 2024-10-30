@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/18 23:29:02 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:46:15 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,48 @@ void init_export(t_vars *mini)
     mini->exp_len = export_len(mini->export);
 }
 
+int		export_redircheck(char *str)
+{
+	while (str[0])
+	{
+		if (str[0] == '>' && (str[1] == ' ' || str[1] == '\0'
+		|| str[1] == '>'))
+			return (0);
+	}
+	return (1);
+}
+
+void	print_export(t_vars *mini)
+ {
+	int i;
+
+	i = 0;
+	mini->exp_len = export_len(mini->export);
+	while (i < mini->exp_len)
+	{
+		if (mini->export[i] && 
+		!(ft_strncmp(mini->export[i], "/3/4", 2) == 0))
+			printf("declare -x %s\n", mini->export[i]);
+		i++;
+	}
+ }
 
 int	export_builtin(t_vars *mini)
 {
-	int	i;
+	char **split;
 
-	i = 0;
 	sorting_export(mini);
 	if (ft_countwords(mini->input, ' ') > 1)
-		export_var(mini);
-	else
 	{
-		mini->exp_len = export_len(mini->export);
-		while (i < mini->exp_len)
-		{
-			if (mini->export[i] && 
-			!(ft_strncmp(mini->export[i], "/3/4", 2) == 0))
-				printf("declare -x %s\n", mini->export[i]);
-			i++;
-		}
+		split = ft_split(mini->input, ' ');
+		if (export_redircheck(split[1]) == 0 && split[2])
+			print_export(mini);
+		else
+			export_var(mini);
 	}
+	else
+		print_export(mini);
+	free_split(split);
 	return (0);
 }
 
