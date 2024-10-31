@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:26:12 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/23 14:58:26 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:25:13 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_vars 	*init_mini(void)
 	if (!mini)
 		return (NULL);
 	mini->exit_code = 0;
+	mini->redir = 0;
 	mini->running = 1;
     mini->env = NULL;
     mini->new_env = NULL;

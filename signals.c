@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 16:13:38 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/21 11:53:41 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:59:47 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void    signal_heredoc(int sig)
     write(1, "^C\n", 3);
     //set exit code = 130;
 }
-
 
 
 void    child_handler(int signal)

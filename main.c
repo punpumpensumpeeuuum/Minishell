@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/29 21:10:09 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:54:32 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,37 +25,37 @@ int	more(char *input, int i)
 
 int	checkbuiltin(char *str, t_vars *mini)
 {
-	if (!(ft_strncmp(str, "env", 3)) && !(more(mini->input, 3))) //
+	if (!(ft_strncmp(str, "env\0", 4)) && !(more(mini->input, 3))) //
 	{
 		env_builtin(mini);
 		return (0);
 	}
-	else if ((ft_strncmp(str, "pwd", 3) == 0)) //
+	else if ((ft_strncmp(str, "pwd\0", 4) == 0)) //
 	{
 		pwd_builtin();
 		return (0);
 	}
-	else if ((ft_strncmp(str, "export", 6) == 0)) //
+	else if ((ft_strncmp(str, "export\0", 7) == 0)) //
 	{
 		export_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(str, "cd", 2) == 0)
+	else if (ft_strncmp(str, "cd\0", 3) == 0)
 	{
 		cd_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(str, "echo", 4) == 0) //
+	else if (ft_strncmp(str, "echo\0", 5) == 0) //
 	{
 		echo_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(str, "unset", 5) == 0)
+	else if (ft_strncmp(str, "unset\0", 6) == 0)
 	{
 		unset_builtin(mini);
 		return (0);
 	}
-	else if ((ft_strncmp(str, "exit", 4) == 0))
+	else if (ft_strncmp(str, "exit\0", 5) == 0)
 	{
 		exit_builtin(mini);
 		return (0);
@@ -144,7 +144,6 @@ int	setinfile(char *str, t_vars *mini, int i)
 		}
 		dup2(mini->fd[0], 0);
 		close(mini->fd[0]);
-		printf("AQUIEERERERE\n");
 	}
 	return (0);
 }
@@ -185,11 +184,54 @@ int	forredirect(char **str, t_vars *mini)
 	return (0);
 }
 
+int		check_quote_redir(t_vars* mini, char *str)
+{
+	int i;
+
+	i = 0;
+	//printf("str = %s\n", str);
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+		{
+			printf("str = %s\n", str);
+			mini->redir++;
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+void	codifiqing(char *str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+			j++;
+		if (str[i] == '>' && j % 2 != 0)
+			str[i] = '\a';
+		else if (str[i] == '<' && j % 2 != 0)
+			str[i] = '\b';
+		else if (str[i] == '|' && j % 2 != 0)
+			str[i] = '\t';
+		i++;
+	}
+}
+	
 int	forredirectout(char ***str, t_vars *mini)
 {
 	int	j;
 
 	j = 0;
+
+	if (ft_countwords(mini->input, ' ') == 1)
+		return (0);
 	while (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) != 0)
 		j++;
 	if (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) == 0)
@@ -287,8 +329,8 @@ void	comandddd(char ***str, t_vars *mini)
 		free(nao);
 		exit(1);
 	}
-	else if(mini->pid > 0)
-		waitpid(mini->pid, NULL, 0);
+	//else if(mini->pid > 0)
+	//	waitpid(mini->pid, NULL, 0);
 	else
 		return;
 	// VER QUNADO O COMANDO NAO ]E VALIDO
@@ -301,14 +343,10 @@ int	decide(char **str, t_vars *mini)
 	mini->i = findbuiltimatrix(str, mini);
 	if (mini->i == -2)
 		mini->i = findcmdinmatrix(str, mini);
-	if (mini->i == -15)
-		return (1);
 	if (mini->i == -1)
-	{
-		printf("%s\n", str[0]);
-		printf("%s\n", str[1]);
 		ft_printf("%s: command not found\n", str[findmistake(str)]);
-	}
+	else if (mini->i == -15)
+		return (1);
 	return (0);
 }
 
@@ -393,6 +431,7 @@ int	main(int ac, char **av, char **env)
 		mini->input = readline("a espera> ");
 		if (!mini->input)
 			break;
+		codifiqing(mini->input);
 		if (ft_strlen(mini->input) > 0)
 		{
 			add_history(mini->input);

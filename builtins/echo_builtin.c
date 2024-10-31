@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/23 13:36:49 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:50:05 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,27 @@ int		echo_quote(char *str)
 	return (0);
 }
 
+void	de_codifiqing(char *str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+			j++;
+		if (str[i] == '\a' && j % 2 != 0)
+			str[i] = '>';
+		else if (str[i] == '\b' && j % 2 != 0)
+			str[i] = '<';
+		else if (str[i] == '\t' && j % 2 != 0)
+			str[i] = '|';
+		i++;
+	}
+}
+
 int	echo_builtin(t_vars *mini)
 {
 	int		i;
@@ -199,6 +220,7 @@ int	echo_builtin(t_vars *mini)
 
 	i = 0;
 	new_line = 1;
+	de_codifiqing(mini->input);
 	split = ft_split(mini->input, ' ');
 	if (split[1] == NULL)
 	{
@@ -213,6 +235,7 @@ int	echo_builtin(t_vars *mini)
 	}
 	while (split[i])
 	{
+		
 		if (split[i][0] == '\'' && 
 		split[i][ft_strlen(split[i]) - 1] == '\'')
 		{

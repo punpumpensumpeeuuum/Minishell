@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/29 20:07:58 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:27:51 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_vars
 	int		pid;
 	int		i;
 	int		p;
+	int		redir;
 	// heredoc
 	char	**limiters;
 	int		heredoc_on;
@@ -132,6 +133,7 @@ void	dollar_quote(t_vars *mini, char *str);
 int		dollar_flag_count(char *str);
 void	echo_special(t_vars *mini, char *str);
 int		echo_quote(char *str);
+void	de_codifiqing(char *str);
 
 //builtin cd
 int		find_var(t_vars *mini, char *to_find);
