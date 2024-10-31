@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/29 20:23:17 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:21:40 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,67 @@ int ft_strcmp(const char *s1, const char *s2)
     return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
+char	*heredoc_dollar_finish(char *str, int k, t_vars *mini)
+{
+	int i;
+	int j;
+	int u;
+	int v;
+	char *env_var;
+	char *result;
+	char *real_result;
+
+	j = 0;
+	i = 0;
+	v = 0;
+	u = 0;
+	result = ft_strdup(str + k);
+	real_result = NULL;
+	if (!str || !mini || !result)
+		return (NULL);
+	while (i < mini->exp_len && mini->export[i])
+	{
+		env_var = take_equal(mini->export[i]);
+		if (env_var && ft_strncmp(result, env_var, ft_strlen(result)) == 0)
+		{
+			if (ft_strlen(result) == ft_strlen(env_var))
+			{
+				str = mini->export[i];
+				j = 0;
+			}
+			while (str[j] == result[u] && str[j] != '=' && result[u] != '\0')
+			{
+				j++;
+				u++;
+			}
+			real_result = malloc(sizeof(char) * ft_strlen(str + j) + 1);
+			if (str[j] == '=')
+			{
+				j++;
+				while (str[j] != '\0')
+					real_result[v++] = str[j++];
+				real_result[v] = '\0';
+			}
+			free(env_var);
+			break;
+		}
+		free(env_var);
+		i++;
+	}
+	free(result);
+	return(real_result);
+}
+
+void	heredoc_expander(int fd, char *line, t_vars *mini)
+{
+	char *str;
+
+	str = heredoc_dollar_finish(line, 1, mini);
+	ft_putendl_fd(str, fd);
+	free(str);
+	return;
+}
+
 void	heredoc_input(int fd, char **limiters, t_vars *mini)
 {
 	char	*line;
@@ -97,8 +158,9 @@ void	heredoc_input(int fd, char **limiters, t_vars *mini)
 			continue;
 		}
 		if (dollar_flag_count(line) > 0)
-			echo_dollar_finish(line, 1, mini);
-		ft_putendl_fd(line, fd);
+			heredoc_expander(fd, line, mini);
+		else
+			ft_putendl_fd(line, fd);
 		free(line);
 	}
 	close(fd);

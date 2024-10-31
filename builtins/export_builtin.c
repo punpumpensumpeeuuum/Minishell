@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/29 19:46:15 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:59:26 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,10 @@ int	export_builtin(t_vars *mini)
 	char **split;
 
 	sorting_export(mini);
+	split = ft_split(mini->input, ' ');
 	if (ft_countwords(mini->input, ' ') > 1)
 	{
-		split = ft_split(mini->input, ' ');
+		
 		if (export_redircheck(split[1]) == 0 && split[2])
 			print_export(mini);
 		else

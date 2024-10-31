@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/30 14:50:05 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:52:16 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,11 +248,19 @@ int	echo_builtin(t_vars *mini)
 			remove_double_quote(split[i]);
 			if (echo_quote(split[i]) == 1)
 				echo_special(mini, split[i]);
+			else if (split[i][0] == '$')
+				echo_dollar_finish(split[i], 1, mini);
+			else
+				printf("%s", split[i]);
+		}
+		else if (split[i][0] == '$')
+		{
+			if (split[i][1] == '?')
+				printf("%d", mini->exit_code);
 			else
 				echo_dollar_finish(split[i], 1, mini);
 		}
-		else if (split[i][0] == '$')
-			echo_dollar_finish(split[i], 1, mini);
+			
 		else
 			printf("%s", split[i]);
 		if (split[i + 1])

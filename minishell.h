@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/30 14:27:51 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:14:42 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,9 @@ void	fork_error(void);
 void	heredoc_child(char **limiters, t_vars *mini);
 void	creat_pipe(int fd[2]);
 int		heredoc(t_vars *mini);
+char	*heredoc_dollar_finish(char *str, int k, t_vars *mini);
+void	heredoc_expander(int fd, char *line, t_vars *mini);
+
 
 // free.c
 void	free_double_array(char **str, t_vars *mini);

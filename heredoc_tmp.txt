@@ -1,5 +1,4 @@
-er
-er
-er
-er
-er
+jomendes
+/home/jomendes:/home/jomendes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+DBOGSJNVDFNGPS
+(null)

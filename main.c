@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/30 18:00:24 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:00:25 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	checkbuiltin(char *str, t_vars *mini)
 	}
 	else if (ft_strncmp(str, "exit\0", 5) == 0)
 	{
+		
 		exit_builtin(mini);
 		return (0);
 	}
@@ -164,6 +165,12 @@ int	setinfile(char *str, t_vars *mini, int i)
 		dup2(mini->fd[0], 0);
 		close(mini->fd[0]);
 	}
+	else if (i == 3)
+	{
+		mini->fd[1] = open(str, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		dup2(mini->fd[1], 1);
+		close(mini->fd[1]);
+	}
 	return (0);
 }
 
@@ -252,7 +259,17 @@ int	forredirectout(char ***str, t_vars *mini)
 		return (0);
 	while (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) != 0)
 		j++;
-	if (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) == 0)
+	if (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">>", 2) == 0)
+	{
+		if (str[mini->p][j + 1])
+		{
+			if (setinfile(str[mini->p][j + 1], mini, 3) == 0)
+				ta = 1;
+			else
+				return (-100);
+		}
+	}
+	else if (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) == 0)
 	{
 		if (str[mini->p][j + 1])
 		{
@@ -410,10 +427,11 @@ int	main(int ac, char **av, char **env)
 		mini->input = readline("a espera> ");
 		if (!mini->input)
 			break;
-		codifiqing(mini->input);
+		
 		if (ft_strlen(mini->input) > 0)
 		{
 			add_history(mini->input);
+			codifiqing(mini->input);
 			mini->input = quotescrazy(mini->input);
 			if (mini->input == NULL)
 				printf("Quote error\n");
@@ -422,6 +440,7 @@ int	main(int ac, char **av, char **env)
 			free(mini->input);
 		}
 	}
+	printf("exit ===== %d\n", mini->exit_code);
 	exit_value = mini->exit_code;
 	free_env_export(mini);
 	return (exit_value);
