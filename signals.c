@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 16:13:38 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/30 16:59:47 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/02 00:58:38 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void    sigint_handler(int sig)
         rl_on_new_line();
         rl_replace_line("", 0);
         rl_redisplay();
-        //set exit code = 130;
     }
 }
 
@@ -32,11 +31,12 @@ void    signals_handler(void)
 
 void    signal_heredoc(int sig)
 {
-    (void)sig;
-    write(1, "^C\n", 3);
-    //set exit code = 130;
+    if (sig == SIGINT)
+    {
+        write(2, "^C\n", 3);
+        exit(130);
+    }
 }
-
 
 void    child_handler(int signal)
 {

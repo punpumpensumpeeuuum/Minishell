@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/10/31 17:00:25 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/03 01:13:33 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,11 @@ void	fdfd(t_vars *mini)
 	while (i < numpipe(mini->input) + 1)
 	{
 		if (pipe(mini->fd + 2 * i) < 0)
+		{
+			perror("Failed to create pipe");
+			free(mini->fd);
 			return ;
+		}
 		i++;
 	}
 }
@@ -112,25 +116,28 @@ void	piping(char ***str, t_vars *mini, int ta)
 	int	o;
 
 	o = numpipe(mini->input);
-	// printf("%d\n", mini->fd[0]); 3
-	// printf("%d\n", mini->fd[1]); 4
-	// printf("%d\n", mini->fd[2]); 5
-	// printf("%d\n", mini->fd[3]); 6
 	if (mini->p == 0 && str[mini->p + 1])
 	{
 		if (ta == 1)
-			return ;
-		dup2(mini->fd[mini->p + 1], 1);
+			return;
+		dup2(mini->fd[mini->p + 1], STDOUT_FILENO);
+		close(mini->fd[mini->p]);
 	}
-	// else if (mini->p > 0 && mini->p < o && str[mini->p + 1])
-	// {
-	// 	pipe meio
-	// }
-	if (mini->p == o && !str[mini->p + 1])
+	else if (mini->p > 0 && mini->p < o && str[mini->p + 1]) 
 	{
 		if (ta == 1)
-			return ;
-		dup2(mini->fd[2 * (mini->p - 1)], 0);
+			return;
+		dup2(mini->fd[2 * (mini->p - 1)], STDIN_FILENO);
+		dup2(mini->fd[2 * mini->p + 1], STDOUT_FILENO);
+		close(mini->fd[2 * (mini->p - 1) + 1]);
+		close(mini->fd[2 * mini->p]);
+    }
+	else if (mini->p == o && !str[mini->p + 1])
+	{
+		if (ta == 1)
+			return;
+		dup2(mini->fd[2 * (mini->p - 1)], STDIN_FILENO);
+		close(mini->fd[2 * (mini->p - 1) + 1]);
 	}
 }
 
@@ -280,9 +287,7 @@ int	forredirectout(char ***str, t_vars *mini)
 		}
 	}
 	if (numpipe(mini->input) > 0)
-	{
 		piping(str, mini, ta);
-	}
 	return (0);
 }
 
@@ -329,10 +334,12 @@ void	comandddd(char ***str, t_vars *mini)
 {
 	char	*sim;
 	char	**nao;
+	int		status;
 
 	mini->pid = fork();
 	if (mini->pid == 0)
 	{
+		child_signals_handler();
 		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0)
 			exit (3);
 		if (checkbuiltin(str[mini->p][mini->i], mini) == 0)
@@ -340,9 +347,6 @@ void	comandddd(char ***str, t_vars *mini)
 		sim = ft_strjoin("/", str[mini->p][mini->i]);
 		checkpath(sim, mini);
 		nao = findflags(str[mini->p], mini->i);
-		// printf("mini->check = %s\n", mini->check);
-		// printf("nao = %s\n", nao[0]);
-		// printf("nao = %s\n", nao[1]);
 		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
 		{
 			free(nao[1]);
@@ -350,7 +354,6 @@ void	comandddd(char ***str, t_vars *mini)
 			nao[1] = ft_strdup("heredoc_tmp.txt");
 			nao[2] = NULL;
 		}
-		// printf("entreo %d\n", mini->p);
 		if (execve(mini->check, nao, mini->env) == -1)
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
 		closeall(mini);
@@ -359,10 +362,17 @@ void	comandddd(char ***str, t_vars *mini)
 		exit(1);
 	}
 	else
-		return;
-	// VER QUNADO O COMANDO NAO ]E VALIDO
-	// VER PIPES
-	// ENTREgar
+	{
+		if (mini->p == 0 && mini->fd[1] != -1)
+		{
+			close(mini->fd[1]);
+		}
+		else if (mini->p > 0 && mini->fd[2 * (mini->p - 1)] != -1)
+		{
+			close(mini->fd[2 * (mini->p - 1)]);
+		}
+		waitpid(mini->pid, &status, 0);
+	}
 }
 
 int	decide(char **str, t_vars *mini)
@@ -384,9 +394,9 @@ int	decide(char **str, t_vars *mini)
 
 int	checkinput(t_vars *mini)
 {
-	mini->p = 0;
 	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
-
+	mini->p = 0;
+	
 	fdfd(mini);
 	if (decide(tudo[mini->p], mini) == 0)
 	{
@@ -400,12 +410,12 @@ int	checkinput(t_vars *mini)
 			if (tudo[mini->p])
 			{
 				comandddd(tudo, mini);
-				waitpid(mini->pid, NULL, 0);
 			}
 			mini->p++;
 		}	
 	}
-	free(tudo);	
+	free(tudo);
+	closeall(mini);
 	free(mini->fd);
 	return (0);
 }
@@ -427,7 +437,6 @@ int	main(int ac, char **av, char **env)
 		mini->input = readline("a espera> ");
 		if (!mini->input)
 			break;
-		
 		if (ft_strlen(mini->input) > 0)
 		{
 			add_history(mini->input);
@@ -440,7 +449,6 @@ int	main(int ac, char **av, char **env)
 			free(mini->input);
 		}
 	}
-	printf("exit ===== %d\n", mini->exit_code);
 	exit_value = mini->exit_code;
 	free_env_export(mini);
 	return (exit_value);

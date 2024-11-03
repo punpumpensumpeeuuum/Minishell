@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/31 13:21:40 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/02 01:03:28 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,10 @@ void	heredoc_expander(int fd, char *line, t_vars *mini)
 	char *str;
 
 	str = heredoc_dollar_finish(line, 1, mini);
-	ft_putendl_fd(str, fd);
+	if (!str)
+		ft_putchar_fd('\n', fd);
+	else
+		ft_putendl_fd(str, fd);
 	free(str);
 	return;
 }
@@ -145,7 +148,6 @@ void	heredoc_input(int fd, char **limiters, t_vars *mini)
 	total_lim = 0;
 	while (limiters[total_lim])
 		total_lim++;
-	printf("total = %d\n", total_lim);
 	while (1)
 	{
 		line = readline("> ");
@@ -178,6 +180,7 @@ void	heredoc_child(char **limiters, t_vars *mini)
 	char *tmp_filename;
 
 	tmp_filename = "heredoc_tmp.txt";
+	signal(SIGINT, signal_heredoc);
 	fd = open(tmp_filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (fd < 0)
 	{
@@ -211,13 +214,14 @@ int	heredoc(t_vars *mini)
 	heredoc_lim_array(mini);
 	if (!mini->limiters)
 		return (EXIT_FAILURE);
-	printf("OLA\n");
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 		fork_error();
 	else if (pid == 0)
 		heredoc_child(mini->limiters, mini);
 	wait(&status);
+	signal(SIGINT, sigint_handler);
 	fdin = open(tmp_filename, O_RDONLY);
 	if (fdin < 0)
 	{
