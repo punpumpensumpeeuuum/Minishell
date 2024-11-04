@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/03 01:13:33 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:08:54 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void	fdfd(t_vars *mini)
 	{
 		if (pipe(mini->fd + 2 * i) < 0)
 		{
-			perror("Failed to create pipe");
-			free(mini->fd);
+			// perror("Failed to create pipe");
+			// free(mini->fd);
 			return ;
 		}
 		i++;
@@ -120,24 +120,27 @@ void	piping(char ***str, t_vars *mini, int ta)
 	{
 		if (ta == 1)
 			return;
-		dup2(mini->fd[mini->p + 1], STDOUT_FILENO);
-		close(mini->fd[mini->p]);
+		// printf("%d\n", mini->fd[mini->p + 1]);
+		dup2(mini->fd[mini->p + 1], 1);
+		closeall(mini);
 	}
 	else if (mini->p > 0 && mini->p < o && str[mini->p + 1]) 
 	{
 		if (ta == 1)
 			return;
-		dup2(mini->fd[2 * (mini->p - 1)], STDIN_FILENO);
-		dup2(mini->fd[2 * mini->p + 1], STDOUT_FILENO);
-		close(mini->fd[2 * (mini->p - 1) + 1]);
-		close(mini->fd[2 * mini->p]);
-    }
+		// printf("%d\n", mini->fd[2 * (mini->p - 1)]);
+		// printf("%d\n", mini->fd[2 * mini->p + 1]);
+		dup2(mini->fd[2 * (mini->p - 1)], 0);
+		dup2(mini->fd[2 * mini->p + 1], 1);
+		closeall(mini);
+	}
 	else if (mini->p == o && !str[mini->p + 1])
 	{
 		if (ta == 1)
 			return;
-		dup2(mini->fd[2 * (mini->p - 1)], STDIN_FILENO);
-		close(mini->fd[2 * (mini->p - 1) + 1]);
+		// printf("%d\n", mini->fd[2 * (mini->p - 1)]);
+		dup2(mini->fd[2 * (mini->p - 1)], 0);
+		closeall(mini);
 	}
 }
 
@@ -334,7 +337,6 @@ void	comandddd(char ***str, t_vars *mini)
 {
 	char	*sim;
 	char	**nao;
-	int		status;
 
 	mini->pid = fork();
 	if (mini->pid == 0)
@@ -356,22 +358,9 @@ void	comandddd(char ***str, t_vars *mini)
 		}
 		if (execve(mini->check, nao, mini->env) == -1)
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
-		closeall(mini);
 		free(sim);
 		free(nao);
 		exit(1);
-	}
-	else
-	{
-		if (mini->p == 0 && mini->fd[1] != -1)
-		{
-			close(mini->fd[1]);
-		}
-		else if (mini->p > 0 && mini->fd[2 * (mini->p - 1)] != -1)
-		{
-			close(mini->fd[2 * (mini->p - 1)]);
-		}
-		waitpid(mini->pid, &status, 0);
 	}
 }
 
@@ -447,6 +436,7 @@ int	main(int ac, char **av, char **env)
 			else
 				checkinput(mini);
 			free(mini->input);
+			waitpid(mini->pid, NULL, 0);
 		}
 	}
 	exit_value = mini->exit_code;
