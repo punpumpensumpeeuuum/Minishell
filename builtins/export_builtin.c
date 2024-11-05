@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/31 12:59:26 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:01:50 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		export_redircheck(char *str)
 {
 	while (str[0])
 	{
-		if (str[0] == '>' && (str[1] == ' ' || str[1] == '\0'
+		if ((str[0] == '>' || str[0] == '|') && (str[1] == ' ' || str[1] == '\0'
 		|| str[1] == '>'))
 			return (0);
 	}

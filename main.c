@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/05 12:05:02 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:31:44 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ int	checkbuiltin(char *str, t_vars *mini)
 		export_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(str, "cd\0", 3) == 0)
-	{
-		cd_builtin(mini);
-		return (0);
-	}
 	else if (ft_strncmp(str, "echo\0", 5) == 0) //
 	{
 		echo_builtin(mini);
+		return (0);
+	}
+	else if (ft_strncmp(str, "cd\0", 3) == 0)
+	{
+		cd_builtin(mini);
 		return (0);
 	}
 	else if (ft_strncmp(str, "unset\0", 6) == 0)
@@ -56,8 +56,7 @@ int	checkbuiltin(char *str, t_vars *mini)
 		return (0);
 	}
 	else if (ft_strncmp(str, "exit\0", 5) == 0)
-	{
-		
+	{	
 		exit_builtin(mini);
 		return (0);
 	}
@@ -74,12 +73,18 @@ char	***paodelosplit(char *str , int	pipes)
 	char	**b;
 
 	if (!a)
+	{
 		free_split(a);
+		return (NULL);
+	}
 	while (j <= pipes)
 	{	
 		b = ft_split(a[j], ' ');
 		if (!b)
+		{
 			free_split(b);
+			return (NULL);
+		}
 		res[j] = malloc(sizeof(char *) * (ft_countwords(a[j], ' ') + 1));
 		if(!res[j])
 		{
@@ -386,6 +391,7 @@ int	decide(char **str, t_vars *mini)
 			return (3);
 		de_codifiqing(str[findmistake(str)]);
 		ft_printf("%s: command not found\n", str[findmistake(str)]);
+		return (2);
 	}
 	else if (mini->i == -15)
 		return (1);
@@ -399,28 +405,28 @@ int	checkinput(t_vars *mini)
 	int i;
 	
 	i = -1;
+	if (tudo == NULL)
+		return (2);
 	fdfd(mini);
-	if (decide(tudo[mini->p], mini) == 0)
+	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0 && decide(tudo[mini->p], mini) == 0)
 	{
-		while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
+		if (mini->check != NULL)
 		{
-			if (mini->check != NULL)
-			{
-				free(mini->check);
-				mini->check = NULL;
-			}
-			if (tudo[mini->p])
-			{
-				comandddd(tudo, mini);
-			}
-			mini->p++;
-		}	
-	}
+			free(mini->check);
+			mini->check = NULL;
+		}
+		if (tudo[mini->p])
+		{
+			comandddd(tudo, mini);
+		}
+		mini->p++;
+	}	
 	while (tudo[++i])
 		free_split(tudo[i]);
 	free(tudo);
 	closeall(mini);
 	free(mini->fd);
+	waitpid(mini->pid, NULL, 0);
 	return (0);
 }
 
@@ -438,7 +444,7 @@ int	main(int ac, char **av, char **env)
 	while (mini->running)
 	{
 		signals_handler();
-		mini->input = readline("a espera> ");
+		mini->input = readline(RED "a espera> " R);
 		if (!mini->input)
 			break;
 		if (ft_strlen(mini->input) > 0)
@@ -451,14 +457,9 @@ int	main(int ac, char **av, char **env)
 			else
 				checkinput(mini);
 			free(mini->input);
-			waitpid(mini->pid, NULL, 0);
 		}
 	}
 	exit_value = mini->exit_code;
 	free_env_export(mini);
 	return (exit_value);
 }
-// dois redirects ao memo tempo
-// organizar o goodsplit com um swapstrings
-// cmds dependetes de input nao cnseguem com pipe
-// ver path absoluto aka ./minishell

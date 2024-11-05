@@ -32,9 +32,12 @@ fclean:	clean
 		@make fclean -s -C ft_printf
 		@echo "apagou"
 
-so:	$(NAME) clean 
+so:	$(NAME) clean
 			clear
 			@./minishell
+
+va: $(NAME) clean
+		@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions="supp.supp" ./minishell
 
 re:	fclean $(NAME)
 		@echo "makou outra vez"
