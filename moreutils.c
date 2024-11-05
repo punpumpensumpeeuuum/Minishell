@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/10/30 16:18:20 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/05 12:09:46 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,18 +127,24 @@ int	findbuiltimatrix(char **str, t_vars *mini)
 int	findcmdinmatrix(char **puzle, t_vars *mini)
 {
 	int	i;
+	char *str;
 
 	i = 0;
+	str = ft_strjoin("/", puzle[i]);
 	while (puzle[i])
 	{
 		if (ft_strncmp(puzle[i], "<", 1) != 0 && ft_strncmp(puzle[i], ">", 1) != 0)
 		{
-			checkpath(ft_strjoin("/", puzle[i]), mini);
+			checkpath(str, mini);
 			if (mini->check != NULL)
-				return (i);			
+			{
+				free(str);
+				return (i);
+			}			
 		}
 		i++;
 	}
+	free(str);
 	return (-1);
 }
 

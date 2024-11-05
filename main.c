@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/04 17:08:54 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/05 12:05:02 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,25 @@ char	***paodelosplit(char *str , int	pipes)
 {
 	int 	i = 0;
 	int		j = 0;
-	char	***res = malloc(sizeof(char **) * (pipes + 1));
+	char	***res = malloc(sizeof(char **) * (pipes + 2));
 	char	**a = ft_split(str, '|');
 	char	**b;
 
+	if (!a)
+		free_split(a);
 	while (j <= pipes)
-	{		
+	{	
 		b = ft_split(a[j], ' ');
+		if (!b)
+			free_split(b);
 		res[j] = malloc(sizeof(char *) * (ft_countwords(a[j], ' ') + 1));
+		if(!res[j])
+		{
+			free_split(a);
+			free_split(b);
+			free(res);
+			return (NULL);	
+		}
 		while (i < ft_countwords(a[j], ' '))
 		{
 			res[j][i] = ft_strdup(b[i]);
@@ -85,9 +96,9 @@ char	***paodelosplit(char *str , int	pipes)
 		res[j][i] = NULL;
 		j++;
 		i = 0;
-		free(b);
+		free_split(b);
 	}
-	free(a);
+	free_split(a);
 	res[j] = NULL;
 	return (res);
 }
@@ -312,7 +323,7 @@ char	**findflags(char **str, int i)
 		h++;
 	}
 	l = 0;
-	s = malloc(sizeof(char *) * j + 1);
+	s = malloc(sizeof(char *) * (j + 1));
 	if (!s)
 		return (NULL);
 	s[l] = ft_strdup(str[i]);
@@ -385,7 +396,9 @@ int	checkinput(t_vars *mini)
 {
 	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
 	mini->p = 0;
+	int i;
 	
+	i = -1;
 	fdfd(mini);
 	if (decide(tudo[mini->p], mini) == 0)
 	{
@@ -403,6 +416,8 @@ int	checkinput(t_vars *mini)
 			mini->p++;
 		}	
 	}
+	while (tudo[++i])
+		free_split(tudo[i]);
 	free(tudo);
 	closeall(mini);
 	free(mini->fd);
