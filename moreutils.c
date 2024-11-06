@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/05 12:09:46 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:04:50 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,9 @@ int	findcmdinmatrix(char **puzle, t_vars *mini)
 	char *str;
 
 	i = 0;
-	str = ft_strjoin("/", puzle[i]);
 	while (puzle[i])
 	{
+		str = ft_strjoin("/", puzle[i]);
 		if (ft_strncmp(puzle[i], "<", 1) != 0 && ft_strncmp(puzle[i], ">", 1) != 0)
 		{
 			checkpath(str, mini);

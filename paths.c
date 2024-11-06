@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/04 16:34:08 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:30:26 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,39 +99,4 @@ void	checkhelp(char *comand, char **env, int i, t_vars *mini)
 		i++;
 	}
 	return ;
-}
-
-int	fastcheckpath(t_vars *mini, int flag, int i)
-{
-	char *joined;
-
-	if (flag == 0)
-	{
-		mini->flag = ft_split(mini->input, ' ');
-		mini->trueflag = ft_goodsplit(mini->input);
-		joined = ft_strjoin("/", mini->trueflag
-			[findcmdinmatrix(mini->trueflag, mini)]);
-		checkpath(joined, mini);
-		free(joined);
-		if (mini->check != NULL)
-			return (1);
-			
-	}
-	else
-	{
-		mini->flag = ft_split(mini->input, '|');
-		while (mini->flag[i])
-		{
-			joined = ft_strjoin("/", \
-				mini->trueflag[0]);
-			mini->trueflag = ft_goodsplit(mini->flag[i]);
-			checkpath(joined, mini);
-			free(joined);
-			if (mini->check != NULL)
-				i++;
-			else
-				return (0);
-		}
-	}
-	return (2);
 }

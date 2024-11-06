@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/05 17:31:44 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:27:03 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,8 +283,11 @@ int	forredirectout(char ***str, t_vars *mini)
 	ta = 0;
 	if (ft_countwords(mini->input, ' ') == 1)
 		return (0);
-	while (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) != 0)
+	while (str[mini->p][j])
 		j++;
+	j--;
+	while (j > 0 && str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) != 0)
+		j--;
 	if (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">>", 2) == 0)
 	{
 		if (str[mini->p][j + 1])

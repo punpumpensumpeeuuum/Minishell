@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRCS = main.c goodsplit.c executecmd.c paths.c utils.c moreutils.c quotes.c heredoc.c signals.c free.c
+SRCS = main.c paths.c utils.c moreutils.c quotes.c heredoc.c signals.c free.c
 
 BUILT = echo_builtin.c env_builtin.c exit_builtin.c cd_builtin.c export_builtin.c export_builtin1.c unset_builtin.c
 

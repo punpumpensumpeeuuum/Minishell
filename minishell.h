@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/05 14:50:20 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/06 20:29:56 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,8 @@ void	checkhelp(char *comand, char **env, int i, t_vars *mini);
 int		findcmdplace(char *input, t_vars *mini);
 int		findcmdinmatrix(char **puzle, t_vars *mini);
 
-// split
-int		wordllllen(char const *s, char c);
-int		checkimportant(char *s);
-void	redirect(t_vars *mini, char *str);
-char	**ft_goodsplit(char	*str);
-
 // execute
-void	allocfd(int p, t_vars *mini);
 void	closeall(t_vars *mini);
-void	execute(t_vars *mini, int i, int p);
-void	executeone(t_vars *mini);
-void	veryexecute(t_vars *mini, int i);
 
 // builtin env
 void	init_env(char **env, t_vars *mini);
