@@ -6,20 +6,19 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/02 01:03:28 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:09:37 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		count_limiters(char **split)
+int	count_limiters(char **split)
 {
 	int		count;
 	int		i;
 
 	count = 0;
 	i = 0;
-	
 	while (split[i])
 	{
 		if (ft_strncmp(split[i], "<<", 2) == 0)
@@ -43,7 +42,7 @@ void	heredoc_lim_array(t_vars *mini)
 	split = ft_split(mini->input, ' ');
 	mini->limiters = malloc(sizeof(char *) * (count_limiters(split) + 1));
 	if (!mini->limiters)
-		return;
+		return ;
 	while (split[i])
 	{
 		if (ft_strncmp(split[i], "<<", 2) == 0)
@@ -54,7 +53,7 @@ void	heredoc_lim_array(t_vars *mini)
 			{
 				free_array(mini->limiters);
 				free_array(split);
-				return;
+				return ;
 			}
 			j++;
 		}
@@ -64,25 +63,25 @@ void	heredoc_lim_array(t_vars *mini)
 	free_array(split);
 }
 
-int ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-    while (*s1 && (*s1 == *s2))
-    {
-        s1++;
-        s2++;
-    }
-    return *(unsigned char *)s1 - *(unsigned char *)s2;
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
 char	*heredoc_dollar_finish(char *str, int k, t_vars *mini)
 {
-	int i;
-	int j;
-	int u;
-	int v;
-	char *env_var;
-	char *result;
-	char *real_result;
+	int		i;
+	int		j;
+	int		u;
+	int		v;
+	char	*env_var;
+	char	*result;
+	char	*real_result;
 
 	j = 0;
 	i = 0;
@@ -116,18 +115,18 @@ char	*heredoc_dollar_finish(char *str, int k, t_vars *mini)
 				real_result[v] = '\0';
 			}
 			free(env_var);
-			break;
+			break ;
 		}
 		free(env_var);
 		i++;
 	}
 	free(result);
-	return(real_result);
+	return (real_result);
 }
 
 void	heredoc_expander(int fd, char *line, t_vars *mini)
 {
-	char *str;
+	char	*str;
 
 	str = heredoc_dollar_finish(line, 1, mini);
 	if (!str)
@@ -135,7 +134,7 @@ void	heredoc_expander(int fd, char *line, t_vars *mini)
 	else
 		ft_putendl_fd(str, fd);
 	free(str);
-	return;
+	return ;
 }
 
 void	heredoc_input(int fd, char **limiters, t_vars *mini)
@@ -156,8 +155,8 @@ void	heredoc_input(int fd, char **limiters, t_vars *mini)
 			free(line);
 			i++;
 			if (i == total_lim)
-				break;
-			continue;
+				break ;
+			continue ;
 		}
 		if (dollar_flag_count(line) > 0)
 			heredoc_expander(fd, line, mini);
@@ -176,8 +175,8 @@ void	fork_error(void)
 
 void	heredoc_child(char **limiters, t_vars *mini)
 {
-	int	fd;
-	char *tmp_filename;
+	int		fd;
+	char	*tmp_filename;
 
 	tmp_filename = "heredoc_tmp.txt";
 	signal(SIGINT, signal_heredoc);
@@ -209,7 +208,6 @@ int	heredoc(t_vars *mini)
 	char	*tmp_filename;
 	int		fdin;
 
-	
 	tmp_filename = "heredoc_tmp.txt";
 	heredoc_lim_array(mini);
 	if (!mini->limiters)
@@ -230,7 +228,6 @@ int	heredoc(t_vars *mini)
 	}
 	dup2(fdin, STDIN_FILENO);
 	close(fdin);
-	//unlink(tmp_filename);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	exit_status = WEXITSTATUS(status);

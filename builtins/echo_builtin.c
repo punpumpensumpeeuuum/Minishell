@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/31 16:52:16 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/07 11:26:41 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,8 @@ int	echo_builtin(t_vars *mini)
 	new_line = 1;
 	de_codifiqing(mini->input);
 	split = ft_split(mini->input, ' ');
+	while (ft_strncmp(split[i], "echo", 4) != 0)
+		i++;
 	if (split[1] == NULL)
 	{
 		printf("\n");
@@ -260,7 +262,11 @@ int	echo_builtin(t_vars *mini)
 			else
 				echo_dollar_finish(split[i], 1, mini);
 		}
-			
+		else if (split[i][0] == '>' | split[i][0] == '<')
+		{
+			i+= 2;
+			continue;
+		}
 		else
 			printf("%s", split[i]);
 		if (split[i + 1])

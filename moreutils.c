@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/06 20:04:50 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:56:06 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int	findmistake(char **str)
 int	truecheckbuilt(char *str)
 {
 	if (ft_strncmp(str, "cd\0", 3) == 0 || ft_strncmp(str, "unset\0", 6) == 0 || \
-		ft_strncmp(str, "exit\0", 5) == 0)
+		ft_strncmp(str, "exit\0", 5) == 0 || ft_strncmp(str, "export\0", 7) == 0)
 		return (0);
 	else if (ft_strncmp(str, "pwd\0", 4) == 0 || ft_strncmp(str, "env\0", 4) == 0 || \
-		ft_strncmp(str, "export\0", 7) == 0 || ft_strncmp(str, "echo\0", 5) == 0)
+		ft_strncmp(str, "echo\0", 5) == 0)
 		return (1);
 	else
 		return (-2);

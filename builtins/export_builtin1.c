@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/29 15:51:55 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:55:11 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,24 @@
 
 int     export_check(char *str)
 {
-    if (!(str[0] >= 'a' && str[0] <= 'z') || 
-    (str[0] >= 'A' && str[0] <= 'Z') || (str[0] == '_') ||
-	str[0] == '=')
-	{
-		printf("export: `%s': not a valid identifier\n", str);
-    	return (1);
-	}
-    return (0);
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+		if (str[0] == '=')
+		{
+			printf("export: `%c': not a valid identifier\n", str[i]);
+    		return (1);
+		}
+        if ((str[i] >= 'a' && str[i] <= 'z') || 
+        (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_') ||
+		str[i] == '=')
+            return (0);
+        i++;
+    }
+	printf("export: `%c': not a valid identifier\n", str[i]);
+    return (1);
 }
 
 int		str_compare(char *s1, char *s2)
@@ -51,15 +61,15 @@ void    export_var(t_vars *mini)
     split = ft_split(mini->input, ' ');
 	if (!mini->new_export)
 		return;
-	if (export_check(split[i]) == 0)
-	{
-		 while (split[i]) 
-    	{
-			mini->exp_len = export_len(mini->export) + 1;
+    while (split[i]) 
+    {
+		mini->exp_len += 1;
+        if (export_check(split[i]) == 0)
+        {
 			export_update(mini, split[i]);
 			i++;
 		}
-	}
+    }
 }
 
 void	export_update(t_vars *mini, char *str)
@@ -137,27 +147,27 @@ void	free_double_array(char **str, t_vars *mini)
 	}
 }
 
-		void	exp_update(t_vars *mini, char *str)
+void	exp_update(t_vars *mini, char *str)
+{
+	int	i;
+	char *new_str;
+	
+	i = 0;
+	new_str = ft_strjoin("/3/4", str);
+	if (!new_str)
+		return;
+	while (mini->export[i] && i < mini->exp_len)
+	{
+		if (mini->export[i] && 
+		ft_strncmp(mini->export[i], str, ft_strlen(str)) == 0)
 		{
-			int	i;
-			char *new_str;
-
-			i = 0;
-			new_str = ft_strjoin("/3/4", str);
-			if (!new_str)
-				return;
-			while (mini->export[i] && i < mini->exp_len)
-			{
-				if (mini->export[i] && 
-				ft_strncmp(mini->export[i], str, ft_strlen(str)) == 0)
-				{
-					free(mini->export[i]);
-					mini->export[i] = ft_strdup(new_str);
-					free(new_str);
-					return;
-				}
-				i++;
-			}
+			free(mini->export[i]);
+			mini->export[i] = ft_strdup(new_str);
 			free(new_str);
-			mini->export[i] = NULL;
+			return;
 		}
+		i++;
+	}
+	free(new_str);
+	mini->export[i] = NULL;
+}

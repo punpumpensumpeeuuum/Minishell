@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/05 15:01:50 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:53:34 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,52 +43,28 @@ void init_export(t_vars *mini)
         i++;
     }
     mini->export[i] = NULL;
-    mini->exp_len = export_len(mini->export);
+    mini->exp_len = i;
 }
 
-int		export_redircheck(char *str)
-{
-	while (str[0])
-	{
-		if ((str[0] == '>' || str[0] == '|') && (str[1] == ' ' || str[1] == '\0'
-		|| str[1] == '>'))
-			return (0);
-	}
-	return (1);
-}
-
-void	print_export(t_vars *mini)
- {
-	int i;
-
-	i = 0;
-	mini->exp_len = export_len(mini->export);
-	while (i < mini->exp_len)
-	{
-		if (mini->export[i] && 
-		!(ft_strncmp(mini->export[i], "/3/4", 2) == 0))
-			printf("declare -x %s\n", mini->export[i]);
-		i++;
-	}
- }
 
 int	export_builtin(t_vars *mini)
 {
-	char **split;
+	int	i;
 
+	i = 0;
 	sorting_export(mini);
-	split = ft_split(mini->input, ' ');
 	if (ft_countwords(mini->input, ' ') > 1)
-	{
-		
-		if (export_redircheck(split[1]) == 0 && split[2])
-			print_export(mini);
-		else
-			export_var(mini);
-	}
+		export_var(mini);
 	else
-		print_export(mini);
-	free_split(split);
+	{
+		while (i < mini->exp_len)
+		{
+			if (mini->export[i] && 
+			!(ft_strncmp(mini->export[i], "/3/4", 2) == 0))
+				printf("declare -x %s\n", mini->export[i]);
+			i++;
+		}
+	}
 	return (0);
 }
 
@@ -99,21 +75,6 @@ void	swap_strings(char **a, char **b)
 	tmp = *a;
 	*a = *b;
 	*b = tmp;
-}
-
-int		export_len(char **str)
-{
-	int i;
-	int counter;
-	
-	i = 0;
-	counter = 0;
-	while (str[i])
-	{
-		counter++;
-		i++;
-	}
-	return (counter);
 }
 
 void	sorting_export(t_vars *mini)

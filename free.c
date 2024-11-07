@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/31 16:41:07 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:03:59 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_fd(int p, t_vars *mini)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (mini->fd)
@@ -32,11 +32,10 @@ void	free_fd(int p, t_vars *mini)
 
 void	free_array(char **array)
 {
-	if (!array)
-		return;
-		
 	int	i;
-	
+
+	if (!array)
+		return ;
 	i = 0;
 	while (array[i])
 		free(array[i++]);
@@ -67,9 +66,6 @@ void	free_env_export(t_vars *mini)
 			free_array(mini->new_export);
 			mini->new_export = NULL;
 		}
-		// if (mini->fd)
-		// 	free_fd(numpipe(mini->input), mini);
 		free(mini);
-		
 	}
 }
