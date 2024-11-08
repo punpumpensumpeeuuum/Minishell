@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/07 11:26:41 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:41:52 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ int	echo_builtin(t_vars *mini)
 			else
 				echo_dollar_finish(split[i], 1, mini);
 		}
-		else if (split[i][0] == '>' | split[i][0] == '<')
+		else if (split[i][0] == '>' || split[i][0] == '<')
 		{
 			i+= 2;
 			continue;

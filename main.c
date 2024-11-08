@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/07 15:59:39 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:46:21 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -433,6 +433,75 @@ int	checkinput(t_vars *mini)
 	return (0);
 }
 
+char	*antimalucos(char *str)
+{
+	int		i;
+	int		a;
+	char	*s;
+
+	a = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '<' || str[i] == '>')
+		{
+			if (str[i + 1] == '<' || str[i + 1] == '>')
+				i += 2;
+			a += 2;
+		}
+		if (str[i] == '|')
+			a += 2;
+		i++;
+	}
+	s = malloc(sizeof(char) * (i + a) + 1);
+	if (!s)
+		return (NULL);
+	i = 0;
+	a = 0;
+	while (str[i])
+	{
+		if (str[i] == '<' || str[i] == '>')
+		{
+			s[a] = ' ';
+			a++;
+			if (str[i + 1] == '<' || str[i + 1] == '>')
+			{
+				s[a] = str[i];
+				i++;
+				a++;
+				s[a] = str[i];
+				a++;
+				s[a] = ' ';
+				a++;
+			}
+			else
+			{
+				s[a] = str[i];
+				a++;
+				i++;
+				s[a] = ' ';
+				a++;				
+			}
+
+		}
+		if (str[i] == '|')
+		{
+			s[a] = ' ';
+			a++;
+			s[a] = str[i];
+			a++;
+			i++;
+			s[a] = ' ';
+			a++;
+		}
+		s[a] = str[i];
+		i++;
+		a++;
+	}
+	s[a] = '\0';
+	return (s);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_vars	*mini;
@@ -453,8 +522,10 @@ int	main(int ac, char **av, char **env)
 		if (ft_strlen(mini->input) > 0)
 		{
 			add_history(mini->input);
+			mini->input = antimalucos(mini->input);
 			codifiqing(mini->input);
 			mini->input = quotescrazy(mini->input);
+			printf("%s\n", mini->input);
 			if (mini->input == NULL)
 				printf("Quote error\n");
 			else
