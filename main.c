@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/09 00:20:53 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:09:16 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,6 +394,7 @@ int	decide(char **str, t_vars *mini)
 			return (3);
 		de_codifiqing(str[findmistake(str)]);
 		ft_printf("%s: command not found\n", str[findmistake(str)]);
+		mini->exit_code = 127;
 		return (2);
 	}
 	else if (mini->i == -15)
@@ -438,6 +439,23 @@ int	checkinput(t_vars *mini)
 	return (0);
 }
 
+int	find_echo(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if ((str[i] == ' ' && str[i + 1] == 'e' && str[i + 2] == 'c' &&
+		str[i + 3] == 'h' && str[i + 4] == 'o' && str[i + 5] == ' ') ||
+		(str[i] == 'e' && str[i + 1] == 'c' &&
+		str[i + 2] == 'h' && str[i + 3] == 'o' && str[i + 4] == ' '))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 char	*antimalucos(char *str)
 {
 	int		i;
@@ -446,6 +464,8 @@ char	*antimalucos(char *str)
 
 	a = 0;
 	i = 0;
+	if (find_echo(str) == 0)
+		return (str);
 	while (str[i])
 	{
 		if (str[i] == '<' || str[i] == '>')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/28 17:17:35 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:19:16 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,10 @@ void	get_pwds(t_vars *mini)
 	char cwd[PATH_MAX];
 	
 	i = find_var(mini, "PWD");
-	printf("valor do i = %d\n", i);
 	if (mini->export[i] && i >= 0)
 	{
 		buff = mini->export[i];
-		printf("antes mini = %s\n", mini->export[i]);
-		//free(mini->export[i]);
 		mini->export[i] = ft_strjoin("PWD=", getcwd(cwd, sizeof(cwd)));
-		printf("mini = %s\n", mini->export[i]);
 	}
 	i = find_var(mini, "OLDPWD");
 	if (mini->export[i] && i >= 0)
@@ -69,7 +65,7 @@ void	in_directory(char *directory, t_vars *mini)
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		ft_putstr_fd(directory, STDERR_FILENO);
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		// error code = 1;
+		mini->exit_code = 1;
 	}
 	else
 		get_pwds(mini);

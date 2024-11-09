@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/08 23:56:09 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:02:04 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,9 +217,11 @@ int	echo_builtin(t_vars *mini)
 	int		i;
 	char	**split;
 	int		new_line;
+	int		in_quotes;
 
 	i = 0;
 	new_line = 1;
+	in_quotes = 0;
 	de_codifiqing(mini->input);
 	split = ft_split(mini->input, ' ');
 	while (ft_strncmp(split[i], "echo", 4) != 0)
@@ -243,7 +245,7 @@ int	echo_builtin(t_vars *mini)
 		{
 			remove_single_quote(split[i]);
 			printf("%s", split[i]);
-		}
+		}	
 		else if (split[i][0] == '"' && 
 		split[i][ft_strlen(split[i]) - 1] == '"')
 		{
@@ -255,6 +257,21 @@ int	echo_builtin(t_vars *mini)
 			else
 				printf("%s", split[i]);
 		}
+		else if (split[i][0] == '"' || split[i][0] == '\'' ||
+		split[i][ft_strlen(split[i]) -1] == '"' || 
+		split[i][ft_strlen(split[i]) -1] == '\'')
+		{
+			remove_double_quote(split[i]);
+			remove_single_quote(split[i]);
+			in_quotes = 1;
+			if (split[i][ft_strlen(split[i]) - 1] == '"' ||
+			split[i][ft_strlen(split[i]) - 1] == '\'')
+			{
+				in_quotes = 0;
+				continue;
+			}
+			printf("%s", split[i]);
+		}
 		else if (split[i][0] == '$')
 		{
 			if (split[i][1] == '?')
@@ -262,7 +279,7 @@ int	echo_builtin(t_vars *mini)
 			else
 				echo_dollar_finish(split[i], 1, mini);
 		}
-		else if (split[i][0] == '>' || split[i][0] == '<')
+		else if ((split[i][0] == '>' || split[i][0] == '<') && in_quotes == 0)
 		{
 			i+= 2;
 			continue;
