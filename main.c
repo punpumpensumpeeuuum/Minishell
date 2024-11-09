@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/08 15:46:21 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/09 00:20:53 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	checkbuiltin(char *str, t_vars *mini)
 		pwd_builtin();
 		return (0);
 	}
-	else if ((ft_strncmp(str, "export\0", 7) == 0)) //
+	else if ((ft_strncmp(str, "export\0", 7) == 0))
 	{
 		export_builtin(mini);
 		return (0);
@@ -406,7 +406,8 @@ int	checkinput(t_vars *mini)
 	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
 	mini->p = 0;
 	int i;
-	
+	int	status;
+
 	i = -1;
 	if (tudo == NULL)
 		return (2);
@@ -419,17 +420,21 @@ int	checkinput(t_vars *mini)
 			mini->check = NULL;
 		}
 		if (tudo[mini->p])
-		{
 			comandddd(tudo, mini);
-		}
 		mini->p++;
-	}	
+	}
 	while (tudo[++i])
 		free_split(tudo[i]);
 	free(tudo);
 	closeall(mini);
 	free(mini->fd);
-	waitpid(mini->pid, NULL, 0);
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		if (WIFEXITED(status))
+			mini->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			mini->exit_code = 128 + WTERMSIG(status);
+	}
 	return (0);
 }
 
@@ -525,7 +530,7 @@ int	main(int ac, char **av, char **env)
 			mini->input = antimalucos(mini->input);
 			codifiqing(mini->input);
 			mini->input = quotescrazy(mini->input);
-			printf("%s\n", mini->input);
+			//printf("%s\n", mini->input);
 			if (mini->input == NULL)
 				printf("Quote error\n");
 			else

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/07 14:55:11 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/08 22:58:37 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,13 @@ int     export_check(char *str)
     while (str[i])
     {
 		if (str[0] == '=')
-		{
-			printf("export: `%c': not a valid identifier\n", str[i]);
     		return (1);
-		}
         if ((str[i] >= 'a' && str[i] <= 'z') || 
         (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_') ||
 		str[i] == '=')
             return (0);
         i++;
     }
-	printf("export: `%c': not a valid identifier\n", str[i]);
     return (1);
 }
 
@@ -61,15 +57,17 @@ void    export_var(t_vars *mini)
     split = ft_split(mini->input, ' ');
 	if (!mini->new_export)
 		return;
-    while (split[i]) 
-    {
-		mini->exp_len += 1;
-        if (export_check(split[i]) == 0)
-        {
+	if (export_check(split[i]) == 0)
+	{
+		while (split[i]) 
+    	{
+			mini->exp_len += 1;
 			export_update(mini, split[i]);
 			i++;
 		}
     }
+	else
+		printf("export: `=': not a valid identifier\n");
 }
 
 void	export_update(t_vars *mini, char *str)

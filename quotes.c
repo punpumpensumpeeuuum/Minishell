@@ -23,10 +23,7 @@ int check_quotes(char *cmd)
         i++;
     }
     if (single_quote != 0 || double_quote != 0)
-    {
-        printf ("Quote error\n");
         return (1);
-    }
     return (0);
 }
 
@@ -141,7 +138,9 @@ char	*quotescrazy(char *input)
 
 	i = 0;
 	nq = 0;
-	while (input[i])
+    if (check_quotes(input) == 1)
+        return (NULL);
+    while (input[i])
 	{
 		if (ft_strncmp(input, "echo", 4) == 0)
 			return (input);
