@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/09 14:09:16 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/10 00:44:17 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,16 +405,17 @@ int	decide(char **str, t_vars *mini)
 int	checkinput(t_vars *mini)
 {
 	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
-	mini->p = 0;
 	int i;
 	int	status;
 
+	mini->p = 0;
 	i = -1;
 	if (tudo == NULL)
 		return (2);
 	fdfd(mini);
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0 && decide(tudo[mini->p], mini) == 0)
-	{
+	{	printf("ola\n");
+
 		if (mini->check != NULL)
 		{
 			free(mini->check);
@@ -424,6 +425,7 @@ int	checkinput(t_vars *mini)
 			comandddd(tudo, mini);
 		mini->p++;
 	}
+	printf("ola\n");
 	while (tudo[++i])
 		free_split(tudo[i]);
 	free(tudo);
@@ -495,6 +497,7 @@ char	*antimalucos(char *str)
 				i++;
 				a++;
 				s[a] = str[i];
+				i++;
 				a++;
 				s[a] = ' ';
 				a++;
@@ -527,6 +530,20 @@ char	*antimalucos(char *str)
 	return (s);
 }
 
+int	antisegfault(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != 32)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_vars	*mini;
@@ -544,13 +561,13 @@ int	main(int ac, char **av, char **env)
 		mini->input = readline(RED "a espera> " R);
 		if (!mini->input)
 			break;
-		if (ft_strlen(mini->input) > 0)
+		if (ft_strlen(mini->input) > 0 && antisegfault(mini->input) == 0)
 		{
 			add_history(mini->input);
 			mini->input = antimalucos(mini->input);
 			codifiqing(mini->input);
 			mini->input = quotescrazy(mini->input);
-			//printf("%s\n", mini->input);
+			printf("ola>%s\n", mini->input);
 			if (mini->input == NULL)
 				printf("Quote error\n");
 			else
@@ -562,3 +579,6 @@ int	main(int ac, char **av, char **env)
 	free_env_export(mini);
 	return (exit_value);
 }
+
+// leaks de "" | ls
+// ampgioaps | ls e suposto correr o ls e dizer cmd not found
