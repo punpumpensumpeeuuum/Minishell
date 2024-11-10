@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/08 22:58:37 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:10:36 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int     export_check(char *str)
     int i;
 
     i = 0;
+	printf("str = %s\n", str);
+	
     while (str[i])
     {
 		if (str[0] == '=')
@@ -24,10 +26,11 @@ int     export_check(char *str)
         if ((str[i] >= 'a' && str[i] <= 'z') || 
         (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_') ||
 		str[i] == '=')
-            return (0);
-        i++;
+        	i++;
+		else
+			return (1);
     }
-    return (1);
+	return (0);
 }
 
 int		str_compare(char *s1, char *s2)
@@ -57,17 +60,18 @@ void    export_var(t_vars *mini)
     split = ft_split(mini->input, ' ');
 	if (!mini->new_export)
 		return;
-	if (export_check(split[i]) == 0)
+	while (split[i])
 	{
-		while (split[i]) 
-    	{
+		if (export_check(split[i]) == 0)
+		{
 			mini->exp_len += 1;
 			export_update(mini, split[i]);
-			i++;
 		}
-    }
-	else
-		printf("export: `=': not a valid identifier\n");
+		else
+			printf("export: `%s': not a valid identifier\n", split[i]);
+		i++;
+	}
+	free_split(split);
 }
 
 void	export_update(t_vars *mini, char *str)

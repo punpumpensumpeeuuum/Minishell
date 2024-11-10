@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/10 00:44:17 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:29:27 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,6 +352,32 @@ char	**findflags(char **str, int i)
 	return (s);
 }
 
+char	*convert_exit_code(t_vars *mini)
+{
+	char	*converted;
+	
+	converted = ft_itoa(mini->exit_code);
+	return (converted);
+}
+
+void	expr_jesus(char **nao, t_vars *mini)
+{
+    int i = 0;
+
+    if (ft_strncmp(nao[0], "expr", 4) == 0)
+    {
+        while (nao[i] != NULL)
+        {
+            if (ft_strncmp(nao[i], "$?", 2) == 0)
+            {
+                free(nao[i]);
+                nao[i] = convert_exit_code(mini);
+            }
+            i++;
+        }
+    }
+}
+
 void	comandddd(char ***str, t_vars *mini)
 {
 	char	*sim;
@@ -368,6 +394,7 @@ void	comandddd(char ***str, t_vars *mini)
 		sim = ft_strjoin("/", str[mini->p][mini->i]);
 		checkpath(sim, mini);
 		nao = findflags(str[mini->p], mini->i);
+		expr_jesus(nao, mini);
 		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
 		{
 			free(nao[1]);
@@ -414,8 +441,7 @@ int	checkinput(t_vars *mini)
 		return (2);
 	fdfd(mini);
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0 && decide(tudo[mini->p], mini) == 0)
-	{	printf("ola\n");
-
+	{
 		if (mini->check != NULL)
 		{
 			free(mini->check);
@@ -425,7 +451,6 @@ int	checkinput(t_vars *mini)
 			comandddd(tudo, mini);
 		mini->p++;
 	}
-	printf("ola\n");
 	while (tudo[++i])
 		free_split(tudo[i]);
 	free(tudo);
@@ -558,7 +583,7 @@ int	main(int ac, char **av, char **env)
 	while (mini->running)
 	{
 		signals_handler();
-		mini->input = readline(RED "a espera> " R);
+		mini->input = readline(RED "bash> " R);
 		if (!mini->input)
 			break;
 		if (ft_strlen(mini->input) > 0 && antisegfault(mini->input) == 0)

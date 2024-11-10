@@ -142,8 +142,8 @@ char	*quotescrazy(char *input)
         return (NULL);
     while (input[i])
 	{
-		if (ft_strncmp(input, "echo", 4) == 0)
-			return (input);
+		if (ft_strncmp(input, "echo", 4) == 0 || 
+        ft_strncmp(input, "export", 6) == 0)
 		if (input[i] == '\'' || input[i] == '"')
 		{
 			q = input[i];
