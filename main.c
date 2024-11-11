@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/10 14:29:27 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:46:29 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,9 @@ int	setinfile(char *str, t_vars *mini, int i)
 		}
 		dup2(mini->fd[0], 0);
 		close(mini->fd[0]);
+		free(mini->fd);
+		free_env_export(mini);
+		return (3);
 	}
 	else if (i == 3)
 	{
@@ -205,12 +208,16 @@ int	forredirect(char **str, t_vars *mini)
 	int	j;
 	
 	j = 0;
+	int i = -1;
+	while (str[++i])
+		printf("caralho + %s\n", str[i]);
 	while (str[j])
 	{
+		
 		if (ft_strncmp(str[j], "<<", 2) == 0)
 		{
-			if (setinfile(str[j + 1], mini, 2) == 0)
-					return (1);
+			if (setinfile(str[j + 1], mini, 2) == 3)
+				return (3);
 		}
 		else if (ft_strncmp(str[j], "<", 1) == 0)
 		{
@@ -382,15 +389,35 @@ void	comandddd(char ***str, t_vars *mini)
 {
 	char	*sim;
 	char	**nao;
+	int		i;
 
+	i = -1;
 	mini->pid = fork();
 	if (mini->pid == 0)
 	{
 		child_signals_handler();
-		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0)
-			exit (3);
+		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0 || forredirect(str[mini->p], mini) == 3)
+		{
+			while (str[++i])
+				free_split(str[i]);
+			free(str);
+			i = -1;
+			while (mini->limiters[++i])
+				free(mini->limiters[i]);
+			free(mini->limiters);
+			free(mini->fd);
+			free_env_export(mini);
+			exit(3);
+		}
 		if (checkbuiltin(str[mini->p][mini->i], mini) == 0)
+		{
+			while (str[++i])
+				free_split(str[i]);
+			free(str);
+			free(mini->fd);
+			free_env_export(mini);
 			exit(2);
+		}	
 		sim = ft_strjoin("/", str[mini->p][mini->i]);
 		checkpath(sim, mini);
 		nao = findflags(str[mini->p], mini->i);
@@ -535,7 +562,6 @@ char	*antimalucos(char *str)
 				s[a] = ' ';
 				a++;				
 			}
-
 		}
 		if (str[i] == '|')
 		{
@@ -592,9 +618,9 @@ int	main(int ac, char **av, char **env)
 			mini->input = antimalucos(mini->input);
 			codifiqing(mini->input);
 			mini->input = quotescrazy(mini->input);
-			printf("ola>%s\n", mini->input);
+			//printf("ola>%s\n", mini->input);
 			if (mini->input == NULL)
-				printf("Quote error\n");
+				ft_printf("Quote error\n");
 			else
 				checkinput(mini);
 			free(mini->input);

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:26:12 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/07 15:47:19 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 11:51:36 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void	env_builtin(t_vars *mini)
 	{
 		if (mini->env[i] && \
 		!(ft_strncmp(mini->env[i], "/3/4", 2) == 0))
-			printf("%s\n", mini->env[i]);
+			ft_printf("%s\n", mini->env[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/07 14:53:34 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:00:10 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	export_builtin(t_vars *mini)
 		{
 			if (mini->export[i] && 
 			!(ft_strncmp(mini->export[i], "/3/4", 2) == 0))
-				printf("declare -x %s\n", mini->export[i]);
+				ft_printf("declare -x %s\n", mini->export[i]);
 			i++;
 		}
 	}

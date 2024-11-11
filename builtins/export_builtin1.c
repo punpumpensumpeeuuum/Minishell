@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/10 14:10:36 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 11:52:04 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int     export_check(char *str)
     int i;
 
     i = 0;
-	printf("str = %s\n", str);
+	ft_printf("str = %s\n", str);
 	
     while (str[i])
     {
@@ -68,7 +68,7 @@ void    export_var(t_vars *mini)
 			export_update(mini, split[i]);
 		}
 		else
-			printf("export: `%s': not a valid identifier\n", split[i]);
+			ft_printf("export: `%s': not a valid identifier\n", split[i]);
 		i++;
 	}
 	free_split(split);
@@ -83,7 +83,7 @@ void	export_update(t_vars *mini, char *str)
     done = 0;
 	if (!mini->new_export)
     {
-        printf("Error: mini->new_export not initialized.\n");
+        ft_printf("Error: mini->new_export not initialized.\n");
         return;
 	}
 	while (i < mini->exp_len)
