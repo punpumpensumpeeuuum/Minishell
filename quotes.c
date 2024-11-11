@@ -33,9 +33,9 @@ void    quote_error(char *cmd, int start, int end)
 
     i = start + 1;
     while (i < end)
-    	ft_printf("%c", cmd[i++]);
+        printf("%c", cmd[i++]);
     cmd[i] = '\0';
-	ft_printf(": command not found\n");
+    printf(": command not found\n");
 }
 
 int quoting(char *cmd, char q, char not_q)

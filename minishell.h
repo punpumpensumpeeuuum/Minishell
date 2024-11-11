@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/07 15:59:52 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 17:34:59 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ int		getpipepath(char **trueflag, t_vars *mini);
 char	*trimtrimtrim(char *str, int i);
 int		ft_checkprint(char *str);
 
-int		checkbuiltin(char *str, t_vars *mini);
+int		checkbuiltin(t_vars *mini);
 int		truecheckbuilt(char *str);
 int		findbuiltimatrix(char **str, t_vars *mini);
 int		findmistake(char **str);
 int		truecheckbuilt(char *str);
-
 
 // path
 int		fastcheckpath(t_vars *mini, int flag, int i);
@@ -138,8 +137,7 @@ void	cd_2_args(t_vars *mini);
 void	cd_builtin(t_vars *mini);
 int		cd_special_1(t_vars *mini);
 
-//quotes.c 
-
+//quotes.c
 int		check_quotes(char *input);
 void    remove_single_quote(char *cmd);
 void    remove_double_quote(char *cmd);
@@ -161,7 +159,6 @@ void	creat_pipe(int fd[2]);
 int		heredoc(t_vars *mini);
 char	*heredoc_dollar_finish(char *str, int k, t_vars *mini);
 void	heredoc_expander(int fd, char *line, t_vars *mini);
-
 
 // free.c
 void	free_double_array(char **str, t_vars *mini);

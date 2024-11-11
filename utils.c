@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/11 11:51:14 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:54:10 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	redirect(t_vars *mini, char *str)
 		return ;
 	j = 0;
 	i++;
-	//printf("str = %s", str);
+	printf("str = %s", str);
 	mini->redrct = malloc(sizeof(char) * \
 		(wordllllen(&str[i], ' ') + 1));
 	while (ft_isalpha(str[i]) == 0 && str[i])

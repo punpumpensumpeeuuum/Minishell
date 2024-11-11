@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/11 16:46:29 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:08:33 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,45 +23,51 @@ int	more(char *input, int i)
 	return (0);
 }
 
-int	checkbuiltin(char *str, t_vars *mini)
+int	checkbuiltin(t_vars *mini)
 {
-	if (!(ft_strncmp(str, "env\0", 4)) && !(more(mini->input, 3))) //
+	int	i;
+
+	i = 0;
+	while (mini->trueflag[i])
 	{
-		env_builtin(mini);
-		return (0);
+		if (!(ft_strncmp(mini->trueflag[i], "env\0", 4)) && !(more(mini->input, 3))) //
+		{
+			env_builtin(mini);
+			return (0);
+		}
+		else if ((ft_strncmp(mini->trueflag[i], "pwd\0", 4) == 0)) //
+		{
+			pwd_builtin();
+			return (0);
+		}
+		else if ((ft_strncmp(mini->trueflag[i], "export\0", 7) == 0))
+		{
+			export_builtin(mini);
+			return (0);
+		}
+		else if (ft_strncmp(mini->trueflag[i], "echo\0", 5) == 0) //
+		{
+			echo_builtin(mini);
+			return (0);
+		}
+		else if (ft_strncmp(mini->trueflag[i], "cd\0", 3) == 0)
+		{
+			cd_builtin(mini);
+			return (0);
+		}
+		else if (ft_strncmp(mini->trueflag[i], "unset\0", 6) == 0)
+		{
+			unset_builtin(mini);
+			return (0);
+		}
+		else if (ft_strncmp(mini->trueflag[i], "exit\0", 5) == 0)
+		{	
+			exit_builtin(mini);
+			return (0);
+		}
+		i++;
 	}
-	else if ((ft_strncmp(str, "pwd\0", 4) == 0)) //
-	{
-		pwd_builtin();
-		return (0);
-	}
-	else if ((ft_strncmp(str, "export\0", 7) == 0))
-	{
-		export_builtin(mini);
-		return (0);
-	}
-	else if (ft_strncmp(str, "echo\0", 5) == 0) //
-	{
-		echo_builtin(mini);
-		return (0);
-	}
-	else if (ft_strncmp(str, "cd\0", 3) == 0)
-	{
-		cd_builtin(mini);
-		return (0);
-	}
-	else if (ft_strncmp(str, "unset\0", 6) == 0)
-	{
-		unset_builtin(mini);
-		return (0);
-	}
-	else if (ft_strncmp(str, "exit\0", 5) == 0)
-	{	
-		exit_builtin(mini);
-		return (0);
-	}
-	else
-		return (1);
+	return (1);
 }
 
 char	***paodelosplit(char *str , int	pipes)
@@ -190,9 +196,6 @@ int	setinfile(char *str, t_vars *mini, int i)
 		}
 		dup2(mini->fd[0], 0);
 		close(mini->fd[0]);
-		free(mini->fd);
-		free_env_export(mini);
-		return (3);
 	}
 	else if (i == 3)
 	{
@@ -208,18 +211,14 @@ int	forredirect(char **str, t_vars *mini)
 	int	j;
 	
 	j = 0;
-	int i = -1;
-	while (str[++i])
-		printf("caralho + %s\n", str[i]);
 	while (str[j])
 	{
-		
-		if (ft_strncmp(str[j], "<<", 2) == 0)
+		if (ft_strncmp(str[j], "<<\0", 3) == 0)
 		{
-			if (setinfile(str[j + 1], mini, 2) == 3)
-				return (3);
+			if (setinfile(str[j + 1], mini, 2) == 0)
+					return (1);
 		}
-		else if (ft_strncmp(str[j], "<", 1) == 0)
+		else if (ft_strncmp(str[j], "<\0", 2) == 0)
 		{
 			if (str[j + 1] && access(str[j + 1], R_OK) == 0)
 			{
@@ -385,58 +384,6 @@ void	expr_jesus(char **nao, t_vars *mini)
     }
 }
 
-void	comandddd(char ***str, t_vars *mini)
-{
-	char	*sim;
-	char	**nao;
-	int		i;
-
-	i = -1;
-	mini->pid = fork();
-	if (mini->pid == 0)
-	{
-		child_signals_handler();
-		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0 || forredirect(str[mini->p], mini) == 3)
-		{
-			while (str[++i])
-				free_split(str[i]);
-			free(str);
-			i = -1;
-			while (mini->limiters[++i])
-				free(mini->limiters[i]);
-			free(mini->limiters);
-			free(mini->fd);
-			free_env_export(mini);
-			exit(3);
-		}
-		if (checkbuiltin(str[mini->p][mini->i], mini) == 0)
-		{
-			while (str[++i])
-				free_split(str[i]);
-			free(str);
-			free(mini->fd);
-			free_env_export(mini);
-			exit(2);
-		}	
-		sim = ft_strjoin("/", str[mini->p][mini->i]);
-		checkpath(sim, mini);
-		nao = findflags(str[mini->p], mini->i);
-		expr_jesus(nao, mini);
-		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
-		{
-			free(nao[1]);
-			free(nao[2]);
-			nao[1] = ft_strdup("heredoc_tmp.txt");
-			nao[2] = NULL;
-		}
-		if (execve(mini->check, nao, mini->env) == -1)
-			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
-		free(sim);
-		free(nao);
-		exit(1);
-	}
-}
-
 int	decide(char **str, t_vars *mini)
 {
 	mini->i = findbuiltimatrix(str, mini);
@@ -456,18 +403,71 @@ int	decide(char **str, t_vars *mini)
 	return (0);
 }
 
+void	killchild(char ***str, t_vars *mini)
+{
+	int	i;
+
+	i = -1;
+	
+	while (str[++i])
+		free_split(str[i]);
+	free(str);
+	free(mini->fd);
+	free_env_export(mini);
+	exit(4);
+}
+
+void	comandddd(char ***str, t_vars *mini)
+{
+	char	*sim;
+	char	**nao;
+	int		i;
+
+	i = decide(str[mini->p], mini);
+	if (i == 1)
+		return ;
+	mini->pid = fork();
+	if (mini->pid == 0)
+	{
+		if (i != 0)
+			killchild(str, mini);
+		child_signals_handler();
+		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0)
+			killchild(str, mini);
+		if (checkbuiltin(mini) == 0)
+			killchild(str, mini);
+		sim = ft_strjoin("/", str[mini->p][mini->i]);
+		checkpath(sim, mini);
+		nao = findflags(str[mini->p], mini->i);
+		expr_jesus(nao, mini);
+		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
+		{
+			free(nao[1]);
+			free(nao[2]);
+			nao[1] = ft_strdup("heredoc_tmp.txt");
+			nao[2] = NULL;
+		}
+		if (execve(mini->check, nao, mini->env) == -1)
+			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
+		free(sim);
+		free(nao);
+		exit(1);
+	}
+}
+
 int	checkinput(t_vars *mini)
 {
-	char ***tudo = paodelosplit(mini->input, numpipe(mini->input));
-	int i;
-	int	status;
+	char	***tudo = paodelosplit(mini->input, numpipe(mini->input));
+	mini->trueflag = ft_split(mini->input, '|');
+	int		i;
+	int		status;
 
 	mini->p = 0;
 	i = -1;
-	if (tudo == NULL)
+	if (tudo == NULL || mini->trueflag == NULL)
 		return (2);
 	fdfd(mini);
-	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0 && decide(tudo[mini->p], mini) == 0)
+	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
 		if (mini->check != NULL)
 		{
@@ -525,16 +525,23 @@ char	*antimalucos(char *str)
 		if (str[i] == '<' || str[i] == '>')
 		{
 			if (str[i + 1] == '<' || str[i + 1] == '>')
-				i += 2;
+			{
+				if (str[i + 2] == '<' || str[i + 2] == '>')
+					return (NULL);
+				i ++;
+			}
 			a += 2;
 		}
 		if (str[i] == '|')
 			a += 2;
 		i++;
 	}
-	s = malloc(sizeof(char) * (i + a) + 1);
+	s = malloc(sizeof(char) * (i + a + 1));
 	if (!s)
+	{
+		free(s);
 		return (NULL);
+	}
 	i = 0;
 	a = 0;
 	while (str[i])
@@ -562,6 +569,7 @@ char	*antimalucos(char *str)
 				s[a] = ' ';
 				a++;				
 			}
+
 		}
 		if (str[i] == '|')
 		{
@@ -578,6 +586,7 @@ char	*antimalucos(char *str)
 		a++;
 	}
 	s[a] = '\0';
+	free(str);
 	return (s);
 }
 
@@ -616,13 +625,15 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(mini->input);
 			mini->input = antimalucos(mini->input);
-			codifiqing(mini->input);
-			mini->input = quotescrazy(mini->input);
-			//printf("ola>%s\n", mini->input);
-			if (mini->input == NULL)
-				ft_printf("Quote error\n");
-			else
-				checkinput(mini);
+			if (mini->input)
+			{
+				codifiqing(mini->input);
+				mini->input = quotescrazy(mini->input);
+				if (mini->input == NULL)
+					printf("Quote error\n");
+				else
+					checkinput(mini);
+			}
 			free(mini->input);
 		}
 	}
@@ -630,6 +641,3 @@ int	main(int ac, char **av, char **env)
 	free_env_export(mini);
 	return (exit_value);
 }
-
-// leaks de "" | ls
-// ampgioaps | ls e suposto correr o ls e dizer cmd not found

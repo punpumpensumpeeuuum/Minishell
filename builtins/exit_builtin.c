@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:11:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/11 11:51:48 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 17:09:54 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	exit_builtin(t_vars *mini)
 {
 	char	**str;
 
-	ft_printf("exit\n");
+	printf("exit\n");
 	mini->running = 0;
 	if (ft_countwords(mini->input, ' ') > 1)
 	{
@@ -73,7 +73,7 @@ int	exit_builtin(t_vars *mini)
 		else if (str[2])
 		{
 			mini->running = 1;
-			ft_printf("exit: too many arguments\n");
+			printf("exit: too many arguments\n");
 			free_split(str);
 			mini->exit_code = 1;
 			return (mini->exit_code);

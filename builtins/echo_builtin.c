@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/11 14:10:11 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:20:08 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 				u++;
 			}
             if (result[u] == '\0') 
-				ft_printf("%s", &str[j+1]);
+				printf("%s", &str[j+1]);
             free(env_var);
             break;
 		}
@@ -151,7 +151,7 @@ void	echo_special(t_vars *mini, char *str)
 		{
 			if (str[i] == '\'' && flag == 0)
 			{
-				ft_printf("%c", '\'');
+				printf("%c", '\'');
 				i++;
 			}	
 			else if (flag == 0 && (str[i + 1] != '\'' || str[i + 1] != '\0'))
@@ -226,7 +226,7 @@ int	echo_builtin(t_vars *mini)
 		i++;
 	if (split[1] == NULL)
 	{
-		ft_printf("\n");
+		printf("\n");
 		free_split(split);
 		return (0);
 	}
@@ -242,7 +242,7 @@ int	echo_builtin(t_vars *mini)
 		split[i][ft_strlen(split[i]) - 1] == '\'')
 		{
 			remove_single_quote(split[i]);
-			ft_printf("%s", split[i]);
+			printf("%s", split[i]);
 		}	
 		else if (split[i][0] == '"' && 
 		split[i][ft_strlen(split[i]) - 1] == '"')
@@ -253,7 +253,7 @@ int	echo_builtin(t_vars *mini)
 			else if (split[i][0] == '$')
 				echo_dollar_finish(split[i], 1, mini);
 			else
-				ft_printf("%s", split[i]);
+				printf("%s", split[i]);
 		}
 		else if (split[i][0] == '"' || split[i][0] == '\'' ||
 		split[i][ft_strlen(split[i]) -1] == '"' || 
@@ -268,12 +268,12 @@ int	echo_builtin(t_vars *mini)
 				in_quotes = 0;
 				continue;
 			}
-			ft_printf("%s", split[i]);
+			printf("%s", split[i]);
 		}
 		else if (split[i][0] == '$')
 		{
 			if (split[i][1] == '?')
-				ft_printf("%d", mini->exit_code);
+				printf("%d", mini->exit_code);
 			else
 				echo_dollar_finish(split[i], 1, mini);
 		}
@@ -283,13 +283,13 @@ int	echo_builtin(t_vars *mini)
 			continue;
 		}
 		else
-			ft_printf("%s", split[i]);
+			printf("%s", split[i]);
 		if (split[i + 1])
-			ft_printf(" ");
+			printf(" ");
 		i++;
 	}
 	if (new_line)
-		ft_printf("\n");
+		printf("\n");
 	free_split(split);
 	return (0);
 }
