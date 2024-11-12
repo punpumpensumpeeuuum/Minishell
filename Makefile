@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRCS = main.c paths.c utils.c moreutils.c quotes.c heredoc.c signals.c free.c
+SRCS = main.c paths.c utils.c moreutils.c quotes.c heredoc.c signals.c free.c parsing.c
 
 BUILT = echo_builtin.c env_builtin.c exit_builtin.c cd_builtin.c export_builtin.c export_builtin1.c unset_builtin.c
 
@@ -8,7 +8,7 @@ GNL = get_next_line_utils.c get_next_line.c
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra  #-fsanitize=address #--suppressions=supp.supp
+CFLAGS = -Wall -Werror -Wextra  #-fsanitize=address
 
 RM = rm -f
 
@@ -37,7 +37,7 @@ so:	$(NAME) clean
 			@./minishell
 
 va: $(NAME) clean
-		@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions="supp.supp" ./minishell
+		@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --show-reachable=no --suppressions="supp.supp" ./minishell
 
 re:	fclean $(NAME)
 		@echo "makou outra vez"

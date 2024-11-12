@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/12 10:15:14 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:45:28 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_vars
 	int		env_len;
 	int		flag_env;
 	// paths
-	char	**flag;
+	// char	**flag;
 	char	**trueflag;
 	char	**allpaths;
 	char	*check;
@@ -60,6 +60,17 @@ typedef struct s_vars
 	int		running;
 }	t_vars;
 
+
+//parsing.c
+int antisegfault(char *str);
+int porfavor(char *str);
+char	*antimalucos(char *str);
+
+
+int	forredirect(char **str, t_vars *mini);
+int	forredirectout(char ***str, t_vars *mini);
+int	setinfile(char *str, t_vars *mini, int i);
+void	piping(char ***str, t_vars *mini, int ta);
 // parsing
 int		find_echo(char *str);
 char	*convert_exit_code(t_vars *mini);

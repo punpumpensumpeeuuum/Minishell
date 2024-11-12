@@ -6,16 +6,16 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:13:14 by dinda-si          #+#    #+#             */
-/*   Updated: 2023/10/09 10:35:27 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:32:51 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *str, unsigned int start, size_t len)
+char	*ft_substr(char const *str, int start, int len)
 {
 	char	*sub;
-	size_t	i;
+	int		i;
 
 	i = 0;
 	if (!str)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/12 15:00:22 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:44:32 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ int	forredirect(char **str, t_vars *mini)
 		if (ft_strncmp(str[j], "<<\0", 3) == 0)
 		{
 			if (setinfile(str[j + 1], mini, 2) == 0)
-					return (1);
+				return (1);
 		}
 		else if (ft_strncmp(str[j], "<\0", 2) == 0)
 		{
@@ -394,7 +394,7 @@ void	killchild(char ***str, t_vars *mini)
 	free(str);
 	free(mini->fd);
 	free_env_export(mini);
-	exit(4);
+	exit(mini->exit_code);
 }
 
 void	comandddd(char ***str, t_vars *mini)
@@ -403,7 +403,7 @@ void	comandddd(char ***str, t_vars *mini)
 	char	**nao;
 	int		i;
 	
-	if (mini->trueflag[mini->p] == NULL)
+	if (!str[mini->p] || !mini->trueflag[mini->p])
 		return ;
 	i = decide(str[mini->p], mini);
 	if (i == 1 || i == 2)
@@ -447,7 +447,6 @@ int	checkinput(t_vars *mini)
 	int		status;
 
 	mini->p = 0;
-	i = -1;
 	if (tudo == NULL || mini->trueflag == NULL)
 		return (2);	
 	fdfd(mini);
@@ -462,7 +461,8 @@ int	checkinput(t_vars *mini)
 			comandddd(tudo, mini);
 		mini->p++;
 	}
-	while (tudo[++i])
+	i = 0;
+	while (tudo[i++])
 		free_split(tudo[i]);
 	free(tudo);
 	closeall(mini);
@@ -475,131 +475,6 @@ int	checkinput(t_vars *mini)
 			mini->exit_code = 128 + WTERMSIG(status);
 	}
 	return (0);
-}
-
-int	find_echo(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if ((str[i] == ' ' && str[i + 1] == 'e' && str[i + 2] == 'c' &&
-		str[i + 3] == 'h' && str[i + 4] == 'o' && str[i + 5] == ' ') ||
-		(str[i] == 'e' && str[i + 1] == 'c' &&
-		str[i + 2] == 'h' && str[i + 3] == 'o' && str[i + 4] == ' '))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-char	*antimalucos(char *str)
-{
-	int		i;
-	int		a;
-	char	*s;
-
-	a = 0;
-	i = 0;
-	if (find_echo(str) == 0)
-		return (str);
-	while (str[i])
-	{
-		if (str[i] == '<' || str[i] == '>')
-		{
-			if (str[i + 1] == '<' || str[i + 1] == '>')
-			{
-				if (str[i + 2] == '<' || str[i + 2] == '>')
-					return (NULL);
-				i ++;
-			}
-			a += 2;
-		}
-		if (str[i] == '|')
-		{
-			if (str[i - 1] == ' ' && str[i + 1] == ' ')
-			{	
-				i++;
-			}	
-			else
-				a += 2;
-		}
-		i++;
-	}
-	s = malloc(sizeof(char) * (i + a + 1));
-	if (!s)
-		return (NULL);
-	i = 0;
-	a = 0;
-	while (str[i])
-	{
-		if (str[i] == '<' || str[i] == '>')
-		{
-			s[a] = ' ';
-			a++;
-			if (str[i + 1] == '<' || str[i + 1] == '>')
-			{
-				s[a] = str[i];
-				i++;
-				a++;
-				s[a] = str[i];
-				i++;
-				a++;
-				s[a] = ' ';
-				a++;
-			}
-			else
-			{
-				s[a] = str[i];
-				a++;
-				i++;
-				s[a] = ' ';
-				a++;				
-			}
-
-		}
-		if (str[i] == '|')
-		{
-			if (str[i - 1] == ' ' && str[i + 1] == ' ')
-			{		
-				s[a] = str[i];
-				a++;
-				i++;
-			}
-			else
-			{
-				s[a] = ' ';
-				a++;
-				s[a] = str[i];
-				a++;
-				i++;
-				s[a] = ' ';
-				a++;
-			}
-
-		}
-		s[a] = str[i];
-		i++;
-		a++;
-	}
-	s[a] = '\0';
-	free(str);
-	return (s);
-}
-
-int	antisegfault(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != 32)
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 int	main(int ac, char **av, char **env)
@@ -623,20 +498,24 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(mini->input);
 			mini->input = antimalucos(mini->input);
-			mini->input = expand(mini->input, mini);
-			// printf("str2 = %s\n", mini->input);
 			if (mini->input)
 			{
-				codifiqing(mini->input);
-				mini->input = quotescrazy(mini->input);
-				// printf("strtrtr = %s\n", mini->input);
-				if (mini->input == NULL)
-					printf("Quote error\n");
-				else
-					checkinput(mini);
+				mini->input = expand(mini->input, mini);
+				// printf("str2 = %s\n", mini->input);
+				if (mini->input)
+				{
+					codifiqing(mini->input);
+					mini->input = quotescrazy(mini->input);
+					// printf("strtrtr = %s\n", mini->input);
+					if (mini->input == NULL)
+						printf("Quote error\n");
+					else
+						checkinput(mini);
+				}
 			}
-			free(mini->input);
+
 		}
+		free(mini->input);
 	}
 	exit_value = mini->exit_code;
 	free_env_export(mini);

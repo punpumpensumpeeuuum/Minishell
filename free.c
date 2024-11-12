@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 11:56:22 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:40:36 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	closeall(t_vars *mini)
+{
+	int	i;
+
+	i = 0;
+	while (i < (numpipe(mini->input) + 1) * 2 && mini->fd[i])
+	{
+		close(mini->fd[i]);
+		i++;
+	}
+}
 
 void	free_fd(int p, t_vars *mini)
 {

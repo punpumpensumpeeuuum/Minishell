@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/06 20:30:26 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:40:31 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	closeall(t_vars *mini)
-{
-	int	i;
-
-	i = 0;
-	while (i < (numpipe(mini->input) + 1) * 2 && mini->fd[i])
-	{
-		close(mini->fd[i]);
-		i++;
-	}
-}
-
-void	allocfd(int p, t_vars *mini)
-{
-	int	i;
-
-	i = 0;
-	mini->fd = malloc(sizeof(int) * (p + 1));
-	if (!mini->fd)
-		return;
-	while (i < p)
-	{
-		if (pipe(mini->fd + 2 * i) < 0)
-			return;
-		i++;
-	}
-}
 
 void	checkpath(char *cmd, t_vars *mini)
 {
