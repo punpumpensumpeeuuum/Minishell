@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/09 14:19:16 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 00:07:46 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int		find_var(t_vars *mini, char *to_find)
 
 	i = 0;
 	to_find_len = ft_strlen(to_find);
-	while (i < mini->env_len)
+	while (i < mini->exp_len)
 	{
-		if (mini->env[i] && ft_strncmp(mini->env[i], to_find, to_find_len) == 0
-		&& mini->env[i][to_find_len] == '=')
+		if (mini->export[i] && ft_strncmp(mini->export[i], to_find, to_find_len) == 0
+		&& mini->export[i][to_find_len] == '=')
 			return (i);
-		else if (!mini->env[i])
+		else if (!mini->export[i])
 		{
 			ft_putstr_fd("Var not find\n", STDERR_FILENO);
 			return (-1);
@@ -71,6 +71,81 @@ void	in_directory(char *directory, t_vars *mini)
 		get_pwds(mini);
 }
 
+char *expand(char *str, t_vars *mini)
+{
+    int 	i;
+    int 	j;
+	int		start;
+	int		length;
+    char	*var;
+	char	*expanded;
+	char	*input;
+	int		input_len;
+
+	i = 0;
+	input_len = ft_strlen(str + 1);
+	input = malloc(sizeof(char *) * input_len + 1);
+	if (!input)
+		return (NULL);
+	input[0] = '\0';
+    while (str[i])
+    {
+        if (str[i] == '$')
+        {
+            i++;
+			if (str[i] == '?')
+			{
+				expanded = convert_exit_code(mini);
+				i++;
+            }
+            else
+			{
+				start = i;
+           		while (str[i] && str[i] != ' ' && str[i] != '$' &&
+				str[i] != '\0')
+                	i++;
+            	length = i - start;
+            	var = (char *)malloc((length + 1) * sizeof(char));
+            	if (!var)
+				{
+					free(input);
+					return (NULL);
+				}
+				j = 0;
+        		while (j < length)
+				{
+					var[j] = str[start + j];
+					j++;
+				}
+				var[j] = '\0';
+				expanded = ft_getenv(mini, var);
+				free(var);
+			}
+			if (expanded)
+			{
+				input_len += strlen(expanded);
+				input = realloc(input, input_len);
+				if (!input)
+					return NULL;
+				ft_strlcat(input, expanded, input_len);
+				free(expanded);
+			}
+		}
+		else
+		{
+			int len = strlen(input);
+			input_len += 1;
+			input = realloc(input, input_len);
+			if (!input)
+				return NULL;
+			input[len] = str[i];
+			input[len + 1] = '\0';
+			i++;
+		}
+	}
+	return (input);
+}
+
 char	*ft_getenv(t_vars *mini ,char	*to_find)
 {
 	int	index;
@@ -78,8 +153,8 @@ char	*ft_getenv(t_vars *mini ,char	*to_find)
 
 	index = find_var(mini, to_find);
 	if (index >= 0)
-		var = ft_substr(mini->env[index], ft_strlen(to_find) + 1, \
-		ft_strlen(mini->env[index]));
+		var = ft_substr(mini->export[index], ft_strlen(to_find) + 1, \
+		ft_strlen(mini->export[index]));
 	else
 		var = NULL;
 	return (var);

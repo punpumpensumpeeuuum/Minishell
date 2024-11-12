@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/11 20:08:33 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/12 00:06:58 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,37 +30,38 @@ int	checkbuiltin(t_vars *mini)
 	i = 0;
 	while (mini->trueflag[i])
 	{
-		if (!(ft_strncmp(mini->trueflag[i], "env\0", 4)) && !(more(mini->input, 3))) //
+		if (!(ft_strncmp(mini->trueflag[i], "env", 3)) && !(more(mini->input, 3))) //
 		{
 			env_builtin(mini);
 			return (0);
 		}
-		else if ((ft_strncmp(mini->trueflag[i], "pwd\0", 4) == 0)) //
+		else if ((ft_strncmp(mini->trueflag[i], "pwd", 3) == 0)) //
 		{
 			pwd_builtin();
 			return (0);
 		}
-		else if ((ft_strncmp(mini->trueflag[i], "export\0", 7) == 0))
+		else if ((ft_strncmp(mini->trueflag[i], "export", 6) == 0))
 		{
+			
 			export_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[i], "echo\0", 5) == 0) //
+		else if (ft_strncmp(mini->trueflag[i], "echo", 4) == 0) //
 		{
 			echo_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[i], "cd\0", 3) == 0)
+		else if (ft_strncmp(mini->trueflag[i], "cd", 2) == 0)
 		{
 			cd_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[i], "unset\0", 6) == 0)
+		else if (ft_strncmp(mini->trueflag[i], "unset", 5) == 0)
 		{
 			unset_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[i], "exit\0", 5) == 0)
+		else if (ft_strncmp(mini->trueflag[i], "exit", 4) == 0)
 		{	
 			exit_builtin(mini);
 			return (0);
@@ -394,8 +395,8 @@ int	decide(char **str, t_vars *mini)
 		if (findmistake(str) == -1)
 			return (3);
 		de_codifiqing(str[findmistake(str)]);
-		ft_printf("%s: command not found\n", str[findmistake(str)]);
 		mini->exit_code = 127;
+		ft_printf("%s: command not found\n", str[findmistake(str)]);
 		return (2);
 	}
 	else if (mini->i == -15)
@@ -448,7 +449,10 @@ void	comandddd(char ***str, t_vars *mini)
 			nao[2] = NULL;
 		}
 		if (execve(mini->check, nao, mini->env) == -1)
+		{
+			mini->exit_code = 127;
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
+		}	
 		free(sim);
 		free(nao);
 		exit(1);
@@ -465,7 +469,7 @@ int	checkinput(t_vars *mini)
 	mini->p = 0;
 	i = -1;
 	if (tudo == NULL || mini->trueflag == NULL)
-		return (2);
+		return (2);	
 	fdfd(mini);
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
@@ -625,6 +629,7 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(mini->input);
 			mini->input = antimalucos(mini->input);
+			mini->input = expand(mini->input, mini);
 			if (mini->input)
 			{
 				codifiqing(mini->input);

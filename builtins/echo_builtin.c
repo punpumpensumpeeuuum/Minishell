@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/10 14:20:08 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 23:00:31 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ char *take_equal(char *str)
 	tmp[i] = '\0';
 	return (tmp);
 }
-
 
 void	echo_dollar_finish(char *str, int k, t_vars *mini)
 {

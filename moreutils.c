@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/11 17:36:18 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/11 22:16:40 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,9 @@ int	findbuiltimatrix(char **str, t_vars *mini)
 	int	i;
 
 	i = 0;
+	
 	while (str[i])
-	{
+	{	
 		if (ft_strncmp(str[i], "<", 1) != 0 && ft_strncmp(str[i], ">", 1) != 0)
 		{	
 			if (truecheckbuilt(str[i]) == 1)

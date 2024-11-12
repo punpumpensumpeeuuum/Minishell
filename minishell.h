@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/11 17:34:59 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/11 23:45:02 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_vars
 }	t_vars;
 
 // parsing
+char	*convert_exit_code(t_vars *mini);
+char	*expand(char *str, t_vars *mini);
 int		numpipe(char *str);
 int		inputnum(char *input);
 void	arrangegoodsplit(t_vars *mini);

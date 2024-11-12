@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/10 14:10:36 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/11 22:10:03 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int     export_check(char *str)
 
     i = 0;
 	printf("str = %s\n", str);
-	
     while (str[i])
     {
 		if (str[0] == '=')
