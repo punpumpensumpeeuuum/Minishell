@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 10:45:40 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:26:42 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char *expand(char *str, t_vars *mini)
     int 	j;
 	int		start;
 	int		length;
+	int		len;
     char	*var;
 	char	*expanded;
 	char	*input;
@@ -97,7 +98,6 @@ char *expand(char *str, t_vars *mini)
             i++;
 			if (str[i] == '?')
 			{
-				printf("aaqui\n");
 				expanded = convert_exit_code(mini);
 				i++;
             }
@@ -129,18 +129,24 @@ char *expand(char *str, t_vars *mini)
 				input_len += strlen(expanded);
 				input = realloc(input, input_len);
 				if (!input)
+				{
+					free(input);
 					return NULL;
+				}
 				ft_strlcat(input, expanded, input_len);
 				free(expanded);
 			}
 		}
 		else
 		{
-			int len = strlen(input);
+			len = strlen(input);
 			input_len += 1;
 			input = realloc(input, input_len);
 			if (!input)
+			{
+				free(input);
 				return NULL;
+			}
 			input[len] = str[i];
 			input[len + 1] = '\0';
 			i++;

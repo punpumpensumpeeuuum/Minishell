@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/07 16:03:59 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:56:22 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ void	free_env_export(t_vars *mini)
 		{
 			free_array(mini->new_export);
 			mini->new_export = NULL;
+		}
+		if (mini->trueflag)
+		{
+			free_array(mini->trueflag);
+			mini->trueflag = NULL;
 		}
 		free(mini);
 	}

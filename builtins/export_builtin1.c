@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/11 22:10:03 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:52:20 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ int     export_check(char *str)
     int i;
 
     i = 0;
-	printf("str = %s\n", str);
+	if (str[0] == '=' || ft_isdigit(str[0]))
+    	return (1);
     while (str[i])
     {
-		if (str[0] == '=')
-    		return (1);
         if ((str[i] >= 'a' && str[i] <= 'z') || 
         (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_') ||
-		str[i] == '=')
+		str[i] == '=' || ft_isdigit(str[i]) || str[i] == '"' || str[i] == '\'')
         	i++;
 		else
 			return (1);
     }
+	remove_double_quote(str);
+	remove_single_quote(str);
 	return (0);
 }
 

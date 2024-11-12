@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/12 10:37:33 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:49:06 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,24 +367,6 @@ char	*convert_exit_code(t_vars *mini)
 	return (converted);
 }
 
-void	expr_jesus(char **nao, t_vars *mini)
-{
-    int i = 0;
-
-    if (ft_strncmp(nao[0], "expr", 4) == 0)
-    {
-        while (nao[i] != NULL)
-        {
-            if (ft_strncmp(nao[i], "$?", 2) == 0)
-            {
-                free(nao[i]);
-                nao[i] = convert_exit_code(mini);
-            }
-            i++;
-        }
-    }
-}
-
 int	decide(char **str, t_vars *mini)
 {
 	mini->i = findbuiltimatrix(str, mini);
@@ -423,9 +405,9 @@ void	comandddd(char ***str, t_vars *mini)
 	char	*sim;
 	char	**nao;
 	int		i;
-
+	
 	i = decide(str[mini->p], mini);
-	if (i == 1)
+	if (i == 1 || i == 2)
 		return ;
 	mini->pid = fork();
 	if (mini->pid == 0)
@@ -440,7 +422,6 @@ void	comandddd(char ***str, t_vars *mini)
 		sim = ft_strjoin("/", str[mini->p][mini->i]);
 		checkpath(sim, mini);
 		nao = findflags(str[mini->p], mini->i);
-		expr_jesus(nao, mini);
 		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
 		{
 			free(nao[1]);
@@ -542,10 +523,7 @@ char	*antimalucos(char *str)
 	}
 	s = malloc(sizeof(char) * (i + a + 1));
 	if (!s)
-	{
-		free(s);
 		return (NULL);
-	}
 	i = 0;
 	a = 0;
 	while (str[i])
@@ -617,8 +595,8 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	mini = init_mini();
 	init_env(env, mini);
-	shlvl_update(mini);
 	init_export(mini);
+	shlvl_update(mini);
 	while (mini->running)
 	{
 		signals_handler();
@@ -630,12 +608,12 @@ int	main(int ac, char **av, char **env)
 			add_history(mini->input);
 			mini->input = antimalucos(mini->input);
 			mini->input = expand(mini->input, mini);
-			printf("str = %s\n", mini->input);
+			// printf("str = %s\n", mini->input);
 			if (mini->input)
 			{
 				codifiqing(mini->input);
 				mini->input = quotescrazy(mini->input);
-				printf("strtrtr = %s\n", mini->input);
+				// printf("strtrtr = %s\n", mini->input);
 				if (mini->input == NULL)
 					printf("Quote error\n");
 				else
