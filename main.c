@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/12 00:06:58 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 10:37:33 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -630,10 +630,12 @@ int	main(int ac, char **av, char **env)
 			add_history(mini->input);
 			mini->input = antimalucos(mini->input);
 			mini->input = expand(mini->input, mini);
+			printf("str = %s\n", mini->input);
 			if (mini->input)
 			{
 				codifiqing(mini->input);
 				mini->input = quotescrazy(mini->input);
+				printf("strtrtr = %s\n", mini->input);
 				if (mini->input == NULL)
 					printf("Quote error\n");
 				else

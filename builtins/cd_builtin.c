@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 00:07:46 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 10:45:40 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char *expand(char *str, t_vars *mini)
 	int		input_len;
 
 	i = 0;
+	if (find_echo(str) == 0)
+		return (str);
 	input_len = ft_strlen(str + 1);
 	input = malloc(sizeof(char *) * input_len + 1);
 	if (!input)
@@ -95,6 +97,7 @@ char *expand(char *str, t_vars *mini)
             i++;
 			if (str[i] == '?')
 			{
+				printf("aaqui\n");
 				expanded = convert_exit_code(mini);
 				i++;
             }

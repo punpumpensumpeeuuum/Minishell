@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/11 23:45:02 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 10:15:14 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_vars
 }	t_vars;
 
 // parsing
+int		find_echo(char *str);
 char	*convert_exit_code(t_vars *mini);
 char	*expand(char *str, t_vars *mini);
 int		numpipe(char *str);
