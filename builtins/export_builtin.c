@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/11 22:11:13 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 13:52:31 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	export_builtin(t_vars *mini)
 
 	i = 0;
 	sorting_export(mini);
-	if (ft_countwords(mini->input, ' ') > 1)
+	if (ft_countwords(mini->trueflag[mini->p], ' ') > 1)
 		export_var(mini);
 	else
 	{

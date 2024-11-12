@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/12 12:49:06 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:00:22 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,48 +25,45 @@ int	more(char *input, int i)
 
 int	checkbuiltin(t_vars *mini)
 {
-	int	i;
-
-	i = 0;
-	while (mini->trueflag[i])
+	while (mini->trueflag[mini->p])
 	{
-		if (!(ft_strncmp(mini->trueflag[i], "env", 3)) && !(more(mini->input, 3))) //
+		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3)) && !(more(mini->input, 3))) //
 		{
 			env_builtin(mini);
 			return (0);
 		}
-		else if ((ft_strncmp(mini->trueflag[i], "pwd", 3) == 0)) //
+		else if ((ft_strncmp(mini->trueflag[mini->p], " pwd", 3) == 0)) //
 		{
 			pwd_builtin();
 			return (0);
 		}
-		else if ((ft_strncmp(mini->trueflag[i], "export", 6) == 0))
+		else if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
 		{
-			
 			export_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[i], "echo", 4) == 0) //
+		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0) //
 		{
 			echo_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[i], "cd", 2) == 0)
+		else if (ft_strncmp(mini->trueflag[mini->p], "cd", 2) == 0)
 		{
 			cd_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[i], "unset", 5) == 0)
+		else if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
 		{
 			unset_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[i], "exit", 4) == 0)
+		else if (ft_strncmp(mini->trueflag[mini->p], "exit", 4) == 0)
 		{	
 			exit_builtin(mini);
 			return (0);
 		}
-		i++;
+		else
+			return (1);
 	}
 	return (1);
 }
@@ -406,6 +403,8 @@ void	comandddd(char ***str, t_vars *mini)
 	char	**nao;
 	int		i;
 	
+	if (mini->trueflag[mini->p] == NULL)
+		return ;
 	i = decide(str[mini->p], mini);
 	if (i == 1 || i == 2)
 		return ;
@@ -518,7 +517,14 @@ char	*antimalucos(char *str)
 			a += 2;
 		}
 		if (str[i] == '|')
-			a += 2;
+		{
+			if (str[i - 1] == ' ' && str[i + 1] == ' ')
+			{	
+				i++;
+			}	
+			else
+				a += 2;
+		}
 		i++;
 	}
 	s = malloc(sizeof(char) * (i + a + 1));
@@ -555,13 +561,23 @@ char	*antimalucos(char *str)
 		}
 		if (str[i] == '|')
 		{
-			s[a] = ' ';
-			a++;
-			s[a] = str[i];
-			a++;
-			i++;
-			s[a] = ' ';
-			a++;
+			if (str[i - 1] == ' ' && str[i + 1] == ' ')
+			{		
+				s[a] = str[i];
+				a++;
+				i++;
+			}
+			else
+			{
+				s[a] = ' ';
+				a++;
+				s[a] = str[i];
+				a++;
+				i++;
+				s[a] = ' ';
+				a++;
+			}
+
 		}
 		s[a] = str[i];
 		i++;
@@ -608,7 +624,7 @@ int	main(int ac, char **av, char **env)
 			add_history(mini->input);
 			mini->input = antimalucos(mini->input);
 			mini->input = expand(mini->input, mini);
-			// printf("str = %s\n", mini->input);
+			// printf("str2 = %s\n", mini->input);
 			if (mini->input)
 			{
 				codifiqing(mini->input);

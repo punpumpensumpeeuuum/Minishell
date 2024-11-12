@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 11:52:20 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:35:49 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int     export_check(char *str)
     {
         if ((str[i] >= 'a' && str[i] <= 'z') || 
         (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_') ||
-		str[i] == '=' || ft_isdigit(str[i]) || str[i] == '"' || str[i] == '\'')
+		str[i] == '=' || ft_isdigit(str[i]) || str[i] == '"' || str[i] == '\'' || str[i] == '/')
         	i++;
 		else
 			return (1);
@@ -57,7 +57,7 @@ void    export_var(t_vars *mini)
     char    **split;
 
     i = 1;
-    split = ft_split(mini->input, ' ');
+    split = ft_split(mini->trueflag[mini->p], ' ');
 	if (!mini->new_export)
 		return;
 	while (split[i])
