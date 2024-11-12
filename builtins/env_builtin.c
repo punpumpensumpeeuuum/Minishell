@@ -6,44 +6,11 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 15:26:12 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 14:16:37 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:55:02 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	env_update1(t_vars *mini)
-{
-	int i;
-	int j;
-	char **temp;
-
-	i = 0;
-	j = 0;
-	while (i < mini->env_len)
-	{
-		if (mini->env[i])
-		{
-			free(mini->env[i]);
-			mini->env[i] = NULL;
-		}
-		i++;
-	}
-	i = 0;
-	temp = realloc(mini->env, sizeof(char *) * (mini->env_len + 1));
-	if (!temp)
-		return;
-	mini->env = temp;
-	while (j < mini->env_len)
-	{
-		if (mini->new_env[j])
-			mini->env[j] = ft_strdup(mini->new_env[j]);
-		else
-			mini->env[j] = NULL;
-		j++;
-	}
-	mini->env[j] = NULL;
-}
 
 void	env_update(t_vars *mini, char *str)
 {
@@ -159,6 +126,64 @@ void init_env(char **env, t_vars *mini)
     mini->env[i] = NULL;
 }
 
+void	envvv_update(t_vars *mini, char *str)
+{
+	int	i;
+    int	done;
+    
+	i = 0;
+    done = 0;
+	if (!mini->new_env)
+    {
+        printf("Error: mini->new_env not initialized.\n");
+        return;
+	}
+	while (i < mini->env_len)
+	{
+		if (mini->env[i] && str_compare(mini->env[i], str) == 0)
+		{
+			free(mini->new_env[i]);
+			mini->new_env[i] = ft_strdup(str);
+			i++;
+			break;
+		}
+		else if (!mini->env[i] && done == 0)
+		{
+            done = 1;
+            mini->new_env[i] = ft_strdup(str);
+			i++;
+			continue;
+		}
+		else if (mini->env[i] && str_compare(mini->env[i], str) != 0)
+			mini->new_env[i] = ft_strdup(mini->env[i]);
+		i++;
+	}
+	mini->new_env[i] = NULL;
+	envvv_update1(mini);
+}
+
+void	envvv_update1(t_vars *mini)
+{
+	int		i;
+	char	**temp;
+	
+	i = 0;
+	free_double_array(mini->env, mini);
+	temp = realloc(mini->env, sizeof(char *) * (mini->env_len + 1));
+	if (!temp)
+		return;
+	mini->env = temp;
+	while (i < mini->env_len)
+	{
+		if (mini->new_env[i])
+			mini->env[i] = ft_strdup(mini->new_env[i]);
+		else
+			mini->env[i] = NULL;
+		i++;
+    }
+	mini->env[i] = NULL;
+}
+
 void	env_builtin(t_vars *mini)
 {
 	int	i;
@@ -167,7 +192,7 @@ void	env_builtin(t_vars *mini)
 	while (i < mini->env_len)
 	{
 		if (mini->env[i] && \
-		!(ft_strncmp(mini->env[i], "/3/4", 2) == 0))
+		!(ft_strncmp(mini->env[i], "/3/4", 2) == 0) && !(ft_strncmp(mini->env[i], "_", 1) == 0))
 			printf("%s\n", mini->env[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 14:35:49 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:55:50 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ int     export_check(char *str)
 	remove_double_quote(str);
 	remove_single_quote(str);
 	return (0);
+}
+
+int		env_check(char *str)
+{
+	int i;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int		str_compare(char *s1, char *s2)
@@ -64,8 +80,19 @@ void    export_var(t_vars *mini)
 	{
 		if (export_check(split[i]) == 0)
 		{
-			mini->exp_len += 1;
-			export_update(mini, split[i]);
+			printf("string = %s\n", split[i]);
+			if (env_check(split[i]) == 0)
+			{
+				mini->exp_len += 1;
+				mini->env_len += 1;
+				export_update(mini, split[i]);
+				envvv_update(mini, split[i]);
+			}
+			else
+			{
+				mini->exp_len += 1;
+				export_update(mini, split[i]);
+			}
 		}
 		else
 			printf("export: `%s': not a valid identifier\n", split[i]);

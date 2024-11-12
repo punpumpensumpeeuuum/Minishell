@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 12:26:42 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:41:52 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ char *expand(char *str, t_vars *mini)
             i++;
 			if (str[i] == '?')
 			{
+				
 				expanded = convert_exit_code(mini);
 				i++;
             }

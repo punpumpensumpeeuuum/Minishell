@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/12 17:45:28 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:37:47 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct s_vars
 	char	**new_env;
 	char	**export;
 	char	**new_export;
-	int		exp_len;
 	int		env_len;
+	int		exp_len;
 	int		flag_env;
 	// paths
 	// char	**flag;
@@ -106,6 +106,9 @@ void	create_env(t_vars *mini);
 void	free_first_string(char **arr);
 void	shlvl_update(t_vars *mini);
 t_vars 	*init_mini(void);
+void	envvv_update(t_vars *mini, char *str);
+void	envvv_update1(t_vars *mini);
+int		env_check(char *str);
 
 // builtin export
 void	init_export(t_vars *mini);
@@ -122,6 +125,7 @@ void	exp_update1(t_vars *mini);
 void	exp_update(t_vars *mini, char *str);
 int		export_redircheck(char *str);
 void	print_export(t_vars *mini);
+int		str_compare(char *s1, char *s2);
 
 // builtin exit
 int		not_number(char *str);
