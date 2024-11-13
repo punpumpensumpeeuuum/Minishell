@@ -3,52 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 16:52:04 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:48:33 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**findflags(char **str, int i)
+int	checkmorebuiltin(t_vars *mini)
 {
-	char	**s;
-	int		h;
-	int		j;
-	int		l;
-
-	h = 0;
-	j = 0;
-	while (str[h])
+	if (ft_strncmp(mini->trueflag[mini->p], "cd", 2) == 0)
 	{
-		if (ft_strncmp(str[h], "<", 1) != 0)
-			j++;
-		if (ft_strncmp(str[h], ">", 1) == 0)
-			break;
-		h++;
+		cd_builtin(mini);
+		return (0);
 	}
-	l = 0;
-	s = malloc(sizeof(char *) * (j + 1));
-	if (!s)
-		return (NULL);
-	s[l] = ft_strdup(str[i]);
-	l++;
-	j = i + 1;
-	while (j < h)
+	else if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
 	{
-		s[l] = ft_strdup(str[j]);	
-		l++;
-		j++;
+		export_builtin(mini);
+		return (0);
 	}
-	if (l < h)
+	else if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
 	{
-		s[l] = ft_strdup(str[i - 1]);
-		l++;
+		unset_builtin(mini);
+		return (0);
 	}
-	s[l] = NULL;
-	return (s);
+	else if (ft_strncmp(mini->trueflag[mini->p], "exit", 4) == 0)
+	{	
+		exit_builtin(mini);
+		return (0);
+	}
+	return (1);
 }
 
 int	checkbuiltin(t_vars *mini)
@@ -65,31 +51,13 @@ int	checkbuiltin(t_vars *mini)
 			pwd_builtin();
 			return (0);
 		}
-		else if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
-		{
-			export_builtin(mini);
-			return (0);
-		}
 		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0) //
 		{
 			echo_builtin(mini);
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "cd", 2) == 0)
-		{
-			cd_builtin(mini);
-			return (0);
-		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
-		{
-			unset_builtin(mini);
-			return (0);
-		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "exit", 4) == 0)
-		{	
-			exit_builtin(mini);
-			return (0);
-		}
+		else if (checkmorebuiltin(mini) == 0)
+			return (1);
 		else
 			return (1);
 	}

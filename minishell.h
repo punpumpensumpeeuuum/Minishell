@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 16:48:38 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:52:08 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <limits.h>
 # include <string.h>
 
-extern	int exit_code;
+extern	int g_exit_code;
 
 typedef struct s_vars
 {
@@ -150,7 +150,7 @@ char	*expand(char *str, t_vars *mini);
 // execution.c
 int		checkinput(t_vars *mini);
 void	fdfd(t_vars *mini);
-char	***paodelosplit(char *str, int pipes);
+char	***paodelosplit(char *str, int pipes, int i);
 int		decide(char **str, t_vars *mini);
 void	comandddd(char ***str, t_vars *mini);
 
@@ -183,8 +183,8 @@ int		wordllllen(char const *s, char c);
 
 // parsing.c
 int		antisegfault(char *str);
-int		porfavor(char *str);
-char	*antimalucos(char *str);
+int		porfavor(char *str, int i, int k);
+char	*antimalucos(char *str, int i, int a);
 int		find_echo(char *str);
 
 // path

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 16:47:47 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:13:56 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	checkinput(t_vars *mini)
 
 	mini->p = 0;
 	mini->trueflag = ft_split(mini->input, '|');
-	tudo = paodelosplit(mini->input, numpipe(mini->input));
+	tudo = paodelosplit(mini->input, numpipe(mini->input), 0);
 	if (tudo == NULL || mini->trueflag == NULL)
 		return (2);
 	fdfd(mini);
@@ -44,9 +44,9 @@ int	checkinput(t_vars *mini)
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
-			exit_code = WEXITSTATUS(status);
+			g_exit_code = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
-			exit_code = 128 + WTERMSIG(status);
+			g_exit_code = 128 + WTERMSIG(status);
 	}
 	return (0);
 }
@@ -67,54 +67,6 @@ void	fdfd(t_vars *mini)
 	}
 }
 
-char	***paodelosplit(char *str, int pipes)
-{
-	int		i;
-	int		j;
-	char	***res;
-	char	**a;
-	char	**b;
-
-	i = 0;
-	j = 0;
-	res = malloc(sizeof(char **) * (pipes + 2));
-	a = ft_split(str, '|');
-	if (!a)
-	{
-		free_split(a);
-		return (NULL);
-	}
-	while (j <= pipes)
-	{
-		b = ft_split(a[j], ' ');
-		if (!b)
-		{
-			free_split(b);
-			return (NULL);
-		}
-		res[j] = malloc(sizeof(char *) * (ft_countwords(a[j], ' ') + 1));
-		if (!res[j])
-		{
-			free_split(a);
-			free_split(b);
-			free(res);
-			return (NULL);
-		}
-		while (i < ft_countwords(a[j], ' '))
-		{
-			res[j][i] = ft_strdup(b[i]);
-			i++;
-		}
-		res[j][i] = NULL;
-		j++;
-		i = 0;
-		free_split(b);
-	}
-	free_split(a);
-	res[j] = NULL;
-	return (res);
-}
-
 int	decide(char **str, t_vars *mini)
 {
 	mini->i = findbuiltimatrix(str, mini);
@@ -125,7 +77,7 @@ int	decide(char **str, t_vars *mini)
 		if (findmistake(str) == -1)
 			return (3);
 		de_codifiqing(str[findmistake(str)]);
-		exit_code = 127;
+		g_exit_code = 127;
 		ft_printf("%s: command not found\n", str[findmistake(str)]);
 		return (2);
 	}
@@ -168,7 +120,7 @@ void	comandddd(char ***str, t_vars *mini)
 		}
 		if (execve(mini->check, nao, mini->env) == -1)
 		{
-			exit_code = 127;
+			g_exit_code = 127;
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
 		}
 	}

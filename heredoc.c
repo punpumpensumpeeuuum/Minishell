@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 16:46:52 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:01:06 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ int	heredoc1(int fdin, int status)
 	close(fdin);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	exit_code = WEXITSTATUS(status);
+	g_exit_code = WEXITSTATUS(status);
 	return (EXIT_SUCCESS);
 }

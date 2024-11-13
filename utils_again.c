@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_again.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:34:27 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 16:48:13 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:01:43 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ char	*convert_exit_code(void)
 {
 	char	*converted;
 	
-	converted = ft_itoa(exit_code);
+	converted = ft_itoa(g_exit_code);
 	return (converted);
 }

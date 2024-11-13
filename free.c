@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 16:42:08 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:01:09 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ void	killchild(char ***str, t_vars *mini)
 	free(str);
 	free(mini->fd);
 	free_env_export(mini);
-	exit(exit_code);
+	exit(g_exit_code);
 }

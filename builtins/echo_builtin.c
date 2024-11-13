@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 16:42:44 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:01:49 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	echo_builtin(t_vars *mini)
 		else if (split[i][0] == '$')
 		{
 			if (split[i][1] == '?')
-				printf("%d", exit_code);
+				printf("%d", g_exit_code);
 			else
 				echo_dollar_finish(split[i], 1, mini);
 		}

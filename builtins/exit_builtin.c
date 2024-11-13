@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:11:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 16:49:19 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:02:00 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,36 +43,36 @@ int	exit_builtin(t_vars *mini)
 	if (ft_countwords(mini->input, ' ') > 1)
 	{
 		str = ft_split(mini->input, ' ');
-		exit_code = ft_atoi(str[1]);
+		g_exit_code = ft_atoi(str[1]);
 		if (!str)
 		{
-			exit_code = 0;
+			g_exit_code = 0;
 			return (0);
 		}
 		if (not_number(str[1]))
 		{
 			exit_anyways(str);
-			exit_code = 2;
-			return(exit_code);
+			g_exit_code = 2;
+			return(g_exit_code);
 		}
 		else if (str[2])
 		{
 			mini->running = 1;
 			printf("exit: too many arguments\n");
 			free_split(str);
-			exit_code = 1;
-			return (exit_code);
+			g_exit_code = 1;
+			return (g_exit_code);
 		}
 		else
 		{
 			free_split(str);
-			exit_code = exit_code % 256;
-			return(exit_code);
+			g_exit_code = g_exit_code % 256;
+			return(g_exit_code);
 		}
 	}
 	else
 	{
-		exit_code = 0;
-		return(exit_code);
+		g_exit_code = 0;
+		return(g_exit_code);
 	}
 }

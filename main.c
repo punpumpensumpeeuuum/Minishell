@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 16:50:31 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:18:37 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit_code;
+int	g_exit_code;
 
 t_vars	*init_mini(void)
 {
@@ -21,7 +21,7 @@ t_vars	*init_mini(void)
 	mini = malloc(sizeof(t_vars));
 	if (!mini)
 		return (NULL);
-	exit_code = 0;
+	g_exit_code = 0;
 	mini->redir = 0;
 	mini->running = 1;
 	mini->env = NULL;
@@ -31,6 +31,28 @@ t_vars	*init_mini(void)
 	mini->fd = NULL;
 	mini->check = NULL;
 	return (mini);
+}
+
+void	minimain(t_vars *mini)
+{
+	add_history(mini->input);
+	if (antisegfault(mini->input) == 0)
+	{
+		mini->input = antimalucos(mini->input, 0, 0);
+		if (mini->input)
+		{
+			mini->input = expand(mini->input, mini);
+			if (mini->input)
+			{
+				codifiqing(mini->input);
+				mini->input = quotescrazy(mini->input);
+				if (mini->input == NULL)
+					printf("Quote error\n");
+				else
+					checkinput(mini);
+			}
+		}
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -49,27 +71,10 @@ int	main(int ac, char **av, char **env)
 		mini->input = readline(RED "bash> " R);
 		if (!mini->input)
 			break ;
-		if (ft_strlen(mini->input) > 0 && antisegfault(mini->input) == 0)
-		{
-			add_history(mini->input);
-			mini->input = antimalucos(mini->input);
-			if (mini->input)
-			{
-				mini->input = expand(mini->input, mini);
-				if (mini->input)
-				{
-					codifiqing(mini->input);
-					mini->input = quotescrazy(mini->input);
-					
-					if (mini->input == NULL)
-						printf("Quote error\n");
-					else
-						checkinput(mini);
-				}
-			}
-		}
+		if (ft_strlen(mini->input) > 0)
+			minimain(mini);
 		free(mini->input);
 	}
 	free_env_export(mini);
-	return (exit_code);
+	return (g_exit_code);
 }
