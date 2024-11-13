@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:14:03 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 09:17:29 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:06:47 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	envvv_update(t_vars *mini, char *str)
 	}
 	while (i < mini->env_len)
 	{
+		
 		if (mini->env[i] && str_compare(mini->env[i], str) == 0)
 		{
 			free(mini->new_env[i]);
@@ -54,7 +55,7 @@ void	envvv_update1(t_vars *mini)
 	char	**temp;
 	
 	i = 0;
-	free_double_array(mini->env, mini);
+	free_double_array(mini->env, mini->env_len);
 	temp = realloc(mini->env, sizeof(char *) * (mini->env_len + 1));
 	if (!temp)
 		return;

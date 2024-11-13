@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 09:00:15 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:06:51 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	export_update1(t_vars *mini)
 	char	**temp;
 	
 	i = 0;
-	free_double_array(mini->export, mini);
+	free_double_array(mini->export, mini->exp_len);
 	temp = realloc(mini->export, sizeof(char *) * (mini->exp_len + 1));
 	if (!temp)
 		return;

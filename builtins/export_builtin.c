@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 13:24:17 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:59:06 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void    export_var(t_vars *mini)
 	{
 		if (export_check(split[i]) == 0)
 		{
-			printf("string = %s\n", split[i]);
 			if (env_check(split[i]) == 0)
 			{
 				mini->exp_len += 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 17:52:08 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:06:42 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ void	free_array(char **array);
 void	free_split(char **str);
 
 // free1.c
-void	free_double_array(char **str, t_vars *mini);
+void	free_double_array(char **str, int len);
 void	closeall(t_vars *mini);
 void	free_fd(int p, t_vars *mini);
 void	free_split(char **str);

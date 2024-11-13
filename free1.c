@@ -6,18 +6,18 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:46:08 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 09:04:39 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 20:06:33 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_double_array(char **str, t_vars *mini)
+void	free_double_array(char **str, int len)
 {
 	int i;
 
 	i = 0;
-	while (i < mini->exp_len)
+	while (i < len)
 	{
 		if (str[i])
 		{
