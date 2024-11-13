@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/12 17:40:31 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/13 12:45:38 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,26 @@ void	checkpath(char *cmd, t_vars *mini)
 
 	i = 0;
 	if (!mini->input)
-		return;
+		return ;
 	boas = ft_strdup(trimtrimtrim(mini->input, 0));
 	if (access(boas, X_OK) == 0)
 	{
 		free(mini->check);
 		mini->check = ft_strdup(boas);
 		free(boas);
-		return;
+		return ;
 	}
 	if (access(cmd, X_OK) == 0)
 	{
 		free(mini->check);
 		mini->check = ft_strdup(cmd);
 		free(boas);
-		return;
+		return ;
 	}
 	if (mini->check && access(mini->check, X_OK) == 0)
 	{
 		free(boas);
-		return;
+		return ;
 	}
 	free(boas);
 	checkhelp(cmd, mini->env, i, mini);

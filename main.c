@@ -6,475 +6,29 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/12 18:44:47 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 12:20:31 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	more(char *input, int i)
+t_vars	*init_mini(void)
 {
-	while (input[i])
-	{
-		if (ft_isprint(input[i]) == 1)
-			return (1);
-		i++;
-	}
-	return (0);
-}
+	t_vars	*mini;
 
-int	checkbuiltin(t_vars *mini)
-{
-	while (mini->trueflag[mini->p])
-	{
-		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3)) && !(more(mini->input, 3))) //
-		{
-			env_builtin(mini);
-			return (0);
-		}
-		else if ((ft_strncmp(mini->trueflag[mini->p], " pwd", 3) == 0)) //
-		{
-			pwd_builtin();
-			return (0);
-		}
-		else if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
-		{
-			export_builtin(mini);
-			return (0);
-		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0) //
-		{
-			echo_builtin(mini);
-			return (0);
-		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "cd", 2) == 0)
-		{
-			cd_builtin(mini);
-			return (0);
-		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
-		{
-			unset_builtin(mini);
-			return (0);
-		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "exit", 4) == 0)
-		{	
-			exit_builtin(mini);
-			return (0);
-		}
-		else
-			return (1);
-	}
-	return (1);
-}
-
-char	***paodelosplit(char *str , int	pipes)
-{
-	int 	i = 0;
-	int		j = 0;
-	char	***res = malloc(sizeof(char **) * (pipes + 2));
-	char	**a = ft_split(str, '|');
-	char	**b;
-
-	if (!a)
-	{
-		free_split(a);
+	mini = malloc(sizeof(t_vars));
+	if (!mini)
 		return (NULL);
-	}
-	while (j <= pipes)
-	{	
-		b = ft_split(a[j], ' ');
-		if (!b)
-		{
-			free_split(b);
-			return (NULL);
-		}
-		res[j] = malloc(sizeof(char *) * (ft_countwords(a[j], ' ') + 1));
-		if(!res[j])
-		{
-			free_split(a);
-			free_split(b);
-			free(res);
-			return (NULL);	
-		}
-		while (i < ft_countwords(a[j], ' '))
-		{
-			res[j][i] = ft_strdup(b[i]);
-			i++;
-		}
-		res[j][i] = NULL;
-		j++;
-		i = 0;
-		free_split(b);
-	}
-	free_split(a);
-	res[j] = NULL;
-	return (res);
-}
-
-void	fdfd(t_vars *mini)
-{
-	int i = 0;
-
-	mini->fd = malloc(sizeof(int) * (numpipe(mini->input) + 1) * 2);
-	if (!mini->fd)
-		return;
-	while (i < numpipe(mini->input) + 1)
-	{
-		if (pipe(mini->fd + 2 * i) < 0)
-		{
-			// perror("Failed to create pipe");
-			// free(mini->fd);
-			return ;
-		}
-		i++;
-	}
-}
-
-void	piping(char ***str, t_vars *mini, int ta)
-{
-	int	o;
-
-	o = numpipe(mini->input);
-	if (mini->p == 0 && str[mini->p + 1])
-	{
-		if (ta == 1)
-			return;
-		// printf("%d\n", mini->fd[mini->p + 1]);
-		dup2(mini->fd[mini->p + 1], 1);
-		closeall(mini);
-	}
-	else if (mini->p > 0 && mini->p < o && str[mini->p + 1]) 
-	{
-		if (ta == 1)
-			return;
-		// printf("%d\n", mini->fd[2 * (mini->p - 1)]);
-		// printf("%d\n", mini->fd[2 * mini->p + 1]);
-		dup2(mini->fd[2 * (mini->p - 1)], 0);
-		dup2(mini->fd[2 * mini->p + 1], 1);
-		closeall(mini);
-	}
-	else if (mini->p == o && !str[mini->p + 1])
-	{
-		if (ta == 1)
-			return;
-		// printf("%d\n", mini->fd[2 * (mini->p - 1)]);
-		dup2(mini->fd[2 * (mini->p - 1)], 0);
-		closeall(mini);
-	}
-}
-
-int	setinfile(char *str, t_vars *mini, int i)
-{
-	if (i == 0)
-	{
-		mini->fd[0] = open(str, O_RDONLY);
-		if (mini->fd[0] == -1)
-		{
-			ft_printf("%s: No such file or directory\n", str);
-			return (-1);
-		}
-		dup2(mini->fd[0], 0);
-		close(mini->fd[0]);
-	}
-	else if (i == 1)
-	{
-		mini->fd[1] = open(str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		dup2(mini->fd[1], 1);
-		close(mini->fd[1]);
-	}
-	else if (i == 2)
-	{
-		heredoc(mini);
-		mini->fd[0] = open("heredoc_tmp.txt", O_RDONLY);
-		if (mini->fd[0] == -1)
-		{
-			ft_printf("%s: No such file or directory\n", str);
-			return (-1);
-		}
-		dup2(mini->fd[0], 0);
-		close(mini->fd[0]);
-	}
-	else if (i == 3)
-	{
-		mini->fd[1] = open(str, O_WRONLY | O_APPEND | O_CREAT, 0644);
-		dup2(mini->fd[1], 1);
-		close(mini->fd[1]);
-	}
-	return (0);
-}
-
-int	forredirect(char **str, t_vars *mini)
-{
-	int	j;
-	
-	j = 0;
-	while (str[j])
-	{
-		if (ft_strncmp(str[j], "<<\0", 3) == 0)
-		{
-			if (setinfile(str[j + 1], mini, 2) == 0)
-				return (1);
-		}
-		else if (ft_strncmp(str[j], "<\0", 2) == 0)
-		{
-			if (str[j + 1] && access(str[j + 1], R_OK) == 0)
-			{
-				if (setinfile(str[j + 1], mini, 0) == 0)
-					return (1);
-				else
-				{
-					ft_printf("%s: No such file or directory\n", str[j + 1]);
-					return (-40);
-				}
-			}
-			else
-			{
-				ft_printf("%s: No such file or directory\n", str[j + 1]);
-				return (-20);
-			}
-		}
-		else
-			j++;
-	}
-	return (0);
-}
-
-int		check_quote_redir(t_vars* mini, char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			mini->redir++;
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-void	codifiqing(char *str)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] == '"' || str[i] == '\'')
-			j++;
-		if (str[i] == '>' && j % 2 != 0)
-			str[i] = '\a';
-		else if (str[i] == '<' && j % 2 != 0)
-			str[i] = '\b';
-		else if (str[i] == '|' && j % 2 != 0)
-			str[i] = '\t';
-		i++;
-	}
-}
-	
-int	forredirectout(char ***str, t_vars *mini)
-{
-	int	j;
-	int	ta;
-
-	j = 0;
-	ta = 0;
-	if (ft_countwords(mini->input, ' ') == 1)
-		return (0);
-	while (str[mini->p][j])
-		j++;
-	j--;
-	while (j > 0 && str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) != 0)
-		j--;
-	if (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">>", 2) == 0)
-	{
-		if (str[mini->p][j + 1])
-		{
-			if (setinfile(str[mini->p][j + 1], mini, 3) == 0)
-				ta = 1;
-			else
-				return (-100);
-		}
-	}
-	else if (str[mini->p][j] && ft_strncmp(str[mini->p][j], ">", 1) == 0)
-	{
-		if (str[mini->p][j + 1])
-		{
-			if (setinfile(str[mini->p][j + 1], mini, 1) == 0)
-				ta = 1;
-			else
-				return (-100);
-		}
-	}
-	if (numpipe(mini->input) > 0)
-		piping(str, mini, ta);
-	return (0);
-}
-
-char	**findflags(char **str, int i)
-{
-	char	**s;
-	int		h;
-	int		j;
-	int		l;
-
-	h = 0;
-	j = 0;
-	while (str[h])
-	{
-		if (ft_strncmp(str[h], "<", 1) != 0)
-			j++;
-		if (ft_strncmp(str[h], ">", 1) == 0)
-			break;
-		h++;
-	}
-	l = 0;
-	s = malloc(sizeof(char *) * (j + 1));
-	if (!s)
-		return (NULL);
-	s[l] = ft_strdup(str[i]);
-	l++;
-	j = i + 1;
-	while (j < h)
-	{
-		s[l] = ft_strdup(str[j]);	
-		l++;
-		j++;
-	}
-	if (l < h)
-	{
-		s[l] = ft_strdup(str[i - 1]);
-		l++;
-	}
-	s[l] = NULL;
-	return (s);
-}
-
-char	*convert_exit_code(t_vars *mini)
-{
-	char	*converted;
-	
-	converted = ft_itoa(mini->exit_code);
-	return (converted);
-}
-
-int	decide(char **str, t_vars *mini)
-{
-	mini->i = findbuiltimatrix(str, mini);
-	if (mini->i == -2)
-		mini->i = findcmdinmatrix(str, mini);
-	if (mini->i == -1)
-	{
-		if (findmistake(str) == -1)
-			return (3);
-		de_codifiqing(str[findmistake(str)]);
-		mini->exit_code = 127;
-		ft_printf("%s: command not found\n", str[findmistake(str)]);
-		return (2);
-	}
-	else if (mini->i == -15)
-		return (1);
-	return (0);
-}
-
-void	killchild(char ***str, t_vars *mini)
-{
-	int	i;
-
-	i = -1;
-	
-	while (str[++i])
-		free_split(str[i]);
-	free(str);
-	free(mini->fd);
-	free_env_export(mini);
-	exit(mini->exit_code);
-}
-
-void	comandddd(char ***str, t_vars *mini)
-{
-	char	*sim;
-	char	**nao;
-	int		i;
-	
-	if (!str[mini->p] || !mini->trueflag[mini->p])
-		return ;
-	i = decide(str[mini->p], mini);
-	if (i == 1 || i == 2)
-		return ;
-	mini->pid = fork();
-	if (mini->pid == 0)
-	{
-		if (i != 0)
-			killchild(str, mini);
-		child_signals_handler();
-		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0)
-			killchild(str, mini);
-		if (checkbuiltin(mini) == 0)
-			killchild(str, mini);
-		sim = ft_strjoin("/", str[mini->p][mini->i]);
-		checkpath(sim, mini);
-		nao = findflags(str[mini->p], mini->i);
-		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
-		{
-			free(nao[1]);
-			free(nao[2]);
-			nao[1] = ft_strdup("heredoc_tmp.txt");
-			nao[2] = NULL;
-		}
-		if (execve(mini->check, nao, mini->env) == -1)
-		{
-			mini->exit_code = 127;
-			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
-		}	
-		free(sim);
-		free(nao);
-		exit(1);
-	}
-}
-
-int	checkinput(t_vars *mini)
-{
-	char	***tudo = paodelosplit(mini->input, numpipe(mini->input));
-	mini->trueflag = ft_split(mini->input, '|');
-	int		i;
-	int		status;
-
-	mini->p = 0;
-	if (tudo == NULL || mini->trueflag == NULL)
-		return (2);	
-	fdfd(mini);
-	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
-	{
-		if (mini->check != NULL)
-		{
-			free(mini->check);
-			mini->check = NULL;
-		}
-		if (tudo[mini->p])
-			comandddd(tudo, mini);
-		mini->p++;
-	}
-	i = 0;
-	while (tudo[i++])
-		free_split(tudo[i]);
-	free(tudo);
-	closeall(mini);
-	free(mini->fd);
-	while (waitpid(-1, &status, 0) > 0)
-	{
-		if (WIFEXITED(status))
-			mini->exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			mini->exit_code = 128 + WTERMSIG(status);
-	}
-	return (0);
+	mini->exit_code = 0;
+	mini->redir = 0;
+	mini->running = 1;
+	mini->env = NULL;
+	mini->new_env = NULL;
+	mini->export = NULL;
+	mini->new_export = NULL;
+	mini->fd = NULL;
+	mini->check = NULL;
+	return (mini);
 }
 
 int	main(int ac, char **av, char **env)
@@ -493,7 +47,7 @@ int	main(int ac, char **av, char **env)
 		signals_handler();
 		mini->input = readline(RED "bash> " R);
 		if (!mini->input)
-			break;
+			break ;
 		if (ft_strlen(mini->input) > 0 && antisegfault(mini->input) == 0)
 		{
 			add_history(mini->input);
@@ -501,19 +55,16 @@ int	main(int ac, char **av, char **env)
 			if (mini->input)
 			{
 				mini->input = expand(mini->input, mini);
-				// printf("str2 = %s\n", mini->input);
 				if (mini->input)
 				{
 					codifiqing(mini->input);
 					mini->input = quotescrazy(mini->input);
-					// printf("strtrtr = %s\n", mini->input);
 					if (mini->input == NULL)
 						printf("Quote error\n");
 					else
 						checkinput(mini);
 				}
 			}
-
 		}
 		free(mini->input);
 	}

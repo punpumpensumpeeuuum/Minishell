@@ -6,100 +6,11 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 18:55:50 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 09:00:15 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int     export_check(char *str)
-{
-    int i;
-
-    i = 0;
-	if (str[0] == '=' || ft_isdigit(str[0]))
-    	return (1);
-    while (str[i])
-    {
-        if ((str[i] >= 'a' && str[i] <= 'z') || 
-        (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_') ||
-		str[i] == '=' || ft_isdigit(str[i]) || str[i] == '"' || str[i] == '\'' || str[i] == '/')
-        	i++;
-		else
-			return (1);
-    }
-	remove_double_quote(str);
-	remove_single_quote(str);
-	return (0);
-}
-
-int		env_check(char *str)
-{
-	int i;
-	int	counter;
-
-	i = 0;
-	counter = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int		str_compare(char *s1, char *s2)
-{
-	int i;
-
-	i = 0;
-	if (!s1 || !s2)
-		return (1);
-	while (s1[i] && s1[i] != '=' && s2[i] && s2[i] != '=')
-	{
-		if (s1[i] != s2[i])
-			return (1);
-		i++;
-	}
-	if ((s1[i] == '=' || !s1[i]) && (s2[i] == '=' || !s2[i]))
-         return (0);
-	return (1);
-}
-
-void    export_var(t_vars *mini)
-{
-    int     i;
-    char    **split;
-
-    i = 1;
-    split = ft_split(mini->trueflag[mini->p], ' ');
-	if (!mini->new_export)
-		return;
-	while (split[i])
-	{
-		if (export_check(split[i]) == 0)
-		{
-			printf("string = %s\n", split[i]);
-			if (env_check(split[i]) == 0)
-			{
-				mini->exp_len += 1;
-				mini->env_len += 1;
-				export_update(mini, split[i]);
-				envvv_update(mini, split[i]);
-			}
-			else
-			{
-				mini->exp_len += 1;
-				export_update(mini, split[i]);
-			}
-		}
-		else
-			printf("export: `%s': not a valid identifier\n", split[i]);
-		i++;
-	}
-	free_split(split);
-}
 
 void	export_update(t_vars *mini, char *str)
 {
@@ -158,22 +69,6 @@ void	export_update1(t_vars *mini)
     }
 	mini->export[i] = NULL;
 	sorting_export(mini);
-}
-
-void	free_double_array(char **str, t_vars *mini)
-{
-	int i;
-
-	i = 0;
-	while (i < mini->exp_len)
-	{
-		if (str[i])
-		{
-			free(str[i]);
-			str[i] = NULL;
-		}
-		i++;
-	}
 }
 
 void	exp_update(t_vars *mini, char *str)

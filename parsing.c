@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/12 18:44:24 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 12:44:49 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	find_echo(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] == ' ' && str[i + 1] == 'e' && str[i + 2] == 'c' &&
-		str[i + 3] == 'h' && str[i + 4] == 'o' && str[i + 5] == ' ') ||
-		(str[i] == 'e' && str[i + 1] == 'c' &&
+		if ((str[i] == ' ' && str[i + 1] == 'e' && str[i + 2] == 'c' && \
+		str[i + 3] == 'h' && str[i + 4] == 'o' && str[i + 5] == ' ') || \
+		(str[i] == 'e' && str[i + 1] == 'c' && \
 		str[i + 2] == 'h' && str[i + 3] == 'o' && str[i + 4] == ' '))
 			return (0);
 		i++;
@@ -54,9 +54,9 @@ char	*antimalucos(char *str)
 		if (str[i] == '|')
 		{
 			if (str[i - 1] == ' ' && str[i + 1] == ' ')
-			{	
+			{
 				i++;
-			}	
+			}
 			else
 				a += 2;
 		}
@@ -90,14 +90,13 @@ char	*antimalucos(char *str)
 				a++;
 				i++;
 				s[a] = ' ';
-				a++;				
+				a++;
 			}
-
 		}
 		if (str[i] == '|')
 		{
 			if (str[i - 1] == ' ' && str[i + 1] == ' ')
-			{		
+			{
 				s[a] = str[i];
 				a++;
 				i++;
@@ -112,7 +111,6 @@ char	*antimalucos(char *str)
 				s[a] = ' ';
 				a++;
 			}
-
 		}
 		s[a] = str[i];
 		i++;
@@ -123,7 +121,7 @@ char	*antimalucos(char *str)
 	return (s);
 }
 
-int porfavor(char *str)
+int	porfavor(char *str)
 {
 	int	i;
 	int	k;
@@ -149,7 +147,7 @@ int porfavor(char *str)
 	return (1);
 }
 
-int antisegfault(char *str)
+int	antisegfault(char *str)
 {
 	int	i;
 

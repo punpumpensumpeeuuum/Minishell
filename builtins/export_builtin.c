@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/12 13:52:31 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 13:24:17 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void init_export(t_vars *mini)
     int i = 0;
 
     mini->export = malloc(sizeof(char *) * (mini->env_len + 1));
-    mini->new_export = calloc(mini->env_len + 10, sizeof(char *));
+    mini->new_export = calloc(mini->env_len + 100, sizeof(char *));
     if (!mini->export || !mini->new_export)
 	{
         free(mini->export);
@@ -68,36 +68,52 @@ int	export_builtin(t_vars *mini)
 	return (0);
 }
 
-void	swap_strings(char **a, char **b)
+void    export_var(t_vars *mini)
 {
-	char	*tmp;
+    int     i;
+    char    **split;
 
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+    i = 1;
+    split = ft_split(mini->trueflag[mini->p], ' ');
+	if (!mini->new_export)
+		return;
+	while (split[i])
+	{
+		if (export_check(split[i]) == 0)
+		{
+			printf("string = %s\n", split[i]);
+			if (env_check(split[i]) == 0)
+			{
+				mini->exp_len += 1;
+				mini->env_len += 1;
+				export_update(mini, split[i]);
+				envvv_update(mini, split[i]);
+			}
+			else
+			{
+				mini->exp_len += 1;
+				export_update(mini, split[i]);
+			}
+		}
+		else
+			printf("export: `%s': not a valid identifier\n", split[i]);
+		i++;
+	}
+	free_split(split);
 }
 
-void	sorting_export(t_vars *mini)
+int		env_check(char *str)
 {
-	int	i;
-	int	swapped;
+	int i;
+	int	counter;
 
-	swapped = 1;
-	while (swapped)
+	i = 0;
+	counter = 0;
+	while (str[i])
 	{
-		swapped = 0;
-		i = 0;
-		while (i < mini->exp_len - 1 && 
-		mini->export[i] && mini->export[i + 1])
-		{
-			if (ft_strncmp(mini->export[i], \
-				mini->export[i + 1], ft_strlen(mini->export[i])) > 0 && \
-				(ft_strncmp(mini->export[i], "/3/4", 2) != 0))
-			{
-				swap_strings(&mini->export[i], &mini->export[i + 1]);
-				swapped = 1;
-			}
-			i++;
-		}
+		if (str[i] == '=')
+			return (0);
+		i++;
 	}
+	return (1);
 }
