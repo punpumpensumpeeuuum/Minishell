@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 11:02:28 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:46:52 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ int	heredoc(t_vars *mini)
 		fork_error();
 	else if (pid == 0)
 		heredoc_child(mini->limiters, mini);
-	return (heredoc1(mini, fdin, status));
+	return (heredoc1(fdin, status));
 }
 
-int	heredoc1(t_vars *mini, int fdin, int status)
+int	heredoc1(int fdin, int status)
 {
 	wait(&status);
 	signal(SIGINT, sigint_handler);
@@ -114,6 +114,6 @@ int	heredoc1(t_vars *mini, int fdin, int status)
 	close(fdin);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	mini->exit_code = WEXITSTATUS(status);
+	exit_code = WEXITSTATUS(status);
 	return (EXIT_SUCCESS);
 }

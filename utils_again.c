@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:34:27 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 09:24:37 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:48:13 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ int		check_quote_redir(t_vars* mini, char *str)
 	return (1);
 }
 
-char	*convert_exit_code(t_vars *mini)
+char	*convert_exit_code(void)
 {
 	char	*converted;
 	
-	converted = ft_itoa(mini->exit_code);
+	converted = ft_itoa(exit_code);
 	return (converted);
 }

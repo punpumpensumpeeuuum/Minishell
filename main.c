@@ -6,11 +6,13 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 12:20:31 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:50:31 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	exit_code;
 
 t_vars	*init_mini(void)
 {
@@ -19,7 +21,7 @@ t_vars	*init_mini(void)
 	mini = malloc(sizeof(t_vars));
 	if (!mini)
 		return (NULL);
-	mini->exit_code = 0;
+	exit_code = 0;
 	mini->redir = 0;
 	mini->running = 1;
 	mini->env = NULL;
@@ -34,7 +36,6 @@ t_vars	*init_mini(void)
 int	main(int ac, char **av, char **env)
 {
 	t_vars	*mini;
-	int		exit_value;
 
 	(void)ac;
 	(void)av;
@@ -59,6 +60,7 @@ int	main(int ac, char **av, char **env)
 				{
 					codifiqing(mini->input);
 					mini->input = quotescrazy(mini->input);
+					
 					if (mini->input == NULL)
 						printf("Quote error\n");
 					else
@@ -68,7 +70,6 @@ int	main(int ac, char **av, char **env)
 		}
 		free(mini->input);
 	}
-	exit_value = mini->exit_code;
 	free_env_export(mini);
-	return (exit_value);
+	return (exit_code);
 }

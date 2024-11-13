@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 13:56:09 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:47:47 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	checkinput(t_vars *mini)
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
-			mini->exit_code = WEXITSTATUS(status);
+			exit_code = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
-			mini->exit_code = 128 + WTERMSIG(status);
+			exit_code = 128 + WTERMSIG(status);
 	}
 	return (0);
 }
@@ -125,7 +125,7 @@ int	decide(char **str, t_vars *mini)
 		if (findmistake(str) == -1)
 			return (3);
 		de_codifiqing(str[findmistake(str)]);
-		mini->exit_code = 127;
+		exit_code = 127;
 		ft_printf("%s: command not found\n", str[findmistake(str)]);
 		return (2);
 	}
@@ -168,7 +168,7 @@ void	comandddd(char ***str, t_vars *mini)
 		}
 		if (execve(mini->check, nao, mini->env) == -1)
 		{
-			mini->exit_code = 127;
+			exit_code = 127;
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
 		}
 	}

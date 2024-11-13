@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 09:30:05 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:52:04 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ char *expand(char *str, t_vars *mini)
 	char	*expanded;
 	char	*input;
 	int		input_len;
+	int		quote;
 
 	i = 0;
+	quote = 0;
 	if (find_echo(str) == 0)
 		return (str);
 	input_len = ft_strlen(str + 1);
@@ -123,8 +125,7 @@ char *expand(char *str, t_vars *mini)
             i++;
 			if (str[i] == '?')
 			{
-				
-				expanded = convert_exit_code(mini);
+				expanded = convert_exit_code();
 				i++;
             }
             else

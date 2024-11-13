@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 12:47:27 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:48:38 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <limits.h>
 # include <string.h>
+
+extern	int exit_code;
 
 typedef struct s_vars
 {
@@ -138,7 +140,7 @@ void	heredoc_dollar_finish_help(t_vars *mini, \
 								char *result, char *str, char *real_result);
 void	heredoc_dollar_finish1(char *result, char *str, char *real_result);
 int		heredoc(t_vars *mini);
-int		heredoc1(t_vars *mini, int fdin, int status);
+int		heredoc1(int fdin, int status);
 
 // execution1.c
 char	**findflags(char **str, int i);
@@ -157,7 +159,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	codifiqing(char *str);
 void	de_codifiqing(char *str);
 int		check_quote_redir(t_vars *mini, char *str);
-char	*convert_exit_code(t_vars *mini);
+char	*convert_exit_code(void);
 
 // evenmoreutils.c
 int		more(char *input, int i);
@@ -223,5 +225,6 @@ void	signal_heredoc(int sig);
 void	signals_handler(void);
 void	child_handler(int signal);
 void	child_signals_handler(void);
+t_vars	*get_mini(void);
 
 #endif

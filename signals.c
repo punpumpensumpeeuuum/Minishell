@@ -6,20 +6,31 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 16:13:38 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 15:13:42 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:42:32 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_vars	*get_mini(void)
+{
+	static	t_vars	mini;
+	
+	return (&mini);
+}
+
 void	sigint_handler(int sig)
 {
+	t_vars *mini;
+	
+	mini = get_mini();
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		exit_code = 130;
 	}
 }
 
@@ -31,9 +42,13 @@ void	signals_handler(void)
 
 void	signal_heredoc(int sig)
 {
+	t_vars *mini;
+	
+	mini = get_mini();
 	if (sig == SIGINT)
 	{
 		write(2, "^C\n", 3);
+		exit_code = 130;
 		exit(130);
 	}
 }

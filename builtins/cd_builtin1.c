@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:32:05 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 09:33:29 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:42:40 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	in_directory(char *directory, t_vars *mini)
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		ft_putstr_fd(directory, STDERR_FILENO);
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		mini->exit_code = 1;
+		exit_code = 1;
 	}
 	else
 		get_pwds(mini);

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 09:24:26 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:42:44 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ int	echo_builtin(t_vars *mini)
 	i = 0;
 	new_line = 1;
 	in_quotes = 0;
-	de_codifiqing(mini->input);
-	split = ft_split(mini->input, ' ');
+	de_codifiqing(mini->trueflag[mini->p]);
+	split = ft_split(mini->trueflag[mini->p], ' ');
 	while (ft_strncmp(split[i], "echo", 4) != 0)
 		i++;
 	if (split[1] == NULL)
@@ -109,7 +109,7 @@ int	echo_builtin(t_vars *mini)
 		free_split(split);
 		return (0);
 	}
-	if (split[i] && ft_strchr(mini->input, ' '))
+	if (split[i] && ft_strchr(mini->trueflag[mini->p], ' '))
 	{
 		while (split[++i] && is_flag(split[i]))
 			new_line = 0;
@@ -152,7 +152,7 @@ int	echo_builtin(t_vars *mini)
 		else if (split[i][0] == '$')
 		{
 			if (split[i][1] == '?')
-				printf("%d", mini->exit_code);
+				printf("%d", exit_code);
 			else
 				echo_dollar_finish(split[i], 1, mini);
 		}

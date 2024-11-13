@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:11:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 09:04:02 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:49:19 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,36 +43,36 @@ int	exit_builtin(t_vars *mini)
 	if (ft_countwords(mini->input, ' ') > 1)
 	{
 		str = ft_split(mini->input, ' ');
-		mini->exit_code = ft_atoi(str[1]);
+		exit_code = ft_atoi(str[1]);
 		if (!str)
 		{
-			mini->exit_code = 0;
+			exit_code = 0;
 			return (0);
 		}
 		if (not_number(str[1]))
 		{
 			exit_anyways(str);
-			mini->exit_code = 2;
-			return(mini->exit_code);
+			exit_code = 2;
+			return(exit_code);
 		}
 		else if (str[2])
 		{
 			mini->running = 1;
 			printf("exit: too many arguments\n");
 			free_split(str);
-			mini->exit_code = 1;
-			return (mini->exit_code);
+			exit_code = 1;
+			return (exit_code);
 		}
 		else
 		{
 			free_split(str);
-			mini->exit_code = mini->exit_code % 256;
-			return(mini->exit_code);
+			exit_code = exit_code % 256;
+			return(exit_code);
 		}
 	}
 	else
 	{
-		mini->exit_code = 0;
-		return(mini->exit_code);
+		exit_code = 0;
+		return(exit_code);
 	}
 }
