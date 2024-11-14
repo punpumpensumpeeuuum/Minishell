@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 14:06:31 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:58:36 by gneto-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ void	comandddd(char ***str, t_vars *mini)
 		if (i != 0)
 			killchild(str, mini);
 		child_signals_handler();
-		if (forredirect(str[mini->p], mini) < 0 || \
-		forredirectout(str, mini) < 0)
+		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str,
+				mini) < 0)
 			killchild(str, mini);
 		if (checkbuiltin(mini) == 0)
 			killchild(str, mini);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 12:46:51 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 12:46:51 by jomendes         ###   ########.fr       */
+/*   Created: 2024/11/14 17:00:57 by gneto-co          #+#    #+#             */
+/*   Updated: 2024/11/14 17:00:57 by gneto-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	check_quotes(char *cmd)
 {
-	int	i;
-	int	single_quote;
-	int	double_quote;
+	int i;
+	int single_quote;
+	int double_quote;
 
 	i = 0;
 	single_quote = 0;
@@ -40,8 +40,8 @@ int	check_quotes(char *cmd)
 
 void	remove_single_quote(char *cmd)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -59,8 +59,8 @@ void	remove_single_quote(char *cmd)
 
 void	remove_double_quote(char *cmd)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -78,10 +78,10 @@ void	remove_double_quote(char *cmd)
 
 char	*quotescrazy(char *input)
 {
-	char	q;
-	int		pq;
-	int		i;
-	int		nq;
+	char q;
+	int pq;
+	int i;
+	int nq;
 
 	i = 0;
 	nq = 0;
@@ -89,8 +89,8 @@ char	*quotescrazy(char *input)
 		return (NULL);
 	while (input[i])
 	{
-		if (ft_strncmp(input, "echo", 4) == 0 || \
-		ft_strncmp(input, "export", 6) == 0)
+		if (ft_strncmp(input, "echo", 4) == 0 || ft_strncmp(input, "export",
+				6) == 0)
 			return (input);
 		if (input[i] == '\'' || input[i] == '"')
 		{

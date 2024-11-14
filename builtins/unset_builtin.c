@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:09:04 by jomendes          #+#    #+#             */
-/*   Updated: 2024/10/18 12:56:57 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:58:04 by gneto-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	pwd_builtin(void)
 
 char	*get_var(t_vars *mini, char *var)
 {
-	int i;
-	size_t var_len;
+	int		i;
+	size_t	var_len;
 
 	if (!var || !mini || !mini->export || !mini->env)
 		return (NULL);
@@ -32,10 +32,10 @@ char	*get_var(t_vars *mini, char *var)
 	i = 0;
 	while (i < mini->exp_len)
 	{
-		if (mini->export[i] && \
-		ft_strncmp(mini->export[i], var, var_len) == 0)
+		if (mini->export[i] && ft_strncmp(mini->export[i], var, var_len) == 0)
 		{
-			if (mini->export[i][var_len] == '=' || mini->export[i][var_len] == '\0')
+			if (mini->export[i][var_len] == '='
+				|| mini->export[i][var_len] == '\0')
 				return (mini->export[i]);
 		}
 		i++;
@@ -46,9 +46,9 @@ char	*get_var(t_vars *mini, char *var)
 int	unset_builtin(t_vars *mini)
 {
 	char	**split;
-	char 	*str;
+	char	*str;
 	int		i;
-	
+
 	i = 1;
 	if (ft_strncmp(mini->input, "unset\0", 6) == 0)
 		return (1);

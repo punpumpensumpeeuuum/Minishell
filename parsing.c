@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 19:14:19 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:02:16 by gneto-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int	find_echo(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] == ' ' && str[i + 1] == 'e' && str[i + 2] == 'c' && \
-		str[i + 3] == 'h' && str[i + 4] == 'o' && str[i + 5] == ' ') || \
-		(str[i] == 'e' && str[i + 1] == 'c' && \
-		str[i + 2] == 'h' && str[i + 3] == 'o' && str[i + 4] == ' '))
+		if ((str[i] == ' ' && str[i + 1] == 'e' && str[i + 2] == 'c' && str[i
+					+ 3] == 'h' && str[i + 4] == 'o' && str[i + 5] == ' ')
+			|| (str[i] == 'e' && str[i + 1] == 'c' && str[i + 2] == 'h' && str[i
+					+ 3] == 'o' && str[i + 4] == ' '))
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int		minipff(char *str, int i, int k)
+int	minipff(char *str, int i, int k)
 {
 	while (str[i] && str[i] != '|')
 	{
@@ -40,17 +40,17 @@ int		minipff(char *str, int i, int k)
 	return (k);
 }
 
-int		porfavor(char *str, int i, int k)
+int	porfavor(char *str, int i, int k)
 {
 	while (str[i])
 	{
-		k = minipff(str, i , k);
+		k = minipff(str, i, k);
 		if (k == 0)
 			return (1);
 		if (str[i] == '|')
 		{
 			i++;
-			k = minipff(str, i , k);
+			k = minipff(str, i, k);
 			if (k > 0)
 				return (0);
 		}

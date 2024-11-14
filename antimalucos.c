@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   antimalucos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:47:20 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 19:19:50 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:58:26 by gneto-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ char	*syntax(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] == '<' || str[i] == '>') && \
-			(str[i + 1] == '<' || str[i + 1] == '>') && \
-			(str[i + 2] == '<' || str[i + 2] == '>'))
+		if ((str[i] == '<' || str[i] == '>') && (str[i + 1] == '<' || str[i
+				+ 1] == '>') && (str[i + 2] == '<' || str[i + 2] == '>'))
 		{
 			ft_printf("bash: syntax error\n");
 			return (NULL);

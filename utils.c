@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 12:54:18 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:59:57 by gneto-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,15 @@ int	inputnum(char *input)
 
 void	redirect(t_vars *mini, char *str)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = inputnum(str);
 	if (i == -1)
 		return ;
 	j = 0;
 	i++;
-	mini->redrct = malloc(sizeof(char) * \
-		(wordllllen(&str[i], ' ') + 1));
+	mini->redrct = malloc(sizeof(char) * (wordllllen(&str[i], ' ') + 1));
 	while (ft_isalpha(str[i]) == 0 && str[i])
 		i++;
 	while (ft_isalpha(str[i]) == 1)

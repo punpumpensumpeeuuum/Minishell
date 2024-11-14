@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:18:46 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 11:40:53 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:58:52 by gneto-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	heredoc_expander(int fd, char *line, t_vars *mini)
 
 int	count_limiters(char **split)
 {
-	int		count;
-	int		i;
+	int	count;
+	int	i;
 
 	count = 0;
 	i = 0;
