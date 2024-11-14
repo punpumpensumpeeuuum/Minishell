@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 23:59:39 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:06:41 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ char	*expand(char *str, t_vars *mini);
 
 // execution.c
 int		checkinput(t_vars *mini);
+void	check_input1(t_vars *mini, char ***tudo);
 void	fdfd(t_vars *mini);
 char	***paodelosplit(char *str, int pipes, int i);
 int		decide(char **str, t_vars *mini);
@@ -183,7 +184,7 @@ int		wordllllen(char const *s, char c);
 
 // parsing.c
 int		antisegfault(char *str);
-int		porfavor(char *str, int i, int k, int a);
+int		porfavor(char *str, int i, int k);
 char	*antimalucos(char *str, int i, int a);
 int		find_echo(char *str);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 00:08:49 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:31:10 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ int	checkmorebuiltin(t_vars *mini)
 		cd_builtin(mini);
 		return (0);
 	}
-	if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
+	else if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
 	{
 		export_builtin(mini);
 		return (0);
 	}
-	if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
+	else if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
 	{
 		unset_builtin(mini);
 		return (0);
 	}
 	else if (ft_strncmp(mini->trueflag[mini->p], "exit", 4) == 0)
-	{	
+	{
 		exit_builtin(mini);
 		return (0);
 	}
@@ -41,42 +41,46 @@ int	checkbuiltin(t_vars *mini)
 {
 	while (mini->trueflag[mini->p])
 	{
-		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3)) && !(more(mini->input, 3))) //
+		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3)) && \
+		!(more(mini->input, 3)))
 		{
 			env_builtin(mini);
+			
 			return (0);
 		}
-		else if ((ft_strncmp(mini->trueflag[mini->p], " pwd", 3) == 0)) //
+		else if ((ft_strncmp(mini->trueflag[mini->p], " pwd", 3) == 0))
 		{
 			pwd_builtin();
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0) //
+		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0)
 		{
 			echo_builtin(mini);
 			return (0);
 		}
 		else if (checkmorebuiltin(mini) == 0)
-			return (0);
+			return (1);
 		else
 			return (1);
 	}
 	return (1);
 }
 
-char *expand(char *str, t_vars *mini)
+char	*expand(char *str, t_vars *mini)
 {
-    int 	i;
-    int 	j;
+	int		i;
+	int		j;
 	int		start;
 	int		length;
 	int		len;
-    char	*var;
+	char	*var;
 	char	*expanded;
 	char	*input;
 	int		input_len;
+	int		quote;
 
 	i = 0;
+	quote = 0;
 	if (find_echo(str) == 0)
 		return (str);
 	input_len = ft_strlen(str + 1);
@@ -84,31 +88,32 @@ char *expand(char *str, t_vars *mini)
 	if (!input)
 		return (NULL);
 	input[0] = '\0';
-    while (str[i])
-    {
-        if (str[i] == '$')
-        {
-            i++;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			i++;
 			if (str[i] == '?')
 			{
 				expanded = convert_exit_code();
 				i++;
-            }
-            else
+			}
+			else
 			{
 				start = i;
-           		while (str[i] && str[i] != ' ' && str[i] != '$' &&
+				while (str[i] && str[i] != ' ' && str[i] != '$' &&
 				str[i] != '\0')
-                	i++;
-            	length = i - start;
-            	var = (char *)malloc((length + 1) * sizeof(char));
-            	if (!var)
+					i++;
+				length = i - start;
+				var = (char *)malloc((length + 1) * sizeof(char));
+				if (!var)
 				{
+					free(str);
 					free(input);
 					return (NULL);
 				}
 				j = 0;
-        		while (j < length)
+				while (j < length)
 				{
 					var[j] = str[start + j];
 					j++;
@@ -123,6 +128,7 @@ char *expand(char *str, t_vars *mini)
 				input = realloc(input, input_len);
 				if (!input)
 				{
+					free(str);
 					free(input);
 					return NULL;
 				}
@@ -137,6 +143,7 @@ char *expand(char *str, t_vars *mini)
 			input = realloc(input, input_len);
 			if (!input)
 			{
+				free(str);
 				free(input);
 				return NULL;
 			}
@@ -145,5 +152,6 @@ char *expand(char *str, t_vars *mini)
 			i++;
 		}
 	}
+	free(str);
 	return (input);
 }

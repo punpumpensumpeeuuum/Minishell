@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 22:28:27 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:59:06 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,10 @@ void    export_var(t_vars *mini)
 int		env_check(char *str)
 {
 	int i;
+	int	counter;
 
 	i = 0;
+	counter = 0;
 	while (str[i])
 	{
 		if (str[i] == '=')

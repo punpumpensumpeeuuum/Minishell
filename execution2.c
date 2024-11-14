@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:34:43 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 17:52:57 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:11:00 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**findflags(char **str, int i)
 		if (ft_strncmp(str[h], "<", 1) != 0)
 			j++;
 		if (ft_strncmp(str[h], ">", 1) == 0)
-			break;
+			break ;
 		h++;
 	}
 	l = 0;
@@ -38,7 +38,7 @@ char	**findflags(char **str, int i)
 	j = i + 1;
 	while (j < h)
 	{
-		s[l] = ft_strdup(str[j]);	
+		s[l] = ft_strdup(str[j]);
 		l++;
 		j++;
 	}

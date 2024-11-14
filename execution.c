@@ -3,20 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 00:08:42 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:06:31 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	check_input1(t_vars *mini, char ***tudo)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (tudo[i])
+	{
+		free_split(tudo[i]);
+		i++;
+	}
+	free(tudo);
+	closeall(mini);
+	free(mini->fd);
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		if (WIFEXITED(status))
+			g_exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_code = 128 + WTERMSIG(status);
+	}
+}
+
 int	checkinput(t_vars *mini)
 {
 	char	***tudo;
-	int		i;
-	int		status;
 
 	mini->p = 0;
 	mini->trueflag = ft_split(mini->input, '|');
@@ -35,19 +56,7 @@ int	checkinput(t_vars *mini)
 			comandddd(tudo, mini);
 		mini->p++;
 	}
-	i = 0;
-	while (tudo[i++])
-		free_split(tudo[i]);
-	free(tudo);
-	closeall(mini);
-	free(mini->fd);
-	while (waitpid(-1, &status, 0) > 0)
-	{
-		if (WIFEXITED(status))
-			g_exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_exit_code = 128 + WTERMSIG(status);
-	}
+	check_input1(mini, tudo);
 	return (0);
 }
 
@@ -123,6 +132,5 @@ void	comandddd(char ***str, t_vars *mini)
 			g_exit_code = 127;
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
 		}
-		exit(1);
 	}
 }
