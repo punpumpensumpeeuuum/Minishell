@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 19:59:06 by jomendes         ###   ########.fr       */
-=======
 /*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
 /*   Updated: 2024/11/14 16:04:35 by gneto-co         ###   ########.fr       */
->>>>>>> norminette
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +103,9 @@ void	export_var(t_vars *mini)
 
 int	env_check(char *str)
 {
-<<<<<<< HEAD
-	int i;
-	int	counter;
-=======
 	int	i;
->>>>>>> norminette
 
 	i = 0;
-	counter = 0;
 	while (str[i])
 	{
 		if (str[i] == '=')

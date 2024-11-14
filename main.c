@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 15:23:25 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/14 00:53:57 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_vars	*init_mini(void)
 	mini->new_export = NULL;
 	mini->fd = NULL;
 	mini->check = NULL;
+	mini->trueflag = NULL;
 	return (mini);
 }
 
@@ -75,6 +76,10 @@ int	main(int ac, char **av, char **env)
 			minimain(mini);
 		free(mini->input);
 	}
+	if (mini->input)
+		free(mini->input);
 	free_env_export(mini);
 	return (g_exit_code);
 }
+
+// double free com exit sei la pq fds

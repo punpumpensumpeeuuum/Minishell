@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 19:14:19 by dinda-si         ###   ########.fr       */
-=======
 /*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
 /*   Updated: 2024/11/14 16:09:26 by gneto-co         ###   ########.fr       */
->>>>>>> norminette
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +40,6 @@ int	minipff(char *str, int i, int k)
 	return (k);
 }
 
-<<<<<<< HEAD
-int		porfavor(char *str, int i, int k)
-=======
 int	bomdia(char *str, int i)
 {
 	i--;
@@ -71,7 +61,6 @@ int	bomdia(char *str, int i)
 }
 
 int	porfavor(char *str, int i, int k, int a)
->>>>>>> norminette
 {
 	while (str[i])
 	{
@@ -83,12 +72,18 @@ int	porfavor(char *str, int i, int k, int a)
 			i++;
 			k = minipff(str, i, k);
 			if (k > 0)
-				return (0);
+				a++;
+			k = 0;
 		}
 		if (str[i])
 			i++;
 	}
-	return (1);
+	k = bomdia(str, ft_strlen(str));
+	if (k == 0)
+		return (1);
+	if (a < numpipe(str))
+		return (1);
+	return (0);
 }
 
 int	tesourinha(char *str, int i)
@@ -114,14 +109,14 @@ int	antisegfault(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (ft_isalpha(str[i]))
+		if (ft_isprint(str[i]))
 			break ;
 		i++;
 	}
 	if (i == ft_strlen(str))
 		return (2);
 	i = 0;
-	if (porfavor(str, 0, 0) != 0 && numpipe(str) > 0)
+	if (porfavor(str, 0, 0, 1) != 0 && numpipe(str) > 0)
 		return (3);
 	if (tesourinha(str, 0) != 0)
 		return (4);

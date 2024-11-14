@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 14:06:41 by jomendes         ###   ########.fr       */
-=======
 /*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
 /*   Updated: 2024/11/14 16:10:41 by gneto-co         ###   ########.fr       */
->>>>>>> norminette
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,20 +148,11 @@ int			checkbuiltin(t_vars *mini);
 char		*expand(char *str, t_vars *mini);
 
 // execution.c
-<<<<<<< HEAD
-int		checkinput(t_vars *mini);
-void	check_input1(t_vars *mini, char ***tudo);
-void	fdfd(t_vars *mini);
-char	***paodelosplit(char *str, int pipes, int i);
-int		decide(char **str, t_vars *mini);
-void	comandddd(char ***str, t_vars *mini);
-=======
 int			checkinput(t_vars *mini);
 void		fdfd(t_vars *mini);
 char		***paodelosplit(char *str, int pipes, int i);
 int			decide(char **str, t_vars *mini);
 void		comandddd(char ***str, t_vars *mini);
->>>>>>> norminette
 
 // utils_again.c
 int			ft_strcmp(const char *s1, const char *s2);
@@ -198,17 +182,10 @@ int			getpipepath(char **trueflag, t_vars *mini);
 int			wordllllen(char const *s, char c);
 
 // parsing.c
-<<<<<<< HEAD
-int		antisegfault(char *str);
-int		porfavor(char *str, int i, int k);
-char	*antimalucos(char *str, int i, int a);
-int		find_echo(char *str);
-=======
 int			antisegfault(char *str);
 int			porfavor(char *str, int i, int k, int a);
 char		*antimalucos(char *str, int i, int a);
 int			find_echo(char *str);
->>>>>>> norminette
 
 // path
 void		checkpath(char *cmd, t_vars *mini);

@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 15:31:10 by jomendes         ###   ########.fr       */
-=======
 /*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
 /*   Updated: 2024/11/14 16:07:53 by gneto-co         ###   ########.fr       */
->>>>>>> norminette
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +19,12 @@ int	checkmorebuiltin(t_vars *mini)
 		cd_builtin(mini);
 		return (0);
 	}
-	else if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
+	if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
 	{
 		export_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
+	if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
 	{
 		unset_builtin(mini);
 		return (0);
@@ -48,16 +41,10 @@ int	checkbuiltin(t_vars *mini)
 {
 	while (mini->trueflag[mini->p])
 	{
-<<<<<<< HEAD
-		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3)) && \
-		!(more(mini->input, 3)))
-=======
 		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3))
 			&& !(more(mini->input, 3)))
->>>>>>> norminette
 		{
 			env_builtin(mini);
-			
 			return (0);
 		}
 		else if ((ft_strncmp(mini->trueflag[mini->p], " pwd", 3) == 0))
@@ -71,7 +58,7 @@ int	checkbuiltin(t_vars *mini)
 			return (0);
 		}
 		else if (checkmorebuiltin(mini) == 0)
-			return (1);
+			return (0);
 		else
 			return (1);
 	}
@@ -89,10 +76,8 @@ char	*expand(char *str, t_vars *mini)
 	char	*expanded;
 	char	*input;
 	int		input_len;
-	int		quote;
 
 	i = 0;
-	quote = 0;
 	if (find_echo(str) == 0)
 		return (str);
 	input_len = ft_strlen(str + 1);
@@ -113,19 +98,13 @@ char	*expand(char *str, t_vars *mini)
 			else
 			{
 				start = i;
-<<<<<<< HEAD
-				while (str[i] && str[i] != ' ' && str[i] != '$' &&
-				str[i] != '\0')
-=======
 				while (str[i] && str[i] != ' ' && str[i] != '$'
 					&& str[i] != '\0')
->>>>>>> norminette
 					i++;
 				length = i - start;
 				var = (char *)malloc((length + 1) * sizeof(char));
 				if (!var)
 				{
-					free(str);
 					free(input);
 					return (NULL);
 				}
@@ -145,7 +124,6 @@ char	*expand(char *str, t_vars *mini)
 				input = realloc(input, input_len);
 				if (!input)
 				{
-					free(str);
 					free(input);
 					return (NULL);
 				}
@@ -160,7 +138,6 @@ char	*expand(char *str, t_vars *mini)
 			input = realloc(input, input_len);
 			if (!input)
 			{
-				free(str);
 				free(input);
 				return (NULL);
 			}
@@ -169,6 +146,5 @@ char	*expand(char *str, t_vars *mini)
 			i++;
 		}
 	}
-	free(str);
 	return (input);
 }
