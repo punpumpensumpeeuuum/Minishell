@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/13 20:06:42 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/13 23:59:39 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ int		wordllllen(char const *s, char c);
 
 // parsing.c
 int		antisegfault(char *str);
-int		porfavor(char *str, int i, int k);
+int		porfavor(char *str, int i, int k, int a);
 char	*antimalucos(char *str, int i, int a);
 int		find_echo(char *str);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 19:13:56 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/14 00:08:42 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,6 @@ void	comandddd(char ***str, t_vars *mini)
 			g_exit_code = 127;
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
 		}
+		exit(1);
 	}
 }

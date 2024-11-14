@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/13 17:48:33 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/14 00:08:49 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	checkmorebuiltin(t_vars *mini)
 		cd_builtin(mini);
 		return (0);
 	}
-	else if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
+	if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
 	{
 		export_builtin(mini);
 		return (0);
 	}
-	else if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
+	if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
 	{
 		unset_builtin(mini);
 		return (0);
@@ -57,7 +57,7 @@ int	checkbuiltin(t_vars *mini)
 			return (0);
 		}
 		else if (checkmorebuiltin(mini) == 0)
-			return (1);
+			return (0);
 		else
 			return (1);
 	}
@@ -75,10 +75,8 @@ char *expand(char *str, t_vars *mini)
 	char	*expanded;
 	char	*input;
 	int		input_len;
-	int		quote;
 
 	i = 0;
-	quote = 0;
 	if (find_echo(str) == 0)
 		return (str);
 	input_len = ft_strlen(str + 1);

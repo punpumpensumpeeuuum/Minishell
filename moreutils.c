@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/13 12:40:28 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/14 00:00:52 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	truecheckbuilt(char *str)
 {
 	if (ft_strncmp(str, "cd\0", 3) == 0 || \
 		ft_strncmp(str, "unset\0", 6) == 0 || \
-		ft_strncmp(str, "exit\0", 5) == 0 || \
-		ft_strncmp(str, "export\0", 7) == 0)
+		ft_strncmp(str, "exit\0", 5) == 0)
 		return (0);
-	else if (ft_strncmp(str, "pwd\0", 4) == 0 || \
+	else if (		ft_strncmp(str, "export\0", 7) == 0 || \
 		ft_strncmp(str, "env\0", 4) == 0 || \
+		ft_strncmp(str, "pwd\0", 4) == 0 || \
 		ft_strncmp(str, "echo\0", 5) == 0)
 		return (1);
 	else
@@ -40,7 +40,9 @@ int	findbuiltimatrix(char **str, t_vars *mini)
 				return (i);
 			else if (truecheckbuilt(str[i]) == 0)
 			{
-				checkbuiltin(mini);
+				if (forredirect(str, mini) >= 0 || \
+					forredirectout(&str, mini) >= 0)
+					checkbuiltin(mini);
 				return (-15);
 			}
 		}
