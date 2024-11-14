@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:58:36 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:36:21 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	checkinput(t_vars *mini)
 			comandddd(tudo, mini);
 		mini->p++;
 	}
+	free_split(mini->trueflag);
 	check_input1(mini, tudo);
 	return (0);
 }
@@ -100,10 +101,12 @@ void	comandddd(char ***str, t_vars *mini)
 	char	*sim;
 	char	**nao;
 	int		i;
+	int		k;
 
 	if (!str[mini->p] || !mini->trueflag[mini->p])
 		return ;
 	i = decide(str[mini->p], mini);
+	k = 0;
 	if (i == 1 || i == 2)
 		return ;
 	mini->pid = fork();
