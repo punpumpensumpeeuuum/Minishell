@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:46:08 by jomendes          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/11/14 13:59:22 by jomendes         ###   ########.fr       */
+=======
+/*   Updated: 2024/11/14 16:10:21 by gneto-co         ###   ########.fr       */
+>>>>>>> norminette
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +18,7 @@
 
 void	free_double_array(char **str, int len)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < len)

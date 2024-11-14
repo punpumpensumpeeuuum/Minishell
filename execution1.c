@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
 /*   Updated: 2024/11/14 15:31:10 by jomendes         ###   ########.fr       */
+=======
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
+/*   Updated: 2024/11/14 16:07:53 by gneto-co         ###   ########.fr       */
+>>>>>>> norminette
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +48,13 @@ int	checkbuiltin(t_vars *mini)
 {
 	while (mini->trueflag[mini->p])
 	{
+<<<<<<< HEAD
 		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3)) && \
 		!(more(mini->input, 3)))
+=======
+		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3))
+			&& !(more(mini->input, 3)))
+>>>>>>> norminette
 		{
 			env_builtin(mini);
 			
@@ -101,8 +113,13 @@ char	*expand(char *str, t_vars *mini)
 			else
 			{
 				start = i;
+<<<<<<< HEAD
 				while (str[i] && str[i] != ' ' && str[i] != '$' &&
 				str[i] != '\0')
+=======
+				while (str[i] && str[i] != ' ' && str[i] != '$'
+					&& str[i] != '\0')
+>>>>>>> norminette
 					i++;
 				length = i - start;
 				var = (char *)malloc((length + 1) * sizeof(char));
@@ -130,7 +147,7 @@ char	*expand(char *str, t_vars *mini)
 				{
 					free(str);
 					free(input);
-					return NULL;
+					return (NULL);
 				}
 				ft_strlcat(input, expanded, input_len);
 				free(expanded);
@@ -145,7 +162,7 @@ char	*expand(char *str, t_vars *mini)
 			{
 				free(str);
 				free(input);
-				return NULL;
+				return (NULL);
 			}
 			input[len] = str[i];
 			input[len + 1] = '\0';
