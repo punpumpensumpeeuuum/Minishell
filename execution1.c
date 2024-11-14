@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 00:08:49 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:07:53 by gneto-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	checkmorebuiltin(t_vars *mini)
 		return (0);
 	}
 	else if (ft_strncmp(mini->trueflag[mini->p], "exit", 4) == 0)
-	{	
+	{
 		exit_builtin(mini);
 		return (0);
 	}
@@ -41,17 +41,18 @@ int	checkbuiltin(t_vars *mini)
 {
 	while (mini->trueflag[mini->p])
 	{
-		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3)) && !(more(mini->input, 3))) //
+		if (!(ft_strncmp(mini->trueflag[mini->p], "env", 3))
+			&& !(more(mini->input, 3)))
 		{
 			env_builtin(mini);
 			return (0);
 		}
-		else if ((ft_strncmp(mini->trueflag[mini->p], " pwd", 3) == 0)) //
+		else if ((ft_strncmp(mini->trueflag[mini->p], " pwd", 3) == 0))
 		{
 			pwd_builtin();
 			return (0);
 		}
-		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0) //
+		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0)
 		{
 			echo_builtin(mini);
 			return (0);
@@ -64,14 +65,14 @@ int	checkbuiltin(t_vars *mini)
 	return (1);
 }
 
-char *expand(char *str, t_vars *mini)
+char	*expand(char *str, t_vars *mini)
 {
-    int 	i;
-    int 	j;
+	int		i;
+	int		j;
 	int		start;
 	int		length;
 	int		len;
-    char	*var;
+	char	*var;
 	char	*expanded;
 	char	*input;
 	int		input_len;
@@ -84,31 +85,31 @@ char *expand(char *str, t_vars *mini)
 	if (!input)
 		return (NULL);
 	input[0] = '\0';
-    while (str[i])
-    {
-        if (str[i] == '$')
-        {
-            i++;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			i++;
 			if (str[i] == '?')
 			{
 				expanded = convert_exit_code();
 				i++;
-            }
-            else
+			}
+			else
 			{
 				start = i;
-           		while (str[i] && str[i] != ' ' && str[i] != '$' &&
-				str[i] != '\0')
-                	i++;
-            	length = i - start;
-            	var = (char *)malloc((length + 1) * sizeof(char));
-            	if (!var)
+				while (str[i] && str[i] != ' ' && str[i] != '$'
+					&& str[i] != '\0')
+					i++;
+				length = i - start;
+				var = (char *)malloc((length + 1) * sizeof(char));
+				if (!var)
 				{
 					free(input);
 					return (NULL);
 				}
 				j = 0;
-        		while (j < length)
+				while (j < length)
 				{
 					var[j] = str[start + j];
 					j++;
@@ -124,7 +125,7 @@ char *expand(char *str, t_vars *mini)
 				if (!input)
 				{
 					free(input);
-					return NULL;
+					return (NULL);
 				}
 				ft_strlcat(input, expanded, input_len);
 				free(expanded);
@@ -138,7 +139,7 @@ char *expand(char *str, t_vars *mini)
 			if (!input)
 			{
 				free(input);
-				return NULL;
+				return (NULL);
 			}
 			input[len] = str[i];
 			input[len + 1] = '\0';
