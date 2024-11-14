@@ -1,7 +1,5 @@
-cmd = /ls
 a
 antimalucos.c
-a.out
 builtins
 evenmoreutils.c
 execution1.c
@@ -30,3 +28,4 @@ signals.c
 supp.supp
 utils_again.c
 utils.c
+/home/elemesmo/Minishell

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:09:04 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:58:04 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:32:43 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	unset_builtin(t_vars *mini)
 	int		i;
 
 	i = 1;
-	if (ft_strncmp(mini->input, "unset\0", 6) == 0)
+	if (ft_strncmp(mini->trueflag[mini->p], "unset\0", 6) == 0)
 		return (1);
-	split = ft_split(mini->input, ' ');
+	split = ft_split(mini->trueflag[mini->p], ' ');
 	if (!split || !split[i])
 	{
 		printf("No variable to unset.\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:11:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:56:47 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:31:35 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	exit_builtin(t_vars *mini)
 
 	printf("exit\n");
 	mini->running = 0;
-	if (ft_countwords(mini->input, ' ') > 1)
+	if (ft_countwords(mini->trueflag[mini->p], ' ') > 1)
 	{
-		str = ft_split(mini->input, ' ');
+		str = ft_split(mini->trueflag[mini->p], ' ');
 		g_exit_code = ft_atoi(str[1]);
 		if (!str)
 		{

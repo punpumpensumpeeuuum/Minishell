@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 17:02:16 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:17:38 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,24 @@ int	minipff(char *str, int i, int k)
 
 int	porfavor(char *str, int i, int k)
 {
+	k = minipff(str, i, k);
+	if (k == 0)
+		return (1);
+	k = 0;
 	while (str[i])
 	{
-		k = minipff(str, i, k);
-		if (k == 0)
-			return (1);
 		if (str[i] == '|')
 		{
 			i++;
 			k = minipff(str, i, k);
-			if (k > 0)
-				return (0);
+			if (k == 0)
+				return (1);
+			k = 0;
 		}
 		if (str[i])
 			i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	tesourinha(char *str, int i)
