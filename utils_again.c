@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_again.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:34:27 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:08:30 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:01:43 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 void	codifiqing(char *str)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -45,8 +45,8 @@ void	codifiqing(char *str)
 
 void	de_codifiqing(char *str)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -64,9 +64,9 @@ void	de_codifiqing(char *str)
 	}
 }
 
-int	check_quote_redir(t_vars *mini, char *str)
+int		check_quote_redir(t_vars* mini, char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i])
@@ -84,7 +84,7 @@ int	check_quote_redir(t_vars *mini, char *str)
 char	*convert_exit_code(void)
 {
 	char	*converted;
-
+	
 	converted = ft_itoa(g_exit_code);
 	return (converted);
 }

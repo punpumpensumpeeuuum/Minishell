@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/14 16:11:35 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:32:27 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int	truecheckbuilt(char *str)
 {
-	if (ft_strncmp(str, "cd\0", 3) == 0 || ft_strncmp(str, "unset\0", 6) == 0
-		|| ft_strncmp(str, "exit\0", 5) == 0)
+	if (ft_strncmp(str, "cd\0", 3) == 0 || \
+		ft_strncmp(str, "unset\0", 6) == 0 || \
+		ft_strncmp(str, "exit\0", 5) == 0 || \
+		ft_strncmp(str, "export\0", 7) == 0)
 		return (0);
-	else if (ft_strncmp(str, "export\0", 7) == 0 || ft_strncmp(str, "env\0",
-			4) == 0 || ft_strncmp(str, "pwd\0", 4) == 0 || ft_strncmp(str,
-			"echo\0", 5) == 0)
+	else if (ft_strncmp(str, "pwd\0", 4) == 0 || \
+		ft_strncmp(str, "env\0", 4) == 0 || \
+		ft_strncmp(str, "echo\0", 5) == 0)
 		return (1);
 	else
 		return (-2);
@@ -38,9 +40,7 @@ int	findbuiltimatrix(char **str, t_vars *mini)
 				return (i);
 			else if (truecheckbuilt(str[i]) == 0)
 			{
-				if (forredirect(str, mini) >= 0 || forredirectout(&str,
-						mini) >= 0)
-					checkbuiltin(mini);
+				checkbuiltin(mini);
 				return (-15);
 			}
 		}
@@ -58,8 +58,8 @@ int	findcmdinmatrix(char **puzle, t_vars *mini)
 	while (puzle[i])
 	{
 		str = ft_strjoin("/", puzle[i]);
-		if (ft_strncmp(puzle[i], "<", 1) != 0 && ft_strncmp(puzle[i], ">",
-				1) != 0)
+		if (ft_strncmp(puzle[i], "<", 1) != 0 \
+		&& ft_strncmp(puzle[i], ">", 1) != 0)
 		{
 			checkpath(str, mini);
 			if (mini->check != NULL)

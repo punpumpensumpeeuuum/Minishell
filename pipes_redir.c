@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:12:10 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:05:20 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	piping(char ***str, t_vars *mini, int ta)
 	if (mini->p == 0 && str[mini->p + 1])
 	{
 		if (ta == 1)
-			return ;
+			return;
 		dup2(mini->fd[mini->p + 1], 1);
 		closeall(mini);
 	}
-	else if (mini->p > 0 && mini->p < o && str[mini->p + 1])
+	else if (mini->p > 0 && mini->p < o && str[mini->p + 1]) 
 	{
 		if (ta == 1)
-			return ;
+			return;
 		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		dup2(mini->fd[2 * mini->p + 1], 1);
 		closeall(mini);
@@ -35,7 +35,7 @@ void	piping(char ***str, t_vars *mini, int ta)
 	else if (mini->p == o && !str[mini->p + 1])
 	{
 		if (ta == 1)
-			return ;
+			return;
 		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		closeall(mini);
 	}
@@ -84,7 +84,7 @@ int	setinfile(char *str, t_vars *mini, int i)
 int	forredirect(char **str, t_vars *mini)
 {
 	int	j;
-
+	
 	j = 0;
 	while (str[j])
 	{
@@ -116,7 +116,7 @@ int	forredirect(char **str, t_vars *mini)
 	}
 	return (0);
 }
-
+	
 int	forredirectout(char ***str, t_vars *mini)
 {
 	int	j;

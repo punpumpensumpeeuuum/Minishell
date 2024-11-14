@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:55:53 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:06:24 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/13 09:07:29 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ void	sorting_export(t_vars *mini)
 	{
 		swapped = 0;
 		i = 0;
-		while (i < mini->exp_len - 1 && mini->export[i] && mini->export[i + 1])
+		while (i < mini->exp_len - 1 && 
+		mini->export[i] && mini->export[i + 1])
 		{
-			if (ft_strncmp(mini->export[i], mini -> export[i + 1],
-					ft_strlen(mini->export[i])) > 0
-				&& (ft_strncmp(mini->export[i], "/3/4", 2) != 0))
+			if (ft_strncmp(mini->export[i], \
+				mini->export[i + 1], ft_strlen(mini->export[i])) > 0 && \
+				(ft_strncmp(mini->export[i], "/3/4", 2) != 0))
 			{
-				swap_strings(&mini->export[i], &mini -> export[i + 1]);
+				swap_strings(&mini->export[i], &mini->export[i + 1]);
 				swapped = 1;
 			}
 			i++;
@@ -45,30 +46,30 @@ void	sorting_export(t_vars *mini)
 	}
 }
 
-int	export_check(char *str)
+int     export_check(char *str)
 {
-	int	i;
+    int i;
 
-	i = 0;
+    i = 0;
 	if (str[0] == '=' || ft_isdigit(str[0]))
-		return (1);
-	while (str[i])
-	{
-		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
-			|| (str[i] == '_') || str[i] == '=' || ft_isdigit(str[i])
-			|| str[i] == '"' || str[i] == '\'' || str[i] == '/')
-			i++;
+    	return (1);
+    while (str[i])
+    {
+        if ((str[i] >= 'a' && str[i] <= 'z') || 
+        (str[i] >= 'A' && str[i] <= 'Z') || (str[i] == '_') ||
+		str[i] == '=' || ft_isdigit(str[i]) || str[i] == '"' || str[i] == '\'' || str[i] == '/')
+        	i++;
 		else
 			return (1);
-	}
+    }
 	remove_double_quote(str);
 	remove_single_quote(str);
 	return (0);
 }
 
-int	str_compare(char *s1, char *s2)
+int		str_compare(char *s1, char *s2)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!s1 || !s2)
@@ -80,7 +81,7 @@ int	str_compare(char *s1, char *s2)
 		i++;
 	}
 	if ((s1[i] == '=' || !s1[i]) && (s2[i] == '=' || !s2[i]))
-		return (0);
+         return (0);
 	return (1);
 }
 

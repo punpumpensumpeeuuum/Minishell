@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:32:05 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:03:12 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:01:45 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	find_var(t_vars *mini, char *to_find)
+int		find_var(t_vars *mini, char *to_find)
 {
-	int	i;
-	int	to_find_len;
+	int i;
+	int to_find_len;
 
 	i = 0;
 	to_find_len = ft_strlen(to_find);
 	while (i < mini->exp_len)
 	{
-		if (mini->export[i] && ft_strncmp(mini->export[i], to_find,
-				to_find_len) == 0 && mini->export[i][to_find_len] == '=')
+		if (mini->export[i] && ft_strncmp(mini->export[i], to_find, to_find_len) == 0
+		&& mini->export[i][to_find_len] == '=')
 			return (i);
 		else if (!mini->export[i])
 		{
@@ -34,15 +34,15 @@ int	find_var(t_vars *mini, char *to_find)
 	return (-1);
 }
 
-char	*ft_getenv(t_vars *mini, char *to_find)
+char	*ft_getenv(t_vars *mini ,char	*to_find)
 {
-	int		index;
-	char	*var;
+	int	index;
+	char *var;
 
 	index = find_var(mini, to_find);
 	if (index >= 0)
-		var = ft_substr(mini->export[index], ft_strlen(to_find) + 1,
-				ft_strlen(mini->export[index]));
+		var = ft_substr(mini->export[index], ft_strlen(to_find) + 1, \
+		ft_strlen(mini->export[index]));
 	else
 		var = NULL;
 	return (var);
@@ -50,11 +50,11 @@ char	*ft_getenv(t_vars *mini, char *to_find)
 
 void	get_pwds(t_vars *mini)
 {
-	int		i;
-	char	*buff;
-	char	*old_pwd;
-	char	cwd[PATH_MAX];
-
+	int i;
+	char *buff;
+	char *old_pwd;
+	char cwd[PATH_MAX];
+	
 	i = find_var(mini, "PWD");
 	if (mini->export[i] && i >= 0)
 	{
@@ -84,3 +84,4 @@ void	in_directory(char *directory, t_vars *mini)
 	else
 		get_pwds(mini);
 }
+

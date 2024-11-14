@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:02:21 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:01:49 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	echo_dollar_finish(char *str, int k, t_vars *mini)
 {
-	int		i;
-	char	*result;
-	int		j;
-	int		u;
-	char	*env_var;
+	int i;
+	char *result;
+	int j;
+	int u;
+	char *env_var;
 
 	j = 0;
 	i = 0;
@@ -42,10 +42,10 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 				j++;
 				u++;
 			}
-			if (result[u] == '\0')
-				printf("%s", &str[j + 1]);
-			free(env_var);
-			break ;
+            if (result[u] == '\0') 
+				printf("%s", &str[j+1]);
+            free(env_var);
+            break;
 		}
 		free(env_var);
 		i++;
@@ -70,7 +70,7 @@ void	echo_special(t_vars *mini, char *str)
 			{
 				printf("%c", '\'');
 				i++;
-			}
+			}	
 			else if (flag == 0 && (str[i + 1] != '\'' || str[i + 1] != '\0'))
 			{
 				while (str[i] != '\'')
@@ -116,12 +116,15 @@ int	echo_builtin(t_vars *mini)
 	}
 	while (split[i])
 	{
-		if (split[i][0] == '\'' && split[i][ft_strlen(split[i]) - 1] == '\'')
+		
+		if (split[i][0] == '\'' && 
+		split[i][ft_strlen(split[i]) - 1] == '\'')
 		{
 			remove_single_quote(split[i]);
 			printf("%s", split[i]);
-		}
-		else if (split[i][0] == '"' && split[i][ft_strlen(split[i]) - 1] == '"')
+		}	
+		else if (split[i][0] == '"' && 
+		split[i][ft_strlen(split[i]) - 1] == '"')
 		{
 			remove_double_quote(split[i]);
 			if (echo_quote(split[i]) == 1)
@@ -131,18 +134,18 @@ int	echo_builtin(t_vars *mini)
 			else
 				printf("%s", split[i]);
 		}
-		else if (split[i][0] == '"' || split[i][0] == '\''
-			|| split[i][ft_strlen(split[i]) - 1] == '"'
-			|| split[i][ft_strlen(split[i]) - 1] == '\'')
+		else if (split[i][0] == '"' || split[i][0] == '\'' ||
+		split[i][ft_strlen(split[i]) -1] == '"' || 
+		split[i][ft_strlen(split[i]) -1] == '\'')
 		{
 			remove_double_quote(split[i]);
 			remove_single_quote(split[i]);
 			in_quotes = 1;
-			if (split[i][ft_strlen(split[i]) - 1] == '"'
-				|| split[i][ft_strlen(split[i]) - 1] == '\'')
+			if (split[i][ft_strlen(split[i]) - 1] == '"' ||
+			split[i][ft_strlen(split[i]) - 1] == '\'')
 			{
 				in_quotes = 0;
-				continue ;
+				continue;
 			}
 			printf("%s", split[i]);
 		}
@@ -155,8 +158,8 @@ int	echo_builtin(t_vars *mini)
 		}
 		else if ((split[i][0] == '>' || split[i][0] == '<') && in_quotes == 0)
 		{
-			i += 2;
-			continue ;
+			i+= 2;
+			continue;
 		}
 		else
 			printf("%s", split[i]);

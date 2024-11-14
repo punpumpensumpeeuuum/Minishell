@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 11:11:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:03:00 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:02:00 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	exit_builtin(t_vars *mini)
 		{
 			exit_anyways(str);
 			g_exit_code = 2;
-			return (g_exit_code);
+			return(g_exit_code);
 		}
 		else if (str[2])
 		{
@@ -67,12 +67,12 @@ int	exit_builtin(t_vars *mini)
 		{
 			free_split(str);
 			g_exit_code = g_exit_code % 256;
-			return (g_exit_code);
+			return(g_exit_code);
 		}
 	}
 	else
 	{
 		g_exit_code = 0;
-		return (g_exit_code);
+		return(g_exit_code);
 	}
 }

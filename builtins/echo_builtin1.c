@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:23:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:07:09 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/13 09:24:18 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	is_flag(char *str)
 
 int	dollar_flag(char *str)
 {
-	int	i;
-	int	n;
+	int i;
+	int n;
 
 	i = 0;
 	n = 0;
@@ -64,8 +64,8 @@ int	dollar_flag(char *str)
 
 int	dollar_flag_count(char *str)
 {
-	int	i;
-	int	counter;
+	int i;
+	int counter;
 
 	i = 0;
 	counter = 0;
@@ -78,10 +78,10 @@ int	dollar_flag_count(char *str)
 	return (counter);
 }
 
-char	*take_equal(char *str)
+char *take_equal(char *str)
 {
-	int		i;
-	char	*tmp;
+	int i;
+	char *tmp;
 
 	i = 0;
 	tmp = malloc(sizeof(char) * ft_strlen(str));
@@ -94,9 +94,10 @@ char	*take_equal(char *str)
 	return (tmp);
 }
 
-int	echo_quote(char *str)
+
+int		echo_quote(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (str)
