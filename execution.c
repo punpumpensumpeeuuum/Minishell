@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 11:39:08 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:14:18 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,21 +127,20 @@ void	comandddd(char ***str, t_vars *mini)
 void	cmddd(t_vars *mini, char ***str, int i, char **nao)
 {
 	if (i != 0)
-			killchild(str, mini);
-		child_signals_handler();
-		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str,
-				mini) < 0)
-			killchild(str, mini);
-		if (checkbuiltin(mini) == 0)
-			killchild(str, mini);
-
-		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
-		{
-			if (nao[1])
-				free(nao[1]);
-			if (nao[2])
-				free(nao[2]);
-			nao[1] = ft_strdup("heredoc_tmp.txt");
-			nao[2] = NULL;
-		}
+		killchild(str, mini);
+	child_signals_handler();
+	if (forredirect(str[mini->p], mini) < 0 || forredirectout(str,
+			mini) < 0)
+		killchild(str, mini);
+	if (checkbuiltin(mini) == 0)
+		killchild(str, mini);
+	if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
+	{
+		if (nao[1])
+			free(nao[1]);
+		if (nao[2])
+			free(nao[2]);
+		nao[1] = ft_strdup("heredoc_tmp.txt");
+		nao[2] = NULL;
+	}
 }

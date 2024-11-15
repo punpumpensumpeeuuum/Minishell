@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:14:03 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 14:30:33 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:16:34 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ void	envvv_update(t_vars *mini, char *str)
 			continue ;
 		}
 		else if (mini->env[i] && str_compare(mini->env[i], str) != 0)
+		{
+			free(mini->new_env[i]);
 			mini->new_env[i] = ft_strdup(mini->env[i]);
+		}
+			
 		i++;
 	}
 	mini->new_env[i] = NULL;

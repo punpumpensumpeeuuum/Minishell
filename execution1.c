@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 20:22:49 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:06:48 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	checkbuiltin(t_vars *mini)
 			env_builtin(mini);
 			return (0);
 		}
-		else if ((ft_strncmp(mini->trueflag[mini->p], " pwd", 3) == 0))
+		else if ((ft_strncmp(mini->trueflag[mini->p], "pwd", 3) == 0))
 		{
 			pwd_builtin();
 			return (0);
@@ -65,90 +65,98 @@ int	checkbuiltin(t_vars *mini)
 	return (1);
 }
 
+int	copy_to_input(char **input, int *input_len, int *current_size, const char *str)
+{
+	int		str_len;
+	char	*new_input;
+
+	str_len = ft_strlen(str) + 1;
+	while (*input_len + str_len >= *current_size)
+	{
+		*current_size *= 2;
+		new_input = malloc(*current_size);
+		if (!new_input)
+			return(0);
+		ft_strlcpy(new_input, *input, *current_size);
+		free(*input);
+		*input = new_input;
+	}
+	ft_strlcat(*input, str, *current_size);
+	*input_len += str_len;
+	return (1);
+}
+
+char	*extract_var_name(const char *str, int *i)
+{
+	int		start;
+	int		length;
+	char	*var;
+
+	start = *i;
+	while (str[*i] && str[*i] != ' ' && str[*i] != '$')
+		(*i)++;
+	length = *i - start;
+	var = malloc(length + 1);
+	if (!var)
+		return (NULL);
+	ft_strlcpy(var, &str[start], length + 1);
+	return (var);
+}
+
+int	handle_expansion(char **input, int *input_len, int *current_size, const char *str, int *i, t_vars *mini)
+{
+	char	*expanded;
+	char	*var;
+	
+	if (str[*i] == '?')
+	{
+		expanded = convert_exit_code();
+		(*i)++;
+	}
+	else
+	{
+		var = extract_var_name(str, i);
+		if (!var)
+			return (0);
+		expanded = ft_getenv(mini, var);
+		free(var);
+	}
+	if (expanded)
+	{
+		if (!copy_to_input(input, input_len, current_size, expanded))
+			return (free(expanded), 0);
+		free(expanded);
+	}
+	return (1);
+}
+
 char	*expand(char *str, t_vars *mini)
 {
 	int		i;
-	int		j;
-	int		start;
-	int		length;
-	int		len;
-	char	*var;
-	char	*expanded;
-	char	*input;
 	int		input_len;
+	int		current_size;
+	char	*input;
 
 	i = 0;
-	if (find_echo(str) == 0)
-		return (str);
-	input_len = ft_strlen(str + 1);
-	input = malloc(sizeof(char *) * input_len + 1);
-	if (!input)
-		return (NULL);
+	input_len = 0;
+	current_size = ft_strlen(str) + 1;
+	input = malloc(current_size);
+	if (!input || find_echo(str) == 0)
+		return (free(input), str);
 	input[0] = '\0';
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && ++i)
 		{
-			i++;
-			if (str[i] == '?')
-			{
-				expanded = convert_exit_code();
-				i++;
-			}
-			else
-			{
-				start = i;
-				while (str[i] && str[i] != ' ' && str[i] != '$'
-					&& str[i] != '\0')
-					i++;
-				length = i - start;
-				var = (char *)malloc((length + 1) * sizeof(char));
-				if (!var)
-				{
-					free(str);
-					free(input);
-					return (NULL);
-				}
-				j = 0;
-				while (j < length)
-				{
-					var[j] = str[start + j];
-					j++;
-				}
-				var[j] = '\0';
-				expanded = ft_getenv(mini, var);
-				free(var);
-			}
-			if (expanded)
-			{
-				input_len += strlen(expanded);
-				input = realloc(input, input_len);
-				if (!input)
-				{
-					free(str);
-					free(input);
-					return (NULL);
-				}
-				ft_strlcat(input, expanded, input_len);
-				free(expanded);
-			}
+			if (!handle_expansion(&input, &input_len, &current_size, str, &i, mini))
+				return (free(input), NULL);
 		}
 		else
 		{
-			len = strlen(input);
-			input_len += 1;
-			input = realloc(input, input_len);
-			if (!input)
-			{
-				free(str);
-				free(input);
-				return (NULL);
-			}
-			input[len] = str[i];
-			input[len + 1] = '\0';
-			i++;
+			char temp[2] = {str[i++], '\0'};
+			if (!copy_to_input(&input, &input_len, &current_size, temp))
+				return (free(input), NULL);
 		}
 	}
-	free(str);
-	return (input);
+	return (free(str), input);
 }

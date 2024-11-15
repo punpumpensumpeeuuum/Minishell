@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/15 14:29:37 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:58:51 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ typedef struct s_vars
 	int		exit_code;
 	int		running;
 }			t_vars;
+
+int		copy_to_input(char **input, int *input_len, int *current_size, const char *str);
+char	*extract_var_name(const char *str, int *i);
+int		handle_expansion(char **input, int *input_len, int *current_size, const char *str, int *i, t_vars *mini);
+char	*expand(char *str, t_vars *mini);
 
 void		cmddd(t_vars *mini, char ***str, int i, char **nao);
 void		codifiqing_export(char *str);

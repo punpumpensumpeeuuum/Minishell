@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:13:36 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 11:26:38 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:11:20 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,45 +32,13 @@ int	ft_checkprint(char *str)
 	return (0);
 }
 
-char	*trimhelp(char *str, int i, int a, int start)
-{
-	char	*s;
-
-	while (str[i] && ft_isprint(str[i]))
-		i++;
-	s = malloc(sizeof(char) * (i - start + 3));
-	if (!s)
-		return (NULL);
-	s[0] = '.';
-	s[1] = '/';
-	while (start < i)
-	{
-		s[a] = str[start];
-		a++;
-		start++;
-	}
-	s[a] = '\0';
-	return (s);
-}
-
 char	*trimtrimtrim(char *str, int i)
 {
-	char	*s;
-	int		a;
-	int		start;
-
 	i = 0;
-	a = 2;
 	while (str[i] && strncmp(&str[i], "./", 2) != 0)
 		i++;
 	if (strncmp(&str[i], "./", 2) == 0)
-	{
-		i += 2;
-		start = i;
-		s = trimhelp(str, i, a, start);
-		if (s != NULL)
-			return (s);
-	}
+		return (str);
 	return (str);
 }
 

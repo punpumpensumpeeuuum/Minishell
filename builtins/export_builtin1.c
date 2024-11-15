@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 14:53:19 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:15:45 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ void	export_update(t_vars *mini, char *str)
 			continue ;
 		}
 		else if (mini->export[i] && str_compare(mini->export[i], str) != 0)
+		{
+			free(mini->new_export[i]);
 			mini->new_export[i] = ft_strdup(mini->export[i]);
+		}
+			
 		i++;
 	}
 	mini->new_export[i] = NULL;
