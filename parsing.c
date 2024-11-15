@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 20:17:38 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:41:10 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	antisegfault(char *str)
 	int	i;
 
 	i = 0;
-	if (ft_strncmp(str, "$?", 2) == 0)
+	if (ft_strncmp(str, "$?", 2) == 0
+	|| find_echo(str) == 0)
 		return (0);
 	while (str[i])
 	{

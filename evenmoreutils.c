@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:13:36 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 17:59:48 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:26:38 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*trimtrimtrim(char *str, int i)
 		start = i;
 		s = trimhelp(str, i, a, start);
 		if (s != NULL)
-			return (s);	
+			return (s);
 	}
 	return (str);
 }

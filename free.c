@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 17:37:15 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 09:44:41 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	killchild(char ***str, t_vars *mini)
 		free_split(str[i]);
 	free(str);
 	free(mini->fd);
+	free_split(mini->trueflag);
 	free_env_export(mini);
 	exit(g_exit_code);
 }

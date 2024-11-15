@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:34:43 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 14:11:00 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:06:53 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ char	**findflags(char **str, int i)
 	j = 0;
 	while (str[h])
 	{
-		if (ft_strncmp(str[h], "<", 1) != 0)
+		if (ft_strncmp(str[h], "<<", 2) != 0)
+			j += 2;
+		else if (ft_strncmp(str[h], "<", 1) != 0)
 			j++;
-		if (ft_strncmp(str[h], ">", 1) == 0)
+		else if (ft_strncmp(str[h], ">", 1) == 0)
 			break ;
 		h++;
 	}

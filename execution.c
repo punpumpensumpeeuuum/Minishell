@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 20:25:57 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:39:08 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,11 @@ int	decide(char **str, t_vars *mini)
 
 void	comandddd(char ***str, t_vars *mini)
 {
+	int		i;
 	char	*sim;
 	char	**nao;
-	int		i;
 
+	
 	if (!str[mini->p] || !mini->trueflag[mini->p])
 		return ;
 	i = decide(str[mini->p], mini);
@@ -110,8 +111,22 @@ void	comandddd(char ***str, t_vars *mini)
 		return ;
 	mini->pid = fork();
 	if (mini->pid == 0)
-	{
-		if (i != 0)
+	{	
+		sim = ft_strjoin("/", str[mini->p][mini->i]);
+		checkpath(sim, mini);
+		nao = findflags(str[mini->p], mini->i);
+		cmddd(mini, str, i, nao);
+		if (execve(mini->check, nao, mini->env) == -1)
+		{
+			g_exit_code = 127;
+			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
+		}
+	}
+}
+
+void	cmddd(t_vars *mini, char ***str, int i, char **nao)
+{
+	if (i != 0)
 			killchild(str, mini);
 		child_signals_handler();
 		if (forredirect(str[mini->p], mini) < 0 || forredirectout(str,
@@ -119,20 +134,14 @@ void	comandddd(char ***str, t_vars *mini)
 			killchild(str, mini);
 		if (checkbuiltin(mini) == 0)
 			killchild(str, mini);
-		sim = ft_strjoin("/", str[mini->p][mini->i]);
-		checkpath(sim, mini);
-		nao = findflags(str[mini->p], mini->i);
+
 		if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
 		{
-			free(nao[1]);
-			free(nao[2]);
+			if (nao[1])
+				free(nao[1]);
+			if (nao[2])
+				free(nao[2]);
 			nao[1] = ft_strdup("heredoc_tmp.txt");
 			nao[2] = NULL;
 		}
-		if (execve(mini->check, nao, mini->env) == -1)
-		{
-			g_exit_code = 127;
-			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
-		}
-	}
 }

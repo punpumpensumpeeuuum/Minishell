@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/14 17:31:37 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:17:16 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	findcmdinmatrix(char **puzle, t_vars *mini)
 	while (puzle[i])
 	{
 		str = ft_strjoin("/", puzle[i]);
-		if (ft_strncmp(puzle[i], "<", 1) != 0 && ft_strncmp(puzle[i], ">",
-				1) != 0)
+		if (ft_strncmp(puzle[i], "<", 1) != 0
+		&& ft_strncmp(puzle[i], ">", 1) != 0)
 		{
 			checkpath(str, mini);
 			if (mini->check != NULL)
@@ -66,9 +66,9 @@ int	findcmdinmatrix(char **puzle, t_vars *mini)
 				return (i);
 			}
 		}
+		free(str);
 		i++;
 	}
-	free(str);
 	return (-1);
 }
 

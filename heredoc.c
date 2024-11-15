@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:51:22 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:55:23 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ char	*heredoc_dollar_finish(char *str, int k, t_vars *mini)
 	real_result = NULL;
 	if (!str || !mini || !result)
 		return (NULL);
-	heredoc_dollar_finish_help(mini, result, str, real_result);
+	heredoc_dollar_finish_help(mini, result, str, &real_result);
 	free(result);
 	return (real_result);
 }
 
 void	heredoc_dollar_finish_help(t_vars *mini, char *result, char *str,
-		char *real_result)
+		char **real_result)
 {
 	int		i;
 	char	*env_var;
@@ -40,9 +40,7 @@ void	heredoc_dollar_finish_help(t_vars *mini, char *result, char *str,
 		if (env_var && ft_strncmp(result, env_var, ft_strlen(result)) == 0)
 		{
 			if (ft_strlen(result) == ft_strlen(env_var))
-			{
 				str = mini->export[i];
-			}
 			heredoc_dollar_finish1(result, str, real_result);
 			free(env_var);
 			break ;
@@ -52,7 +50,7 @@ void	heredoc_dollar_finish_help(t_vars *mini, char *result, char *str,
 	}
 }
 
-void	heredoc_dollar_finish1(char *result, char *str, char *real_result)
+char	*heredoc_dollar_finish1(char *result, char *str, char **real_result)
 {
 	int	u;
 	int	j;
@@ -66,14 +64,17 @@ void	heredoc_dollar_finish1(char *result, char *str, char *real_result)
 		j++;
 		u++;
 	}
-	real_result = malloc(sizeof(char) * ft_strlen(str + j) + 1);
+	*real_result = malloc(sizeof(char) * ft_strlen(str + j) + 1);
+	if (!*real_result)
+		return (NULL);
 	if (str[j] == '=')
 	{
 		j++;
 		while (str[j] != '\0')
-			real_result[v++] = str[j++];
-		real_result[v] = '\0';
+			(*real_result)[v++] = str[j++];
+		(*real_result)[v] = '\0';
 	}
+	return (*real_result);
 }
 
 int	heredoc(t_vars *mini)
@@ -95,6 +96,7 @@ int	heredoc(t_vars *mini)
 		fork_error();
 	else if (pid == 0)
 		heredoc_child(mini->limiters, mini);
+	free_split(mini->limiters);
 	return (heredoc1(fdin, status));
 }
 

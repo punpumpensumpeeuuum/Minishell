@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 17:04:22 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:39:32 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_vars
 	int		exit_code;
 	int		running;
 }			t_vars;
+
+void	cmddd(t_vars *mini, char ***str, int i, char **nao);
 
 // cd_builtin.c
 void		cd_builtin(t_vars *mini);
@@ -137,8 +139,8 @@ int			count_limiters(char **split);
 // heredoc.c
 char		*heredoc_dollar_finish(char *str, int k, t_vars *mini);
 void		heredoc_dollar_finish_help(t_vars *mini, char *result, char *str,
-				char *real_result);
-void		heredoc_dollar_finish1(char *result, char *str, char *real_result);
+				char **real_result);
+char		*heredoc_dollar_finish1(char *result, char *str, char **real_result);
 int			heredoc(t_vars *mini);
 int			heredoc1(int fdin, int status);
 
