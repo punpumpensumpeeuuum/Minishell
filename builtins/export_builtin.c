@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 14:57:31 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:34:19 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ void	export_var(t_vars *mini)
 			{
 				mini->exp_len += 1;
 				mini->env_len += 1;
-				printf("str = %s\n", split[i]);
 				export_update(mini, split[i]);
 				envvv_update(mini, split[i]);
 			}

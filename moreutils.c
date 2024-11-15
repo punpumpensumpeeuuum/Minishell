@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/15 11:17:16 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:38:14 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	findcmdinmatrix(char **puzle, t_vars *mini)
 	{
 		str = ft_strjoin("/", puzle[i]);
 		if (ft_strncmp(puzle[i], "<", 1) != 0
-		&& ft_strncmp(puzle[i], ">", 1) != 0)
+			&& ft_strncmp(puzle[i], ">", 1) != 0)
 		{
-			checkpath(str, mini);
+			checkpath(str, mini, 0);
 			if (mini->check != NULL)
 			{
 				free(str);
@@ -79,7 +79,7 @@ int	findcmdplace(char *input, t_vars *mini)
 	i = 0;
 	while (input[i])
 	{
-		checkpath(input, mini);
+		checkpath(input, mini, 0);
 		i++;
 	}
 	return (-1);

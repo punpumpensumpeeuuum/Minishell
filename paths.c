@@ -3,29 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 00:42:08 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:27:22 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:33:30 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	checkpath(char *cmd, t_vars *mini)
+void	freefreefree(char *boas, t_vars *mini)
 {
-	int		i;
+	free(mini->check);
+	mini->check = ft_strdup(boas);
+	free(boas);
+}
+
+void	checkpath(char *cmd, t_vars *mini, int i)
+{
 	char	*boas;
 
-	i = 0;
 	if (!mini->input)
 		return ;
 	boas = ft_strdup(trimtrimtrim(mini->input, 0));
 	if (access(boas, X_OK) == 0)
 	{
-		free(mini->check);
-		mini->check = ft_strdup(boas);
-		free(boas);
+		freefreefree(boas, mini);
 		return ;
 	}
 	if (access(cmd, X_OK) == 0)

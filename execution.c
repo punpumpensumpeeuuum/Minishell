@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 17:14:18 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:00:29 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,11 @@ int	checkinput(t_vars *mini)
 		if (tudo[mini->p])
 			comandddd(tudo, mini);
 		mini->p++;
-		usleep(5000);
+		usleep(25000);
 	}
 	free_split(mini->trueflag);
 	check_input1(mini, tudo);
 	return (0);
-}
-
-void	fdfd(t_vars *mini)
-{
-	int	i;
-
-	i = 0;
-	mini->fd = malloc(sizeof(int) * (numpipe(mini->input) + 1) * 2);
-	if (!mini->fd)
-		return ;
-	while (i < numpipe(mini->input) + 1)
-	{
-		if (pipe(mini->fd + 2 * i) < 0)
-			return ;
-		i++;
-	}
 }
 
 int	decide(char **str, t_vars *mini)
@@ -103,7 +87,6 @@ void	comandddd(char ***str, t_vars *mini)
 	char	*sim;
 	char	**nao;
 
-	
 	if (!str[mini->p] || !mini->trueflag[mini->p])
 		return ;
 	i = decide(str[mini->p], mini);
@@ -111,9 +94,9 @@ void	comandddd(char ***str, t_vars *mini)
 		return ;
 	mini->pid = fork();
 	if (mini->pid == 0)
-	{	
+	{
 		sim = ft_strjoin("/", str[mini->p][mini->i]);
-		checkpath(sim, mini);
+		checkpath(sim, mini, 0);
 		nao = findflags(str[mini->p], mini->i);
 		cmddd(mini, str, i, nao);
 		if (execve(mini->check, nao, mini->env) == -1)

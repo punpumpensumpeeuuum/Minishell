@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 16:59:57 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:33:55 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	getpipepath(char **trueflag, t_vars *mini)
 {
-	checkpath(ft_strjoin("/", trueflag[0]), mini);
+	checkpath(ft_strjoin("/", trueflag[0]), mini, 0);
 	if (mini->check != NULL)
 		return (1);
 	return (0);

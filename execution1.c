@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 17:06:48 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:35:29 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	checkbuiltin(t_vars *mini)
 	return (1);
 }
 
-int	copy_to_input(char **input, int *input_len, int *current_size, const char *str)
+int	copy_to_input(char **input, int *input_len, \
+		int *current_size, const char *str)
 {
 	int		str_len;
 	char	*new_input;
@@ -76,7 +77,7 @@ int	copy_to_input(char **input, int *input_len, int *current_size, const char *s
 		*current_size *= 2;
 		new_input = malloc(*current_size);
 		if (!new_input)
-			return(0);
+			return (0);
 		ft_strlcpy(new_input, *input, *current_size);
 		free(*input);
 		*input = new_input;

@@ -3,16 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 16:59:01 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:29:05 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		g_exit_code;
+
+void	fdfd(t_vars *mini)
+{
+	int	i;
+
+	i = 0;
+	mini->fd = malloc(sizeof(int) * (numpipe(mini->input) + 1) * 2);
+	if (!mini->fd)
+		return ;
+	while (i < numpipe(mini->input) + 1)
+	{
+		if (pipe(mini->fd + 2 * i) < 0)
+			return ;
+		i++;
+	}
+}
 
 t_vars	*init_mini(void)
 {

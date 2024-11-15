@@ -3,53 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   execution2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:34:43 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/15 10:06:53 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:20:42 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**findflags(char **str, int i)
+int	countflags(char **str)
 {
-	char	**s;
-	int		h;
-	int		j;
-	int		l;
+	int	count;
+	int	h;
 
+	count = 0;
 	h = 0;
-	j = 0;
-	while (str[h])
+	while (str[h] && ft_strncmp(str[h], ">", 1) != 0)
 	{
 		if (ft_strncmp(str[h], "<<", 2) != 0)
-			j += 2;
+			count += 2;
 		else if (ft_strncmp(str[h], "<", 1) != 0)
-			j++;
-		else if (ft_strncmp(str[h], ">", 1) == 0)
-			break ;
+			count++;
 		h++;
 	}
+	return (count);
+}
+
+char	**allocate_flags_array(char **str, int i, int h, int j)
+{
+	char	**s;
+	int		l;
+
 	l = 0;
 	s = malloc(sizeof(char *) * (j + 1));
 	if (!s)
 		return (NULL);
-	s[l] = ft_strdup(str[i]);
-	l++;
+	s[l++] = ft_strdup(str[i]);
 	j = i + 1;
 	while (j < h)
 	{
-		s[l] = ft_strdup(str[j]);
-		l++;
+		s[l++] = ft_strdup(str[j]);
 		j++;
 	}
 	if (l < h)
-	{
-		s[l] = ft_strdup(str[i - 1]);
-		l++;
-	}
+		s[l++] = ft_strdup(str[i - 1]);
 	s[l] = NULL;
 	return (s);
 }
 
+char	**findflags(char **str, int i)
+{
+	int	h;
+	int	j;
+
+	j = countflags(str);
+	h = 0;
+	while (str[h] && ft_strncmp(str[h], ">", 1) != 0)
+		h++;
+	return (allocate_flags_array(str, i, h, j));
+}
