@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:56:51 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:57:31 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,52 @@ int	export_builtin(t_vars *mini)
 	return (0);
 }
 
+void	codifiqing_export(char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+			j++;
+		if (str[i] == '>' && j % 2 != 0)
+			str[i] = '\a';
+		else if (str[i] == '<' && j % 2 != 0)
+			str[i] = '\b';
+		else if (str[i] == '|' && j % 2 != 0)
+			str[i] = '\t';
+		else if (str[i] == ' ' && j % 2 != 0)
+			str[i] = '\f';
+		i++;
+	}
+}
+
+void	de_codifiqing_export(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\f')
+			str[i] = ' ';
+		i++;
+	}
+}
+
 void	export_var(t_vars *mini)
 {
 	int		i;
 	char	**split;
 
 	i = 1;
+	codifiqing_export(mini->trueflag[mini->p]);
+	printf("str = %s\n", mini->trueflag[mini->p]);
 	split = ft_split(mini->trueflag[mini->p], ' ');
+	
 	if (!mini->new_export)
 		return ;
 	while (split[i])
@@ -85,6 +124,7 @@ void	export_var(t_vars *mini)
 			{
 				mini->exp_len += 1;
 				mini->env_len += 1;
+				printf("str = %s\n", split[i]);
 				export_update(mini, split[i]);
 				envvv_update(mini, split[i]);
 			}

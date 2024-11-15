@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 17:01:27 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:53:19 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	export_update(t_vars *mini, char *str)
 
 	i = 0;
 	done = 0;
+	de_codifiqing_export(str);
+	printf("str = %s\n", str);
 	if (!mini->new_export)
 	{
 		printf("Error: mini->new_export not initialized.\n");

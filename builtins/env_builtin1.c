@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_builtin1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:14:03 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:56:44 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:30:33 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	envvv_update(t_vars *mini, char *str)
 
 	i = 0;
 	done = 0;
+	de_codifiqing_export(str);
 	if (!mini->new_env)
 	{
 		printf("Error: mini->new_env not initialized.\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:55:53 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:57:33 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:57:04 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	export_check(char *str)
 	{
 		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
 			|| (str[i] == '_') || str[i] == '=' || ft_isdigit(str[i])
-			|| str[i] == '"' || str[i] == '\'' || str[i] == '/')
+			|| str[i] == '"' || str[i] == '\'' || str[i] == '\f')
 			i++;
 		else
 			return (1);

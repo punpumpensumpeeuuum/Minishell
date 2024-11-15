@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/15 11:39:32 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:29:37 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ typedef struct s_vars
 	int		running;
 }			t_vars;
 
-void	cmddd(t_vars *mini, char ***str, int i, char **nao);
+void		cmddd(t_vars *mini, char ***str, int i, char **nao);
+void		codifiqing_export(char *str);
+void		de_codifiqing_export(char *str);
 
 // cd_builtin.c
 void		cd_builtin(t_vars *mini);
