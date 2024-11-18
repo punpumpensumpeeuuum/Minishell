@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:09:04 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 20:32:43 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:21:47 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,25 @@ char	*get_var(t_vars *mini, char *var)
 	return (NULL);
 }
 
+int	unsethelp(t_vars *mini, char **split, int i)
+{
+	char	*str;
+
+	str = get_var(mini, split[i]);
+	if (!str)
+	{
+		free(split);
+		ft_printf("Var not found\n");
+		return (1);
+	}
+	env_update(mini, str);
+	exp_update(mini, str);
+	return (0);
+}
+
 int	unset_builtin(t_vars *mini)
 {
 	char	**split;
-	char	*str;
 	int		i;
 
 	i = 1;
@@ -55,21 +70,14 @@ int	unset_builtin(t_vars *mini)
 	split = ft_split(mini->trueflag[mini->p], ' ');
 	if (!split || !split[i])
 	{
-		printf("No variable to unset.\n");
+		ft_printf("No variable to unset.\n");
 		free(split);
 		return (1);
 	}
 	while (split[i])
 	{
-		str = get_var(mini, split[i]);
-		if (!str)
-		{
-			free(split);
-			printf("Var not found\n");
+		if (unsethelp(mini, split, i) == 1)
 			return (1);
-		}
-		env_update(mini, str);
-		exp_update(mini, str);
 		i++;
 	}
 	free_array(split);

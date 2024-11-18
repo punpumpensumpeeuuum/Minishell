@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 17:22:31 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:21:38 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	export_update(t_vars *mini, char *str)
 	i = 0;
 	done = 0;
 	de_codifiqing_export(str);
-	printf("str = %s\n", str);
+	ft_printf("str = %s\n", str);
 	if (!mini->new_export)
 	{
-		printf("Error: mini->new_export not initialized.\n");
+		ft_printf("Error: mini->new_export not initialized.\n");
 		return ;
 	}
 	while (i < mini->exp_len)

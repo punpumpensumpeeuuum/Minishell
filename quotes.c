@@ -14,9 +14,9 @@
 
 int	check_quotes(char *cmd)
 {
-	int i;
-	int single_quote;
-	int double_quote;
+	int	i;
+	int	single_quote;
+	int	double_quote;
 
 	i = 0;
 	single_quote = 0;
@@ -40,8 +40,8 @@ int	check_quotes(char *cmd)
 
 void	remove_single_quote(char *cmd)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -59,8 +59,8 @@ void	remove_single_quote(char *cmd)
 
 void	remove_double_quote(char *cmd)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -78,10 +78,10 @@ void	remove_double_quote(char *cmd)
 
 char	*quotescrazy(char *input)
 {
-	char q;
-	int pq;
-	int i;
-	int nq;
+	char	q;
+	int		pq;
+	int		i;
+	int		nq;
 
 	i = 0;
 	nq = 0;

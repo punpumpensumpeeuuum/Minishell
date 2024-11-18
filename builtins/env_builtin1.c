@@ -3,55 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_builtin1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:14:03 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 17:21:31 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:38:36 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	envvv_update(t_vars *mini, char *str)
-{
-	int	i;
-	int	done;
-
-	i = 0;
-	done = 0;
-	de_codifiqing_export(str);
-	if (!mini->new_env)
-	{
-		printf("Error: mini->new_env not initialized.\n");
-		return ;
-	}
-	while (i < mini->env_len)
-	{
-		if (mini->env[i] && str_compare(mini->env[i], str) == 0)
-		{
-			free(mini->new_env[i]);
-			mini->new_env[i] = ft_strdup(str);
-			i++;
-			break ;
-		}
-		else if (!mini->env[i] && done == 0)
-		{
-			done = 1;
-			mini->new_env[i] = ft_strdup(str);
-			i++;
-			continue ;
-		}
-		else if (mini->env[i] && str_compare(mini->env[i], str) != 0)
-		{
-			free(mini->new_env[i]);
-			mini->new_env[i] = ft_strdup(mini->env[i]);
-		}
-			
-		i++;
-	}
-	mini->new_env[i] = NULL;
-	envvv_update1(mini);
-}
 
 void	envvv_update1(t_vars *mini)
 {
@@ -83,6 +42,22 @@ void	free_first_string(char **arr)
 	free(arr);
 }
 
+void	createmoreenv(char **i_env, t_vars *mini, int i)
+{
+	i_env[0] = pwd;
+	i_env[1] = "PATH=/home/jomendes:/home/jomendes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:\
+	/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
+	i_env[2] = "SHLVL=1";
+	i_env[3] = "_=/usr/bin/env";
+	while (i < 4)
+	{
+		mini->env[i] = ft_strdup(i_env[i]);
+		i++;
+	}
+	mini->env_len = i;
+	mini->env[i] = NULL;
+}
+
 void	create_env(t_vars *mini)
 {
 	int		i;
@@ -100,18 +75,7 @@ void	create_env(t_vars *mini)
 		free(pwd);
 		return ;
 	}
-	i_env[0] = pwd;
-	i_env[1] = "PATH=/home/jomendes:/home/jomendes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:\
-	/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
-	i_env[2] = "SHLVL=1";
-	i_env[3] = "_=/usr/bin/env";
-	while (i < 4)
-	{
-		mini->env[i] = ft_strdup(i_env[i]);
-		i++;
-	}
-	mini->env_len = i;
-	mini->env[i] = NULL;
+	createmoreenv(i_env, mini, i);
 	free_first_string(i_env);
 	mini->flag_env = 1;
 }

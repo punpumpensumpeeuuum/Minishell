@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/15 16:29:05 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:21:15 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	minimain(t_vars *mini)
 				codifiqing(mini->input);
 				mini->input = quotescrazy(mini->input);
 				if (mini->input == NULL)
-					printf("Quote error\n");
+					ft_printf("Quote error\n");
 				else
 					checkinput(mini);
 			}

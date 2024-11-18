@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 17:34:19 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:21:36 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	export_builtin(t_vars *mini)
 		{
 			if (mini->export[i] && !(ft_strncmp(mini->export[i], "/3/4",
 						2) == 0))
-				printf("declare -x %s\n", mini->export[i]);
+				ft_printf("declare -x %s\n", mini->export[i]);
 			i++;
 		}
 	}
@@ -111,7 +111,7 @@ void	export_var(t_vars *mini)
 
 	i = 1;
 	codifiqing_export(mini->trueflag[mini->p]);
-	printf("str = %s\n", mini->trueflag[mini->p]);
+	ft_printf("str = %s\n", mini->trueflag[mini->p]);
 	split = ft_split(mini->trueflag[mini->p], ' ');
 	
 	if (!mini->new_export)
@@ -134,7 +134,7 @@ void	export_var(t_vars *mini)
 			}
 		}
 		else
-			printf("export: `%s': not a valid identifier\n", split[i]);
+			ft_printf("export: `%s': not a valid identifier\n", split[i]);
 		i++;
 	}
 	free_split(split);

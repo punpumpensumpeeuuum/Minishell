@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:56:25 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:22:02 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini)
 				u++;
 			}
 			if (result[u] == '\0')
-				printf("%s", &str[j + 1]);
+				ft_printf("%s", &str[j + 1]);
 			free(env_var);
 			break ;
 		}
@@ -68,7 +68,7 @@ void	echo_special(t_vars *mini, char *str)
 		{
 			if (str[i] == '\'' && flag == 0)
 			{
-				printf("%c", '\'');
+				ft_printf("%c", '\'');
 				i++;
 			}
 			else if (flag == 0 && (str[i + 1] != '\'' || str[i + 1] != '\0'))
@@ -105,7 +105,7 @@ int	echo_builtin(t_vars *mini)
 		i++;
 	if (split[1] == NULL)
 	{
-		printf("\n");
+		ft_printf("\n");
 		free_split(split);
 		return (0);
 	}
@@ -119,7 +119,7 @@ int	echo_builtin(t_vars *mini)
 		if (split[i][0] == '\'' && split[i][ft_strlen(split[i]) - 1] == '\'')
 		{
 			remove_single_quote(split[i]);
-			printf("%s", split[i]);
+			ft_printf("%s", split[i]);
 		}
 		else if (split[i][0] == '"' && split[i][ft_strlen(split[i]) - 1] == '"')
 		{
@@ -129,7 +129,7 @@ int	echo_builtin(t_vars *mini)
 			else if (split[i][0] == '$')
 				echo_dollar_finish(split[i], 1, mini);
 			else
-				printf("%s", split[i]);
+				ft_printf("%s", split[i]);
 		}
 		else if (split[i][0] == '"' || split[i][0] == '\''
 			|| split[i][ft_strlen(split[i]) - 1] == '"'
@@ -144,12 +144,12 @@ int	echo_builtin(t_vars *mini)
 				in_quotes = 0;
 				continue ;
 			}
-			printf("%s", split[i]);
+			ft_printf("%s", split[i]);
 		}
 		else if (split[i][0] == '$')
 		{
 			if (split[i][1] == '?')
-				printf("%d", g_exit_code);
+				ft_printf("%d", g_exit_code);
 			else
 				echo_dollar_finish(split[i], 1, mini);
 		}
@@ -159,13 +159,13 @@ int	echo_builtin(t_vars *mini)
 			continue ;
 		}
 		else
-			printf("%s", split[i]);
+			ft_printf("%s", split[i]);
 		if (split[i + 1])
-			printf(" ");
+			ft_printf(" ");
 		i++;
 	}
 	if (new_line)
-		printf("\n");
+		ft_printf("\n");
 	free_split(split);
 	return (0);
 }
