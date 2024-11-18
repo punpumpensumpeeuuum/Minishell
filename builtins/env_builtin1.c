@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_builtin1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:14:03 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/17 22:38:36 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:30:55 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	free_first_string(char **arr)
 
 void	createmoreenv(char **i_env, t_vars *mini, int i)
 {
-	i_env[0] = pwd;
 	i_env[1] = "PATH=/home/jomendes:/home/jomendes/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:\
 	/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
 	i_env[2] = "SHLVL=1";
@@ -75,6 +74,7 @@ void	create_env(t_vars *mini)
 		free(pwd);
 		return ;
 	}
+	i_env[0] = pwd;
 	createmoreenv(i_env, mini, i);
 	free_first_string(i_env);
 	mini->flag_env = 1;

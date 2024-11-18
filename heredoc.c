@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 10:55:23 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:28:37 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,27 @@ char	*heredoc_dollar_finish1(char *result, char *str, char **real_result)
 	return (*real_result);
 }
 
-int	heredoc(t_vars *mini)
+char	*get_unique_filename(int i)
+{
+	char	*filename;
+	char	*identifier;
+
+	identifier = ft_itoa(i);
+	filename = ft_strjoin("heredoc_tmp_", identifier);
+	free(identifier);
+	return (filename);
+}
+
+int	heredoc(t_vars *mini, int i)
 {
 	pid_t	pid;
 	int		status;
 	char	*tmp_filename;
-	int		fdin;
 
-	tmp_filename = "heredoc_tmp.txt";
-	fdin = open(tmp_filename, O_RDONLY);
+	tmp_filename = mini->heredoc_files[i][0];
+	if (!tmp_filename)
+		return (EXIT_FAILURE);
+	mini->heredoc_file = tmp_filename;
 	status = 0;
 	heredoc_lim_array(mini);
 	if (!mini->limiters)
@@ -97,19 +109,19 @@ int	heredoc(t_vars *mini)
 	else if (pid == 0)
 		heredoc_child(mini->limiters, mini);
 	free_split(mini->limiters);
-	return (heredoc1(fdin, status));
+	mini->limiters = NULL;
+	return (heredoc1(tmp_filename, status));
 }
 
-int	heredoc1(int fdin, int status)
+int	heredoc1(char	*filename, int status)
 {
+	int	fdin;
+
+	fdin = open(filename, O_RDONLY);
+	if (fdin < 0)
+		return (EXIT_FAILURE);
 	wait(&status);
 	signal(SIGINT, sigint_handler);
-	if (fdin < 0)
-	{
-		perror("Error opening temporary file\n");
-		return (EXIT_FAILURE);
-	}
-	dup2(fdin, STDIN_FILENO);
 	close(fdin);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);

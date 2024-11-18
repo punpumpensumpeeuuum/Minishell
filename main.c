@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/17 22:21:15 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:31:58 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ t_vars	*init_mini(void)
 	mini->new_export = NULL;
 	mini->fd = NULL;
 	mini->check = NULL;
+	mini->limiters = NULL;
+	mini->heredoc_files = NULL;
+	mini->heredoc_file = NULL;
 	return (mini);
 }
 
@@ -63,7 +66,7 @@ void	minimain(t_vars *mini)
 				codifiqing(mini->input);
 				mini->input = quotescrazy(mini->input);
 				if (mini->input == NULL)
-					ft_printf("Quote error\n");
+					printf("Quote error\n");
 				else
 					checkinput(mini);
 			}

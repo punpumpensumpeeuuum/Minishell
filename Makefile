@@ -4,7 +4,7 @@ SRCS = main.c paths.c utils.c moreutils.c quotes.c heredoc.c heredoc1.c heredoc_
 		signals.c free.c parsing.c evenmoreutils.c execution.c utils_again.c execution1.c execution2.c \
 		free1.c pipes_redir.c antimalucos.c paodelosplit.c
 
-BUILT = echo_builtin.c echo_builtin1.c env_builtin.c env_builtin1.c exit_builtin.c \
+BUILT = echo_builtin.c echo_builtin1.c env_builtin.c env_builtin1.c env_builtin2.c exit_builtin.c \
 		cd_builtin.c cd_builtin1.c export_builtin.c export_builtin1.c export_utils.c \
 		unset_builtin.c
 

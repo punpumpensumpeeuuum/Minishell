@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 17:35:29 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:30:02 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ char	*expand(char *str, t_vars *mini)
 	input_len = 0;
 	current_size = ft_strlen(str) + 1;
 	input = malloc(current_size);
-	if (!input || find_echo(str) == 0)
+	if (!input || find_echo(str) == 0 || find_more(str) == 0)
 		return (free(input), str);
 	input[0] = '\0';
 	while (str[i])

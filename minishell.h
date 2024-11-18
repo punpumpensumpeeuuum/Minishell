@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/15 17:38:04 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:29:10 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,18 @@ typedef struct s_vars
 	int		redir;
 	// heredoc
 	char	**limiters;
+	char	***heredoc_files;
 	int		total_lim;
-	int		heredoc_on;
+	char	*heredoc_file;
 	// exit
 	int		exit_code;
 	int		running;
 }		t_vars;
 
+int		numberof_heredocs(char *str);
+void	cleanup_heredoc_files(t_vars *mini, int i);
+void	heredoc_files_create(t_vars *mini);
+char	*get_unique_filename(int i);
 void	cmddd(t_vars *mini, char ***str, int i, char **nao);
 void	codifiqing_export(char *str);
 void	de_codifiqing_export(char *str);
@@ -143,8 +148,8 @@ char	*heredoc_dollar_finish(char *str, int k, t_vars *mini);
 void	heredoc_dollar_finish_help(t_vars *mini, char *result, char *str,
 			char **real_result);
 char	*heredoc_dollar_finish1(char *result, char *str, char **real_result);
-int		heredoc(t_vars *mini);
-int		heredoc1(int fdin, int status);
+int		heredoc(t_vars *mini, int i);
+int		heredoc1(char *filename, int status);
 
 // execution1.c
 char	**findflags(char **str, int i);
@@ -191,6 +196,7 @@ int		antisegfault(char *str);
 int		porfavor(char *str, int i, int k);
 char	*antimalucos(char *str, int i, int a);
 int		find_echo(char *str);
+int		find_more(char *str);
 
 // path
 void	checkpath(char *cmd, t_vars *mini, int i);

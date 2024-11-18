@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/15 17:39:02 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:32:58 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ int	find_echo(char *str)
 			return (0);
 		i++;
 	}
+	return (1);
+}
+
+int	find_more(char *str)
+{
+	if (ft_strncmp(str, "env", 3) == 0
+	|| ft_strncmp(str, "pwd", 3) == 0)
+		return (0);
 	return (1);
 }
 

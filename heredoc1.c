@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:33:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 10:09:45 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:28:52 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	heredoc_lim_array(t_vars *mini)
 	i = 0;
 	j = 0;
 	mini->total_lim = 0;
-	split = ft_split(mini->input, ' ');
+	while (numberof_heredocs(mini->trueflag[mini->p]) != 1)
+		mini->p++;
+	split = ft_split(mini->trueflag[mini->p], ' ');
 	mini->limiters = malloc(sizeof(char *) * (count_limiters(split) + 1));
 	if (!mini->limiters)
 		return ;
@@ -81,7 +83,7 @@ void	heredoc_child(char **limiters, t_vars *mini)
 	int		fd;
 	char	*tmp_filename;
 
-	tmp_filename = "heredoc_tmp.txt";
+	tmp_filename = mini->heredoc_file;
 	signal(SIGINT, signal_heredoc);
 	fd = open(tmp_filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (fd < 0)

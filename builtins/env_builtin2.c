@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_builtin2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 22:38:14 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/17 22:42:20 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:31:12 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	update_existing_or_add_new(t_vars *mini, char *str, int *i, int *done)
 {

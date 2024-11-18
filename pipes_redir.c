@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 17:59:42 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:03:46 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ void	piping(char ***str, t_vars *mini, int ta)
 	}
 	else if (mini->p > 0 && mini->p < o && str[mini->p + 1])
 	{
+		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		if (ta == 1)
 			return ;
-		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		dup2(mini->fd[2 * mini->p + 1], 1);
 		closeall(mini);
 	}
 	else if (mini->p == o && !str[mini->p + 1])
-	{
+	{	
+		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		if (ta == 1)
 			return ;
-		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		closeall(mini);
 	}
 }
@@ -62,15 +62,19 @@ int	setinfile(char *str, t_vars *mini, int i)
 	}
 	else if (i == 2)
 	{
-		heredoc(mini);
-		mini->fd[0] = open("heredoc_tmp.txt", O_RDONLY);
-		if (mini->fd[0] == -1)
+		if (!str || access(str, F_OK) != 0)
 		{
-			ft_printf("%s: No such file or directory\n", str);
-			return (-1);
-		}
-		dup2(mini->fd[0], 0);
-		close(mini->fd[0]);
+       		ft_printf("%s: Heredoc file not found\n", str);
+        	return (-1);
+    	}
+   		mini->fd[0] = open(str, O_RDONLY);
+    	if (mini->fd[0] == -1)
+		{
+        	ft_printf("%s: No such file or directory\n", str);
+        	return (-1);
+    	}
+    	dup2(mini->fd[0], STDIN_FILENO);
+    	close(mini->fd[0]);
 	}
 	else if (i == 3)
 	{
@@ -86,11 +90,11 @@ int	forredirect(char **str, t_vars *mini)
 	int	j;
 
 	j = 0;
-	while (str[j])
+	while (str[j] && str[j + 1])
 	{
-		if (ft_strncmp(str[j], "<<\0", 3) == 0)
+		if (ft_strncmp(str[j + 1], "<<\0", 3) == 0)
 		{
-			if (setinfile(str[j + 1], mini, 2) == 0)
+			if (setinfile(mini->heredoc_file, mini, 2) == 0)
 				return (1);
 		}
 		else if (ft_strncmp(str[j], "<\0", 2) == 0)
@@ -111,8 +115,7 @@ int	forredirect(char **str, t_vars *mini)
 				return (-20);
 			}
 		}
-		else
-			j++;
+		j++;
 	}
 	return (0);
 }
