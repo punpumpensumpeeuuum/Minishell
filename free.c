@@ -60,7 +60,7 @@ void	free_env_export1(t_vars *mini)
 	}
 	if (mini->check)
 		free(mini->check);
-	if (mini->input)
+	if (mini->input && mini->heredoc_files)
 		cleanup_heredoc_files(mini, numpipe(mini->input) + 1);
 }
 

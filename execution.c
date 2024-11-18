@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 19:31:15 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:39:57 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	checkinput(t_vars *mini)
 
 	mini->p = 0;
 	mini->trueflag = ft_split(mini->input, '|');
-	tudo = paodelosplit(mini->input, numpipe(mini->input), 0);
+	tudo = paodelosplit(mini->input, numpipe(mini->input));
 	if (tudo == NULL || mini->trueflag == NULL)
 		return (2);
 	if (numberof_heredocs(mini->input) > 0)
@@ -231,6 +231,9 @@ void	comandddd(char ***str, t_vars *mini)
 
 void	cmddd(t_vars *mini, char ***str, int i, char **nao)
 {
+	int	ta;
+
+	ta = 0;
 	if (i != 0)
 		killchild(str, mini);
 	child_signals_handler();
@@ -240,7 +243,7 @@ void	cmddd(t_vars *mini, char ***str, int i, char **nao)
 		killchild(str, mini);
 		return ;
 	}
-	if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0)
+	if (forredirect(str[mini->p], mini, &ta) < 0 || forredirectout(str, mini, &ta) < 0)
 		killchild(str, mini);
 	if (checkbuiltin(mini) == 0)
 		killchild(str, mini);

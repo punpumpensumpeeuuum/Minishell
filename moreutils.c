@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/15 17:38:14 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:54:51 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,14 @@ int	findcmdplace(char *input, t_vars *mini)
 		i++;
 	}
 	return (-1);
+}
+
+char	***initpaodelo(int pipes)
+{
+	char	***res;
+
+	res = malloc(sizeof(char **) * (pipes + 2));
+	if (!res)
+		return (NULL);
+	return (res);
 }

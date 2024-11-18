@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/18 18:45:55 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:59:18 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_vars
 	int		running;
 }		t_vars;
 
-void	fixing(char ***tudo, t_vars *mini);
+void	fixing(t_vars *mini);
 void	exec_fail(char ***sim, char **nao);
 int		numberof_heredocs(char *str);
 void	cleanup_heredoc_files(t_vars *mini, int i);
@@ -128,10 +128,10 @@ int		export_check(char *str);
 int		str_compare(char *s1, char *s2);
 
 // pipes_redir.c
-void	piping(char ***str, t_vars *mini, int ta);
+void	piping(char ***str, t_vars *mini, int *ta);
 int		setinfile(char *str, t_vars *mini, int i);
-int		forredirect(char **str, t_vars *mini);
-int		forredirectout(char ***str, t_vars *mini);
+int		forredirect(char **str, t_vars *mini, int *ta);
+int		forredirectout(char ***str, t_vars *mini, int *ta);
 
 // heredoc1.c
 void	heredoc_input(int fd, char **limiters, t_vars *mini);
@@ -162,7 +162,7 @@ char	*expand(char *str, t_vars *mini);
 int		checkinput(t_vars *mini);
 void	check_input1(t_vars *mini, char ***tudo);
 void	fdfd(t_vars *mini);
-char	***paodelosplit(char *str, int pipes, int i);
+char	***paodelosplit(char *str, int pipes);
 int		decide(char **str, t_vars *mini);
 void	comandddd(char ***str, t_vars *mini);
 
@@ -185,6 +185,7 @@ int		truecheckbuilt(char *str);
 int		findbuiltimatrix(char **str, t_vars *mini);
 int		findcmdinmatrix(char **puzle, t_vars *mini);
 int		findcmdplace(char *input, t_vars *mini);
+char	***initpaodelo(int pipes);
 
 // utils.c
 int		numpipe(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/18 16:43:17 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:01:39 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,19 @@ int	tesourinha(char *str, int i)
 		{
 			ft_printf("bash: syntax error\n");
 			return (1);
+		}
+		if (str[i] == '>')
+		{
+			if (str[i + 1] == '>')
+				i++;
+			i++;
+			while (str[i] && str[i] == ' ')
+				i++;
+			if (!str[i] || str[i] == '|' || str[i] == '<' || str[i] == '>')
+			{
+				ft_printf("bash: syntax error\n");
+				return (1);
+			}
 		}
 		i++;
 	}

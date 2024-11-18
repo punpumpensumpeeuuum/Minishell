@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   paodelosplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:41:20 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/14 13:56:01 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:54:46 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	***initpaodelo(int pipes)
-{
-	char	***res;
-
-	res = malloc(sizeof(char **) * (pipes + 2));
-	if (!res)
-		return (NULL);
-	return (res);
-}
 
 char	**checksplit(char *str, char delimiter)
 {
@@ -66,11 +56,38 @@ int	copycopy(char **b, char **res_subarray, int word_count)
 	return (0);
 }
 
-char	***paodelosplit(char *str, int pipes, int j)
+int	splitarray(char ***res, char **a, int pipes)
+{
+	char	**b;
+	int		j;
+
+	j = 0;
+	while (j <= pipes)
+	{
+		b = checksplit(a[j], ' ');
+		if (!b)
+			return (-1);
+		res[j] = allocarrayyyyy(a, j);
+		if (!res[j])
+		{
+			free_split(b);
+			return (-1);
+		}
+		if (copycopy(b, res[j], ft_countwords(a[j], ' ')) == -1)
+		{
+			free_split(b);
+			return (-1);
+		}
+		free_split(b);
+		j++;
+	}
+	return (0);
+}
+
+char	***paodelosplit(char *str, int pipes)
 {
 	char	***res;
 	char	**a;
-	char	**b;
 
 	res = initpaodelo(pipes);
 	if (!res)
@@ -78,30 +95,12 @@ char	***paodelosplit(char *str, int pipes, int j)
 	a = checksplit(str, '|');
 	if (!a)
 		return (NULL);
-	while (j <= pipes)
+	if (splitarray(res, a, pipes) == -1)
 	{
-		b = checksplit(a[j], ' ');
-		if (!b)
-		{
-			free_split(a);
-			return (NULL);
-		}
-		res[j] = allocarrayyyyy(a, j);
-		if (!res[j])
-		{
-			free_split(b);
-			return (NULL);
-		}
-		if (copycopy(b, res[j], ft_countwords(a[j], ' ')) == -1)
-		{
-			free_split(b);
-			free_split(a);
-			return (NULL);
-		}
-		free_split(b);
-		j++;
+		free_split(a);
+		return (NULL);
 	}
 	free_split(a);
-	res[j] = NULL;
+	res[pipes + 1] = NULL;
 	return (res);
 }
