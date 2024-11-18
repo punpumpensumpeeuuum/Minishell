@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 17:17:32 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:31:15 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	check_input1(t_vars *mini, char ***tudo)
 		tudo = NULL;
 	}
 	i = 0;
-	cleanup_heredoc_files(mini, numberof_heredocs(mini->input));
+	cleanup_heredoc_files(mini, numberof_heredocs(mini->input) + 1);
 	closeall(mini);
 	if (mini->fd)
 	{
@@ -155,6 +155,10 @@ int	checkinput(t_vars *mini)
 	fdfd(mini);
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
+		if (ft_strncmp(tudo[mini->p][0], "<<", 2) == 0 && tudo[mini->p])
+			mini->p++;
+		if (!tudo[mini->p])
+			break ;
 		if (mini->check != NULL)
 		{
 			free(mini->check);
@@ -163,7 +167,7 @@ int	checkinput(t_vars *mini)
 		if (tudo[mini->p])
 			comandddd(tudo, mini);
 		mini->p++;
-		usleep(25000);
+		usleep(25000);			
 	}
 	free_split(mini->trueflag);
 	check_input1(mini, tudo);

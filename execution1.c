@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 16:58:38 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:39:42 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,27 +129,6 @@ int	handle_expansion(char **input, int *input_len, int *current_size, const char
 		free(expanded);
 	}
 	return (1);
-}
-
-void	fixing(t_vars *mini)
-{
-	int		i;
-	char	*fixed;
-
-	i = 0;
-	while (mini->trueflag[i])
-	{
-		printf("mini->true = %s\n", mini->trueflag[i]);
-		if (ft_strncmp(mini->trueflag[i], " << ", 2) == 0)
-		{
-			fixed = ft_strjoin("echo ", mini->trueflag[i]);
-			free(mini->trueflag[i]);
-			mini->trueflag[i] = ft_strdup(fixed);
-			free(fixed);
-			printf("mini->true = %s\n", mini->trueflag[i]);
-		}
-		i++;
-	}
 }
 
 char	*expand(char *str, t_vars *mini)
