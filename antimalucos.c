@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:47:20 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/18 12:30:22 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:43:27 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*antimalucos(char *str, int i, int a)
 {
 	char	*s;
 
-	if (find_echo(str) == 0 || find_more(str) == 0)
+	if (find_echo(str) == 0)
 		return (str);
 	if (!syntax(str))
 		return (NULL);

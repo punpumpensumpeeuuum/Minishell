@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 13:03:46 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:46:38 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	piping(char ***str, t_vars *mini, int ta)
 		closeall(mini);
 	}
 	else if (mini->p == o && !str[mini->p + 1])
-	{	
+	{
 		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		if (ta == 1)
 			return ;
@@ -64,17 +64,17 @@ int	setinfile(char *str, t_vars *mini, int i)
 	{
 		if (!str || access(str, F_OK) != 0)
 		{
-       		ft_printf("%s: Heredoc file not found\n", str);
-        	return (-1);
-    	}
-   		mini->fd[0] = open(str, O_RDONLY);
-    	if (mini->fd[0] == -1)
+			ft_printf("%s: Heredoc file not found\n", str);
+			return (-1);
+		}
+		mini->fd[0] = open(str, O_RDONLY);
+		if (mini->fd[0] == -1)
 		{
-        	ft_printf("%s: No such file or directory\n", str);
-        	return (-1);
-    	}
-    	dup2(mini->fd[0], STDIN_FILENO);
-    	close(mini->fd[0]);
+			ft_printf("%s: No such file or directory\n", str);
+			return (-1);
+		}
+		dup2(mini->fd[0], STDIN_FILENO);
+		close(mini->fd[0]);
 	}
 	else if (i == 3)
 	{

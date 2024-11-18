@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 12:28:37 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:31:28 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*get_unique_filename(int i)
 	char	*identifier;
 
 	identifier = ft_itoa(i);
-	filename = ft_strjoin("heredoc_tmp_", identifier);
+	filename = ft_strjoin("ft_printf/libft/.heredoc_tmp_", identifier);
 	free(identifier);
 	return (filename);
 }

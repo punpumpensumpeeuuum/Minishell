@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 12:31:29 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:47:00 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	export_var(t_vars *mini)
 	codifiqing_export(mini->trueflag[mini->p]);
 	ft_printf("str = %s\n", mini->trueflag[mini->p]);
 	split = ft_split(mini->trueflag[mini->p], ' ');
-	
+
 	if (!mini->new_export)
 		return ;
 	while (split[i])

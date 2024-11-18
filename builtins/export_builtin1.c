@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/17 22:21:38 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:47:12 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	export_update(t_vars *mini, char *str)
 			free(mini->new_export[i]);
 			mini->new_export[i] = ft_strdup(mini->export[i]);
 		}
-			
+
 		i++;
 	}
 	mini->new_export[i] = NULL;

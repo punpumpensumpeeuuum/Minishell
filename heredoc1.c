@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:33:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 12:28:52 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:18:39 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	heredoc_lim_array(t_vars *mini)
 	i = 0;
 	j = 0;
 	mini->total_lim = 0;
-	while (numberof_heredocs(mini->trueflag[mini->p]) != 1)
-		mini->p++;
 	split = ft_split(mini->trueflag[mini->p], ' ');
 	mini->limiters = malloc(sizeof(char *) * (count_limiters(split) + 1));
 	if (!mini->limiters)

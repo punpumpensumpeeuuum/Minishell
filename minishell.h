@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/18 12:29:10 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:50:34 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_vars
 	int		running;
 }		t_vars;
 
+void	fixing(t_vars *mini);
+void	exec_fail(char ***sim, char **nao);
 int		numberof_heredocs(char *str);
 void	cleanup_heredoc_files(t_vars *mini, int i);
 void	heredoc_files_create(t_vars *mini);
@@ -196,7 +198,6 @@ int		antisegfault(char *str);
 int		porfavor(char *str, int i, int k);
 char	*antimalucos(char *str, int i, int a);
 int		find_echo(char *str);
-int		find_more(char *str);
 
 // path
 void	checkpath(char *cmd, t_vars *mini, int i);

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 13:02:06 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:17:32 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,10 @@ void	heredoc_files_create(t_vars *mini)
 	int		x_files;
 	char	*tmp_file;
 	int		i;
-	int		current_pos;
 
 	i = 0;
-	current_pos = 0;
-	x_files = numberof_heredocs(mini->input);
+	i = 0;
+	x_files = numpipe(mini->input) + 1;
 	mini->heredoc_files = malloc(sizeof(char **) * (x_files + 1));
 	if (!mini->heredoc_files)
 	{
@@ -109,36 +108,36 @@ void	heredoc_files_create(t_vars *mini)
 	}
 	while (i < x_files)
 	{
-		while (numberof_heredocs(mini->trueflag[current_pos]) == 0)
-			current_pos++;
-		mini->heredoc_files[current_pos] = malloc(sizeof(char *) * 2);
-		if (!mini->heredoc_files[current_pos])
+		mini->heredoc_files[i] = malloc(sizeof(char *) * 2);
+		if (!mini->heredoc_files[i])
 		{
 			perror("Not able to allocate heredoc_files[current_pos]\n");
-            cleanup_heredoc_files(mini, i);
-            return ;
-        }
-		tmp_file = get_unique_filename(i);
-        if (!tmp_file)
-		{
-  			perror("Failed to create unique filename\n");
-    		cleanup_heredoc_files(mini, i);
-    		return ;
+			cleanup_heredoc_files(mini, i);
+			return ;
 		}
-		mini->heredoc_files[current_pos][0] = ft_strdup(tmp_file);
-		mini->heredoc_files[current_pos][1] = NULL;
-		free(tmp_file);
-        if (heredoc(mini, current_pos) == -1)
+		tmp_file = get_unique_filename(i);
+		if (!tmp_file)
 		{
-			perror("Failed creating heredoc content\n");
-            cleanup_heredoc_files(mini, i);
-            return ;
+			perror("Failed to create unique filename\n");
+			cleanup_heredoc_files(mini, i);
+			return ;
+		}
+		mini->heredoc_files[i][0] = ft_strdup(tmp_file);
+		mini->heredoc_files[i][1] = NULL;
+		free(tmp_file);
+		if (numberof_heredocs(mini->trueflag[mini->p]) > 0)
+		{
+			if (heredoc(mini, i) == -1)
+			{
+				perror("Failed creating heredoc content\n");
+				cleanup_heredoc_files(mini, i);
+				return ;
+			}
 		}
 		mini->p++;
-		current_pos++;
-        i++;
-    }
-	mini->heredoc_files[i] = NULL;
+		i++;
+	}
+	mini->heredoc_files[x_files] = NULL;
 }
 
 int	checkinput(t_vars *mini)
@@ -190,6 +189,14 @@ int	decide(char **str, t_vars *mini)
 	return (0);
 }
 
+void	exec_fail(char ***str, char **nao)
+{
+	g_exit_code = 127;
+	free(str);
+	free_split(nao);
+	exit(EXIT_FAILURE);
+}
+
 void	comandddd(char ***str, t_vars *mini)
 {
 	int		i;
@@ -212,11 +219,8 @@ void	comandddd(char ***str, t_vars *mini)
 		cmddd(mini, str, i, nao);
 		if (execve(mini->check, nao, mini->env) == -1)
 		{
-			g_exit_code = 127;
 			ft_printf("%s: command not found\n", str[mini->p][mini->i]);
-			free(sim);
-			free_split(nao);
-			exit(EXIT_FAILURE);	
+			exec_fail(str, nao);
 		}
 	}
 }
@@ -228,26 +232,29 @@ void	cmddd(t_vars *mini, char ***str, int i, char **nao)
 	child_signals_handler();
 	if (!str[mini->p] || !str[mini->p][0])
 	{
-        ft_printf("Invalid command or NULL string at position %d\n", mini->p);
-        killchild(str, mini);
-        return;
-    }
-	if (forredirect(str[mini->p], mini) < 0
-	|| forredirectout(str, mini) < 0)
+		ft_printf("Invalid command or NULL string at position %d\n", mini->p);
+		killchild(str, mini);
+		return ;
+	}
+	if (forredirect(str[mini->p], mini) < 0 || forredirectout(str, mini) < 0)
 		killchild(str, mini);
 	if (checkbuiltin(mini) == 0)
 		killchild(str, mini);
+	printf("minip = %d\n", mini->p);
 	if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
 	{
-    	free(nao[1]);
-    	nao[1] = ft_strdup(mini->heredoc_files[mini->p][0]);
-    	if (!nao[1])
-    	{
-        	ft_printf("Error on heredoc filename.\n");
-        	killchild(str, mini);
-        	return;
-    	}
-    	free(nao[2]);
-    	nao[2] = NULL;
+		free(nao[1]);
+		nao[1] = ft_strdup(mini->heredoc_files[mini->p][0]);
+		if (!nao[1])
+		{
+			ft_printf("Error on heredoc filename.\n");
+			killchild(str, mini);
+			return ;
+		}
+		if (nao[2])
+		{
+			free(nao[2]);
+			nao[2] = NULL;
+		}
 	}
 }

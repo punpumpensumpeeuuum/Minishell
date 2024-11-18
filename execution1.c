@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 12:30:02 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:58:38 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	handle_expansion(char **input, int *input_len, int *current_size, const char
 {
 	char	*expanded;
 	char	*var;
-	
+
 	if (str[*i] == '?')
 	{
 		expanded = convert_exit_code();
@@ -131,6 +131,27 @@ int	handle_expansion(char **input, int *input_len, int *current_size, const char
 	return (1);
 }
 
+void	fixing(t_vars *mini)
+{
+	int		i;
+	char	*fixed;
+
+	i = 0;
+	while (mini->trueflag[i])
+	{
+		printf("mini->true = %s\n", mini->trueflag[i]);
+		if (ft_strncmp(mini->trueflag[i], " << ", 2) == 0)
+		{
+			fixed = ft_strjoin("echo ", mini->trueflag[i]);
+			free(mini->trueflag[i]);
+			mini->trueflag[i] = ft_strdup(fixed);
+			free(fixed);
+			printf("mini->true = %s\n", mini->trueflag[i]);
+		}
+		i++;
+	}
+}
+
 char	*expand(char *str, t_vars *mini)
 {
 	int		i;
@@ -142,7 +163,7 @@ char	*expand(char *str, t_vars *mini)
 	input_len = 0;
 	current_size = ft_strlen(str) + 1;
 	input = malloc(current_size);
-	if (!input || find_echo(str) == 0 || find_more(str) == 0)
+	if (!input || find_echo(str) == 0)
 		return (free(input), str);
 	input[0] = '\0';
 	while (str[i])
@@ -154,7 +175,7 @@ char	*expand(char *str, t_vars *mini)
 		}
 		else
 		{
-			char temp[2] = {str[i++], '\0'};
+			char	temp[2] = {str[i++], '\0'};
 			if (!copy_to_input(&input, &input_len, &current_size, temp))
 				return (free(input), NULL);
 		}
