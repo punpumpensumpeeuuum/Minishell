@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/19 15:48:07 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:41:38 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ t_vars	*init_mini(void)
 	g_exit_code = 0;
 	mini->redir = 0;
 	mini->running = 1;
+	mini->j = 0;
+	mini->nq = 0;
+	mini->pq = 0;
+	mini->q = '\0';
 	mini->env = NULL;
 	mini->new_env = NULL;
 	mini->export = NULL;
@@ -64,7 +68,7 @@ void	minimain(t_vars *mini)
 			if (mini->input)
 			{
 				codifiqing(mini->input);
-				mini->input = quotescrazy(mini->input, 0, 0, 0);
+				mini->input = quotescrazy(mini);
 				if (mini->input == NULL)
 					printf("Quote error\n");
 				else

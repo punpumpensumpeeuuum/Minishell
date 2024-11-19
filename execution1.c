@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 14:00:37 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:22:50 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int	checkbuiltin(t_vars *mini)
 		else if ((ft_strncmp(mini->trueflag[mini->p], "pwd", 3) == 0))
 		{
 			pwd_builtin();
+			closeall(mini);
 			return (0);
 		}
 		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0)
 		{
 			echo_builtin(mini);
+			closeall(mini);
 			return (0);
 		}
 		else if (checkmorebuiltin(mini) == 0)

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:29:01 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 14:17:31 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:45:26 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	heredoc_files_create(t_vars *mini)
 void	cleanup_heredoc_files(t_vars *mini, int x_files)
 {
 	int	i;
-	int j;
+	int	j;
 
 	j = 0;
 	if (mini->heredoc_files)

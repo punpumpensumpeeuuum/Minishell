@@ -76,45 +76,40 @@ void	remove_double_quote(char *cmd)
 	cmd[j] = '\0';
 }
 
-typedef struct s_quote
+void	crazy(t_vars *mini)
 {
-	char *input;
-	int pq;
-	int i;
-	int nq;
+	if (mini->input[mini->j] == '\'' || mini->input[mini->j] == '"')
+	{
+		mini->q = mini->input[mini->j];
+		mini->pq = mini->j;
+		mini->j++;
+		mini->nq = 1;
+		while (mini->input[mini->j] && mini->input[mini->j] != mini->q)
+			mini->j++;
+		if (mini->input[mini->j] == mini->q && mini->nq == 1)
+		{
+			mini->input[mini->j] = ' ';
+			mini->input[mini->pq] = ' ';
+			mini->nq = 0;
+		}
+	}
+	mini->j++;
 }
 
-char	*quotescrazy(char *input, int pq, int i, int nq)
+char	*quotescrazy(t_vars *mini)
 {
-	char	q;
-
-	i = 0;
-	nq = 0;
-	if (check_quotes(input) == 1)
+	mini->j = 0;
+	mini->nq = 0;
+	if (check_quotes(mini->input) == 1)
 		return (NULL);
-	while (input[i])
+	while (mini->input[mini->j])
 	{
-		if (ft_strncmp(input, "echo", 4) == 0
-			|| ft_strncmp(input, "export", 6) == 0)
-			return (input);
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			q = input[i];
-			pq = i;
-			i++;
-			nq = 1;
-			while (input[i] && input[i] != q)
-				i++;
-			if (input[i] == q && nq == 1)
-			{
-				input[i] = ' ';
-				input[pq] = ' ';
-				nq = 0;
-			}
-		}
-		i++;
+		if (ft_strncmp(mini->input, "echo", 4) == 0
+			|| ft_strncmp(mini->input, "export", 6) == 0)
+			return (mini->input);
+		crazy(mini);
 	}
-	if (nq == 1)
+	if (mini->nq == 1)
 		return (NULL);
-	return (input);
+	return (mini->input);
 }

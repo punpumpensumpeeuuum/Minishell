@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/19 15:48:19 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:18:31 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ typedef struct s_vars
 	char	**allpaths;
 	char	*check;
 	// parsing
-	char	*redrct;
-	int		flagfdin;
-	int		flagfdout;
 	int		*fd;
 	int		pid;
 	int		i;
@@ -62,12 +59,25 @@ typedef struct s_vars
 	// exit
 	int		exit_code;
 	int		running;
+	// quote
+	char	q;
+	int		pq;
+	int		j;
+	int		nq;
 }		t_vars;
 
 void	exec_fail(char ***sim, char **nao);
 void	cmddd(t_vars *mini, char ***str, int i, char **nao);
 void	codifiqing_export(char *str);
 void	de_codifiqing_export(char *str);
+
+void	crazy(t_vars *mini);
+char	*quotescrazy(t_vars *mini);
+//echo_builtin3.c
+void process_echo_arguments(char **split, t_vars *mini, int i);
+void handle_double_quotes(char *str, t_vars *mini);
+void handle_mixed_quotes(char *str, int *in_quotes);
+void handle_normal_case(t_vars *mini, char *str);
 
 //set_infile.c
 void	setinfile_helper(char *str, t_vars *mini);
@@ -124,6 +134,10 @@ int		is_flag(char *str);
 void	env_update(t_vars *mini, char *str);
 void	env_builtin(t_vars *mini);
 void	init_env(char **env, t_vars *mini);
+void	process_echo_arguments(char **split, t_vars *mini, int i);
+void	handle_double_quotes(char *str, t_vars *mini);
+void	handle_mixed_quotes(char *str, int *in_quotes);
+void	handle_normal_case(t_vars *mini, char *str);
 
 // env_buiultin1.c
 void	envvv_update(t_vars *mini, char *str);
@@ -228,7 +242,6 @@ int		exit_builtin(t_vars *mini);
 int		check_quotes(char *input);
 void	remove_single_quote(char *cmd);
 void	remove_double_quote(char *cmd);
-char	*quotescrazy(char *input, int pq, int i, int nq);
 
 // builtin unset
 int		unset_builtin(t_vars *mini);

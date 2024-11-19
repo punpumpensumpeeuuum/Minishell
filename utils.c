@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 16:30:32 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/18 19:29:30 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:18:22 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,6 @@ int	inputnum(char *input)
 		i++;
 	}
 	return (-1);
-}
-
-void	redirect(t_vars *mini, char *str)
-{
-	int	i;
-	int	j;
-
-	i = inputnum(str);
-	if (i == -1)
-		return ;
-	j = 0;
-	i++;
-	mini->redrct = malloc(sizeof(char) * (wordllllen(&str[i], ' ') + 1));
-	while (ft_isalpha(str[i]) == 0 && str[i])
-		i++;
-	while (ft_isalpha(str[i]) == 1)
-	{
-		mini->redrct[j] = str[i];
-		i++;
-		j++;
-	}
-	mini->redrct[j] = '\0';
-	if (ft_strchr(str, '<'))
-		mini->flagfdin = 1;
-	else if (ft_strchr(str, '>'))
-		mini->flagfdout = 1;
 }
 
 int	numpipe(char *str)
