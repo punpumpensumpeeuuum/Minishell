@@ -6,11 +6,39 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 15:47:12 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/19 12:28:23 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	update_existing_or_add_new_export(t_vars *mini, \
+char *str, int *i, int *done)
+{
+	while (*i < mini->exp_len)
+	{
+		if (mini->export[*i] && str_compare(mini->export[*i], str) == 0)
+		{
+			free(mini->new_export[*i]);
+			mini->new_export[*i] = ft_strdup(str);
+			(*i)++;
+			break ;
+		}
+		else if (!mini->export[*i] && *done == 0)
+		{
+			*done = 1;
+			mini->new_export[*i] = ft_strdup(str);
+			(*i)++;
+			continue ;
+		}
+		else if (mini->export[*i] && str_compare(mini->export[*i], str) != 0)
+		{
+			free(mini->new_export[*i]);
+			mini->new_export[*i] = ft_strdup(mini->export[*i]);
+		}
+		(*i)++;
+	}
+}
 
 void	export_update(t_vars *mini, char *str)
 {
@@ -20,36 +48,12 @@ void	export_update(t_vars *mini, char *str)
 	i = 0;
 	done = 0;
 	de_codifiqing_export(str);
-	ft_printf("str = %s\n", str);
 	if (!mini->new_export)
 	{
-		ft_printf("Error: mini->new_export not initialized.\n");
+		ft_printf("Error: mini->new_env not initialized.\n");
 		return ;
 	}
-	while (i < mini->exp_len)
-	{
-		if (mini->export[i] && str_compare(mini->export[i], str) == 0)
-		{
-			free(mini->new_export[i]);
-			mini->new_export[i] = ft_strdup(str);
-			i++;
-			break ;
-		}
-		else if (!mini->export[i] && done == 0)
-		{
-			done = 1;
-			mini->new_export[i] = ft_strdup(str);
-			i++;
-			continue ;
-		}
-		else if (mini->export[i] && str_compare(mini->export[i], str) != 0)
-		{
-			free(mini->new_export[i]);
-			mini->new_export[i] = ft_strdup(mini->export[i]);
-		}
-
-		i++;
-	}
+	update_existing_or_add_new_export(mini, str, &i, &done);
 	mini->new_export[i] = NULL;
 	export_update1(mini);
 }

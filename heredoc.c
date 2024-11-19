@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 23:45:11 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:23:36 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,6 @@ char	*heredoc_dollar_finish1(char *result, char *str, char **real_result)
 		(*real_result)[v] = '\0';
 	}
 	return (*real_result);
-}
-
-char	*get_unique_filename(int i)
-{
-	char	*filename;
-	char	*identifier;
-
-	identifier = ft_itoa(i);
-	filename = ft_strjoin("ft_printf/libft/.heredoc_tmp_", identifier);
-	free(identifier);
-	return (filename);
 }
 
 int	heredoc(t_vars *mini, int i)

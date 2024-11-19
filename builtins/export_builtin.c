@@ -3,20 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 23:59:46 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/19 12:28:37 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	init_export(t_vars *mini)
+void	init_helper(t_vars *mini)
 {
-	int	i;
-
-	i = 0;
 	mini->export = malloc(sizeof(char *) * (mini->env_len + 1));
 	mini->new_export = calloc(mini->env_len + 100, sizeof(char *));
 	if (!mini->export || !mini->new_export)
@@ -25,6 +22,14 @@ void	init_export(t_vars *mini)
 		free(mini->new_export);
 		return ;
 	}
+}
+
+void	init_export(t_vars *mini)
+{
+	int	i;
+
+	i = 0;
+	init_helper(mini);
 	while (i < mini->env_len)
 	{
 		if (mini->env[i])
@@ -68,39 +73,19 @@ int	export_builtin(t_vars *mini)
 	return (0);
 }
 
-void	codifiqing_export(char *str)
+void	export_var_helper(t_vars *mini, char **split, int i)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (str[i])
+	if (env_check(split[i]) == 0)
 	{
-		if (str[i] == '"' || str[i] == '\'')
-			j++;
-		if (str[i] == '>' && j % 2 != 0)
-			str[i] = '\a';
-		else if (str[i] == '<' && j % 2 != 0)
-			str[i] = '\b';
-		else if (str[i] == '|' && j % 2 != 0)
-			str[i] = '\t';
-		else if (str[i] == ' ' && j % 2 != 0)
-			str[i] = '\f';
-		i++;
+		mini->exp_len += 1;
+		mini->env_len += 1;
+		export_update(mini, split[i]);
+		envvv_update(mini, split[i]);
 	}
-}
-
-void	de_codifiqing_export(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
+	else
 	{
-		if (str[i] == '\f')
-			str[i] = ' ';
-		i++;
+		mini->exp_len += 1;
+		export_update(mini, split[i]);
 	}
 }
 
@@ -112,43 +97,15 @@ void	export_var(t_vars *mini)
 	i = 1;
 	codifiqing_export(mini->trueflag[mini->p]);
 	split = ft_split(mini->trueflag[mini->p], ' ');
-
 	if (!mini->new_export)
 		return ;
 	while (split[i])
 	{
 		if (export_check(split[i]) == 0)
-		{
-			if (env_check(split[i]) == 0)
-			{
-				mini->exp_len += 1;
-				mini->env_len += 1;
-				export_update(mini, split[i]);
-				envvv_update(mini, split[i]);
-			}
-			else
-			{
-				mini->exp_len += 1;
-				export_update(mini, split[i]);
-			}
-		}
+			export_var_helper(mini, split, i);
 		else
 			ft_printf("export: `%s': not a valid identifier\n", split[i]);
 		i++;
 	}
 	free_split(split);
-}
-
-int	env_check(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (0);
-		i++;
-	}
-	return (1);
 }

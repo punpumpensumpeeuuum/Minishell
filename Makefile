@@ -2,11 +2,12 @@ NAME = minishell
 
 SRCS = main.c paths.c utils.c moreutils.c quotes.c heredoc.c heredoc1.c heredoc_utils.c \
 		signals.c free.c parsing.c evenmoreutils.c execution.c utils_again.c execution1.c execution2.c \
-		free1.c pipes_redir.c antimalucos.c paodelosplit.c
+		free1.c pipes_redir.c antimalucos.c paodelosplit.c heredoc_init.c execution_utils.c \
+		set_infile.c 
 
 BUILT = echo_builtin.c echo_builtin1.c env_builtin.c env_builtin1.c env_builtin2.c exit_builtin.c \
 		cd_builtin.c cd_builtin1.c export_builtin.c export_builtin1.c export_utils.c \
-		unset_builtin.c
+		unset_builtin.c export_builtin2.c 
 
 GNL = get_next_line_utils.c get_next_line.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/18 17:59:18 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:48:19 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,37 @@ typedef struct s_vars
 	int		running;
 }		t_vars;
 
-void	fixing(t_vars *mini);
 void	exec_fail(char ***sim, char **nao);
-int		numberof_heredocs(char *str);
-void	cleanup_heredoc_files(t_vars *mini, int i);
-void	heredoc_files_create(t_vars *mini);
-char	*get_unique_filename(int i);
 void	cmddd(t_vars *mini, char ***str, int i, char **nao);
 void	codifiqing_export(char *str);
 void	de_codifiqing_export(char *str);
+
+//set_infile.c
+void	setinfile_helper(char *str, t_vars *mini);
+void	sentinfile_opening_trunc(char *str, t_vars *mini);
+void	sentinfile_opening_append(char *str, t_vars *mini);
+int		setinfile(char *str, t_vars *mini, int i);
+
+//heredoc_utils.c
+void	creat_pipe(int fd[2]);
+void	fork_error(void);
+void	heredoc_expander(int fd, char *line, t_vars *mini);
+int		count_limiters(char **split);
+char	*get_unique_filename(int i);
+
+//heredoc_init.c
+int		numberof_heredocs(char *str);
+void	heredoc_files_helper(int *i, t_vars *mini);
+void	init_heredocs(t_vars *mini, int *x_files);
+void	heredoc_files_create(t_vars *mini);
+void	cleanup_heredoc_files(t_vars *mini, int x_files);
+
+// execution_utils.c
+void	waiting(void);
+void	forking(t_vars *mini);
+void	exec_fail(char ***str, char **nao);
+int		decide(char **str, t_vars *mini);
+void	if_heredoc(char **nao, t_vars *mini, char ***str);
 
 // cd_builtin.c
 void	cd_builtin(t_vars *mini);
@@ -89,7 +111,7 @@ void	in_directory(char *directory, t_vars *mini);
 // echo_builtin.c
 int		echo_builtin(t_vars *mini);
 void	echo_special(t_vars *mini, char *str);
-void	echo_dollar_finish(char *str, int k, t_vars *mini);
+void	echo_dollar_finish(char *str, int k, t_vars *mini, int i);
 
 // echo_builtin1.c
 int		echo_quote(char *str);
@@ -139,12 +161,6 @@ void	add_limiter(t_vars *mini, char **split, int *i, int *j);
 void	heredoc_lim_array(t_vars *mini);
 void	heredoc_child(char **limiters, t_vars *mini);
 
-// heredoc_utils.c
-void	creat_pipe(int fd[2]);
-void	fork_error(void);
-void	heredoc_expander(int fd, char *line, t_vars *mini);
-int		count_limiters(char **split);
-
 // heredoc.c
 char	*heredoc_dollar_finish(char *str, int k, t_vars *mini);
 void	heredoc_dollar_finish_help(t_vars *mini, char *result, char *str,
@@ -163,7 +179,6 @@ int		checkinput(t_vars *mini);
 void	check_input1(t_vars *mini, char ***tudo);
 void	fdfd(t_vars *mini);
 char	***paodelosplit(char *str, int pipes);
-int		decide(char **str, t_vars *mini);
 void	comandddd(char ***str, t_vars *mini);
 
 // utils_again.c
@@ -213,7 +228,7 @@ int		exit_builtin(t_vars *mini);
 int		check_quotes(char *input);
 void	remove_single_quote(char *cmd);
 void	remove_double_quote(char *cmd);
-char	*quotescrazy(char *input);
+char	*quotescrazy(char *input, int pq, int i, int nq);
 
 // builtin unset
 int		unset_builtin(t_vars *mini);

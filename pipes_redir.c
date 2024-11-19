@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 23:29:21 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:42:48 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	pipinghelp(char ***str, t_vars *mini, int *ta, int o)
 		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		if ((*ta) == 1)
 			return ;
-	}	
+	}
 }
 
 void	piping(char ***str, t_vars *mini, int *ta)
@@ -49,50 +49,6 @@ void	piping(char ***str, t_vars *mini, int *ta)
 	else
 		pipinghelp(str, mini, ta, o);
 	closeall(mini);
-}
-
-int	setinfile(char *str, t_vars *mini, int i)
-{
-	if (i == 0)
-	{
-		mini->fd[0] = open(str, O_RDONLY);
-		if (mini->fd[0] == -1)
-		{
-			ft_printf("%s: No such file or directory\n", str);
-			return (-1);
-		}
-		dup2(mini->fd[0], 0);
-		close(mini->fd[0]);
-	}
-	else if (i == 1)
-	{
-		mini->fd[1] = open(str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		dup2(mini->fd[1], 1);
-		close(mini->fd[1]);
-	}
-	else if (i == 2)
-	{
-		if (!str || access(str, F_OK) != 0)
-		{
-       		ft_printf("%s: Heredoc file not found\n", str);
-        	return (-1);
-    	}
-   		mini->fd[0] = open(str, O_RDONLY);
-    	if (mini->fd[0] == -1)
-		{
-        	ft_printf("%s: No such file or directory\n", str);
-        	return (-1);
-    	}
-    	dup2(mini->fd[0], STDIN_FILENO);
-    	close(mini->fd[0]);
-	}
-	else if (i == 3)
-	{
-		mini->fd[1] = open(str, O_WRONLY | O_APPEND | O_CREAT, 0644);
-		dup2(mini->fd[1], 1);
-		close(mini->fd[1]);
-	}
-	return (0);
 }
 
 int	forredirect(char **str, t_vars *mini, int *ta)
