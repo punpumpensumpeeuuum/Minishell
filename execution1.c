@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 17:22:50 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:53:00 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	checkbuiltin(t_vars *mini)
 			&& !(more(mini->input, 3)))
 		{
 			env_builtin(mini);
+			closeall(mini);
 			return (0);
 		}
 		else if ((ft_strncmp(mini->trueflag[mini->p], "pwd", 3) == 0))
@@ -67,25 +68,25 @@ int	checkbuiltin(t_vars *mini)
 	return (1);
 }
 
-int	copy_to_input(char **input, int *input_len, \
-		int *current_size, const char *str)
+int	copy_to_input(char **input, t_vars *mini, \
+		const char *str)
 {
 	int		str_len;
 	char	*new_input;
 
 	str_len = ft_strlen(str) + 1;
-	while (*input_len + str_len >= *current_size)
+	while (mini->input_len + str_len >= mini->currentsize)
 	{
-		*current_size *= 2;
-		new_input = malloc(*current_size);
+		mini->currentsize *= 2;
+		new_input = malloc(mini->currentsize);
 		if (!new_input)
 			return (0);
-		ft_strlcpy(new_input, *input, *current_size);
+		ft_strlcpy(new_input, *input, mini->currentsize);
 		free(*input);
 		*input = new_input;
 	}
-	ft_strlcat(*input, str, *current_size);
-	*input_len += str_len;
+	ft_strlcat(*input, str, mini->currentsize);
+	mini->input_len += str_len;
 	return (1);
 }
 
@@ -106,7 +107,7 @@ char	*extract_var_name(const char *str, int *i)
 	return (var);
 }
 
-int	handle_expansion(char **input, int *input_len, int *current_size, const char *str, int *i, t_vars *mini)
+int	handle_expansion(char **input, const char *str, int *i, t_vars *mini)
 {
 	char	*expanded;
 	char	*var;
@@ -126,40 +127,9 @@ int	handle_expansion(char **input, int *input_len, int *current_size, const char
 	}
 	if (expanded)
 	{
-		if (!copy_to_input(input, input_len, current_size, expanded))
+		if (!copy_to_input(input, mini, expanded))
 			return (free(expanded), 0);
 		free(expanded);
 	}
 	return (1);
-}
-
-char	*expand(char *str, t_vars *mini)
-{
-	int		i;
-	int		input_len;
-	int		current_size;
-	char	*input;
-
-	i = 0;
-	input_len = 0;
-	current_size = ft_strlen(str) + 1;
-	input = malloc(current_size);
-	if (!input || find_echo(str) == 0)
-		return (free(input), str);
-	input[0] = '\0';
-	while (str[i])
-	{
-		if (str[i] == '$' && ++i)
-		{
-			if (!handle_expansion(&input, &input_len, &current_size, str, &i, mini))
-				return (free(input), NULL);
-		}
-		else
-		{
-			char	temp[2] = {str[i++], '\0'};
-			if (!copy_to_input(&input, &input_len, &current_size, temp))
-				return (free(input), NULL);
-		}
-	}
-	return (free(str), input);
 }
