@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/19 17:51:59 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:59:26 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	codifiqing_export(char *str);
 void	de_codifiqing_export(char *str);
 void	crazy(t_vars *mini);
 char	*quotescrazy(t_vars *mini);
- 
+
 //echo_builtin3.c
 void	process_echo_arguments(char **split, t_vars *mini, int i);
 void	handle_double_quotes(char *str, t_vars *mini);

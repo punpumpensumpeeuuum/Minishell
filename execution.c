@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 14:15:17 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:59:08 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,6 @@ void	cmddd(t_vars *mini, char ***str, int i, char **nao)
 		killchild(str, mini);
 	if (checkbuiltin(mini) == 0)
 		killchild(str, mini);
+	closeall(mini);
 	if_heredoc(nao, mini, str);
 }

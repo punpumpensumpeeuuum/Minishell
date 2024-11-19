@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 17:53:00 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:58:45 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,16 @@ int	checkbuiltin(t_vars *mini)
 			&& !(more(mini->input, 3)))
 		{
 			env_builtin(mini);
-			closeall(mini);
 			return (0);
 		}
 		else if ((ft_strncmp(mini->trueflag[mini->p], "pwd", 3) == 0))
 		{
 			pwd_builtin();
-			closeall(mini);
 			return (0);
 		}
 		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0)
 		{
 			echo_builtin(mini);
-			closeall(mini);
 			return (0);
 		}
 		else if (checkmorebuiltin(mini) == 0)

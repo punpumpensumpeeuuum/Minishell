@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:09:04 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/17 22:21:47 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:01:13 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	unsethelp(t_vars *mini, char **split, int i)
 	str = get_var(mini, split[i]);
 	if (!str)
 	{
-		free(split);
+		free_split(split);
 		ft_printf("Var not found\n");
 		return (1);
 	}
@@ -71,7 +71,7 @@ int	unset_builtin(t_vars *mini)
 	if (!split || !split[i])
 	{
 		ft_printf("No variable to unset.\n");
-		free(split);
+		free_split(split);
 		return (1);
 	}
 	while (split[i])
