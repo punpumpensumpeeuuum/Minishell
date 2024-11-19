@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 18:00:33 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/18 23:29:21 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	pipinghelp(char ***str, t_vars *mini, int *ta, int o)
 		dup2(mini->fd[2 * (mini->p - 1)], 0);
 		if ((*ta) == 1)
 			return ;
-		closeall(mini);
 	}	
 }
-
 
 void	piping(char ***str, t_vars *mini, int *ta)
 {
@@ -36,7 +34,6 @@ void	piping(char ***str, t_vars *mini, int *ta)
 		if ((*ta) == 1 || (*ta) == 3)
 			return ;
 		dup2(mini->fd[mini->p + 1], 1);
-		closeall(mini);
 	}
 	else if (mini->p > 0 && mini->p < o && str[mini->p + 1])
 	{
@@ -48,10 +45,10 @@ void	piping(char ***str, t_vars *mini, int *ta)
 		if ((*ta) == 1)
 			return ;
 		dup2(mini->fd[2 * mini->p + 1], 1);
-		closeall(mini);
 	}
 	else
 		pipinghelp(str, mini, ta, o);
+	closeall(mini);
 }
 
 int	setinfile(char *str, t_vars *mini, int i)

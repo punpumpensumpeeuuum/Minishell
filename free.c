@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 19:28:27 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 23:05:11 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,6 @@ void	free_env_export(t_vars *mini)
 
 void	free_env_export1(t_vars *mini)
 {
-	int	i;
-
-	i = 0;
 	if (mini->export)
 	{
 		free_array(mini->export);

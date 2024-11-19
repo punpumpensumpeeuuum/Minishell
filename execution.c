@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 19:39:57 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/18 23:31:28 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,11 +210,13 @@ void	comandddd(char ***str, t_vars *mini)
 	if (!str[mini->p] || !mini->trueflag[mini->p])
 		return ;
 	i = decide(str[mini->p], mini);
-	if (i == 1 || i == 2)
+	if (i >= 1 && i <= 3)
 		return ;
 	mini->pid = fork();
 	if (mini->pid < 0)
 		fork_error();
+	if (ft_strncmp(str[mini->p][0], "<<", 2) == 0)
+		return ;	
 	if (mini->pid == 0)
 	{
 		sim = ft_strjoin("/", str[mini->p][mini->i]);
@@ -243,11 +245,12 @@ void	cmddd(t_vars *mini, char ***str, int i, char **nao)
 		killchild(str, mini);
 		return ;
 	}
+	if (numpipe(mini->input) > 0)
+		piping(str, mini, &ta);
 	if (forredirect(str[mini->p], mini, &ta) < 0 || forredirectout(str, mini, &ta) < 0)
 		killchild(str, mini);
 	if (checkbuiltin(mini) == 0)
 		killchild(str, mini);
-	printf("minip = %d\n", mini->p);
 	if (nao[1] && ft_strncmp(nao[1], "<<", 2) == 0)
 	{
 		free(nao[1]);

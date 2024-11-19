@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 15:47:00 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/18 23:59:46 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	export_var(t_vars *mini)
 
 	i = 1;
 	codifiqing_export(mini->trueflag[mini->p]);
-	ft_printf("str = %s\n", mini->trueflag[mini->p]);
 	split = ft_split(mini->trueflag[mini->p], ' ');
 
 	if (!mini->new_export)
