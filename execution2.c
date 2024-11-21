@@ -3,63 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   execution2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:34:43 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/19 16:50:09 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/21 03:07:34 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	countflags(char **str)
+int	countflags(char **str, int i)
 {
 	int	count;
 	int	h;
 
+	h = i;
 	count = 0;
-	h = 0;
-	while (str[h] && ft_strncmp(str[h], ">", 1) != 0)
+	while (str[h])
 	{
-		if (ft_strncmp(str[h], "<<", 2) != 0)
-			count += 2;
-		else if (ft_strncmp(str[h], "<", 1) != 0)
+		if (ft_strncmp(str[h], ">", 1) == 0 || ft_strncmp(str[h], "<", 1) == 0)
+			h += 2;
+		else
+		{
 			count++;
-		h++;
+			h++;
+		}
 	}
 	return (count);
 }
 
-char	**allocate_flags_array(char **str, int i, int h, int j)
+char	**allocate_flags_array(char **str, int i, int count)
 {
-	char	**s;
-	int		l;
+	char	**result;
+	int		h;
+	int		j;
 
-	l = 0;
-	s = malloc(sizeof(char *) * (j + 1));
-	if (!s)
+	h = i;
+	j = 0;
+	result = malloc(sizeof(char *) * (count + 1));
+	if (!result)
 		return (NULL);
-	s[l++] = ft_strdup(str[i]);
-	j = i + 1;
-	while (j < h)
+	while (str[h])
 	{
-		s[l++] = ft_strdup(str[j]);
-		j++;
+		if (ft_strncmp(str[h], ">", 1) == 0 || ft_strncmp(str[h], "<", 1) == 0)
+			h += 2;
+		else
+		{
+			result[j++] = ft_strdup(str[h]);
+			h++;
+		}
 	}
-	if (l < h)
-		s[l++] = ft_strdup(str[i - 1]);
-	s[l] = NULL;
-	return (s);
+	result[j] = NULL;
+	return (result);
 }
 
 char	**findflags(char **str, int i)
 {
-	int	h;
-	int	j;
+	int	count;
 
-	j = countflags(str);
-	h = 0;
-	while (str[h] && ft_strncmp(str[h], ">", 1) != 0)
-		h++;
-	return (allocate_flags_array(str, i, h, j));
+	count = countflags(str, i);
+	return (allocate_flags_array(str, i, count));
 }
