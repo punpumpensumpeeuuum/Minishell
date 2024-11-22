@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/21 23:53:52 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:49:25 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ extern int	g_exit_code;
 typedef struct s_vars
 {
 	char	*input;
+	char	***tudo;
 	// builtins
 	char	**env;
 	char	**new_env;
@@ -252,7 +253,7 @@ void	remove_single_quote(char *cmd);
 void	remove_double_quote(char *cmd);
 
 // builtin unset
-int		unset_builtin(t_vars *mini);
+void	unset_builtin(t_vars *mini);
 void	pwd_builtin(void);
 
 // free.c

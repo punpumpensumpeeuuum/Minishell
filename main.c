@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 00:41:33 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:04:01 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_vars	*init_mini(void)
 	mini->new_env = NULL;
 	mini->export = NULL;
 	mini->new_export = NULL;
+	mini->tudo = NULL;
 	mini->fd = NULL;
 	mini->check = NULL;
 	mini->limiters = NULL;

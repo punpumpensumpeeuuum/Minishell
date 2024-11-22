@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:30:38 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 10:32:12 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:45:53 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ void	waiting(void)
 		else if (WIFSIGNALED(status))
 			g_exit_code = 128 + WTERMSIG(status);
 	}
+	if (g_exit_code == 130)
+		write(1, "\n", 1);
+	else if (g_exit_code == 131)
+		write(1, "Quit (core dumped)\n", 20);
 }
 
 int	decide(char **str, t_vars *mini)

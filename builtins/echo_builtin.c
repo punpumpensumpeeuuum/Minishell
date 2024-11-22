@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/21 23:26:34 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/22 13:09:25 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,25 +95,41 @@ void	echo_special(t_vars *mini, char *str)
 int	echo_builtin(t_vars *mini)
 {
 	int		i;
-	char	**split;
+	// char	**split;
 	int		new_line;
 
-	i = 0;
+	i = 1;
 	new_line = 1;
 	de_codifiqing(mini->trueflag[mini->p]);
-	split = ft_split(mini->trueflag[mini->p], ' ');
-	if (split[1] == NULL)
+	// int k = -1;
+	// while (mini->tudo[mini->p][++k])
+	// 	printf("mini - > %s\n", mini->tudo[mini->p][k]);
+	if (mini->tudo[mini->p][i] == NULL)
 	{
 		ft_printf("\n");
-		free_split(split);
 		return (0);
 	}
-	if (split[i] && ft_strchr(mini->trueflag[mini->p], ' '))
-		while (split[++i] && is_flag(split[i]))
-			new_line = 0;
+	while (mini->tudo[mini->p][i] && is_flag(mini->tudo[mini->p][i]))
+	{
+		new_line = 0;
+		i++;
+	}
+	i = 1;
+	while (mini->tudo[mini->p][i] && ft_strncmp(mini->tudo[mini->p][i], "\f", 1) == 0)
+	{
+		new_line = 1;
+		i++;
+	}
+	while (mini->tudo[mini->p][i])
+	{
+		ft_printf("%s", mini->tudo[mini->p][i]);
+		if (mini->tudo[mini->p][i + 1])
+			ft_printf(" ");
+		i++;
+	}
+	// printf("new_line = %d\n", new_line);
 	// process_echo_arguments(split, mini, i);
 	if (new_line)
 		ft_printf("\n");
-	free_split(split);
 	return (0);
 }

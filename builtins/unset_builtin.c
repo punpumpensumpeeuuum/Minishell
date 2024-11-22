@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:09:04 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 19:01:13 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:18:41 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,37 +49,39 @@ int	unsethelp(t_vars *mini, char **split, int i)
 
 	str = get_var(mini, split[i]);
 	if (!str)
-	{
-		free_split(split);
-		ft_printf("Var not found\n");
 		return (1);
-	}
 	env_update(mini, str);
 	exp_update(mini, str);
 	return (0);
 }
 
-int	unset_builtin(t_vars *mini)
+void	unset_builtin(t_vars *mini)
 {
 	char	**split;
 	int		i;
 
 	i = 1;
 	if (ft_strncmp(mini->trueflag[mini->p], "unset\0", 6) == 0)
-		return (1);
+		return ;
 	split = ft_split(mini->trueflag[mini->p], ' ');
-	if (!split || !split[i])
-	{
-		ft_printf("No variable to unset.\n");
-		free_split(split);
-		return (1);
-	}
+	if (!split)
+		return ;
 	while (split[i])
 	{
 		if (unsethelp(mini, split, i) == 1)
-			return (1);
+		{
+			if (split[i + 1])
+			{
+				i++;
+				continue ;
+			}
+			else
+			{
+				free_split(split);
+				return ;
+			}
+		}
 		i++;
 	}
-	free_array(split);
-	return (0);
+	free_split(split);
 }
