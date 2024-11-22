@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paodelosplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:41:20 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/18 17:54:46 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/21 23:41:59 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ int	copycopy(char **b, char **res_subarray, int word_count)
 	i = 0;
 	while (i < word_count)
 	{
+		b[i] = quotescrazy(b[i], 0, 0);
+		if (!b[i])
+		{
+			printf("Quote error\n");
+			return (-2);
+		}
 		res_subarray[i] = ft_strdup(b[i]);
 		if (!res_subarray[i])
 			return (-1);
@@ -73,7 +79,7 @@ int	splitarray(char ***res, char **a, int pipes)
 			free_split(b);
 			return (-1);
 		}
-		if (copycopy(b, res[j], ft_countwords(a[j], ' ')) == -1)
+		if (copycopy(b, res[j], ft_countwords(a[j], ' ')) < 0)
 		{
 			free_split(b);
 			return (-1);

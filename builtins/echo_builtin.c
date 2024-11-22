@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 17:14:46 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/21 23:26:34 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	echo_builtin(t_vars *mini)
 	if (split[i] && ft_strchr(mini->trueflag[mini->p], ' '))
 		while (split[++i] && is_flag(split[i]))
 			new_line = 0;
-	process_echo_arguments(split, mini, i);
+	// process_echo_arguments(split, mini, i);
 	if (new_line)
 		ft_printf("\n");
 	free_split(split);

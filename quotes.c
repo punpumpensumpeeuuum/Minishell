@@ -114,79 +114,144 @@
 // 	return (mini->input);
 // }
 
-int	handlequote(t_vars *mini)
+int	handlequote(char *str, int j)
 {
-	if (mini->input[mini->j] == '\'')
+	if (str[j] == '\'')
 	{
-		mini->input[mini->j] = 5;
+		str[j] = 5;
 		return (5);
 	}
 	else
 	{
-		mini->input[mini->j] = 6;
+		str[j] = 6;
 		return (6);
 	}
 	return (0);
 }
 
-void	countformaloc(t_vars *mini, int *a)
+void	countformaloc(char *str, int *a, int j)
 {
-	while (mini->input[mini->j])
+	while (str[j])
 	{
 		(*a)++;
-		if (mini->input[mini->j] == 5 || mini->input[mini->j] == 6)
+		if (str[j] == 5 || str[j] == 6)
 			(*a)--;
-		mini->j++;
+		j++;
 	}
 }
 
-char	*removedestroy(t_vars *mini, int i, int a)
+char	*removedestroy(char *str, int i, int a, int j)
 {
 	char	*s;
 
-	mini->j = 0;
-	countformaloc(mini, &a);
+	j = 0;
+	countformaloc(str, &a, j);
 	s = malloc(sizeof(char) * (a + 1));
-	mini->j = 0;
-	while (mini->input[mini->j])
+	j = 0;
+	while (str[j])
 	{
-		if (mini->input[mini->j] != 5 && mini->input[mini->j] != 6)
+		if (str[j] != 5 && str[j] != 6)
 		{
-			s[i] = mini->input[mini->j];
+			s[i] = str[j];
 			i++;
 		}
-		mini->j++;
+		j++;
 	}
 	s[i] = '\0';
-	free(mini->input);
+	free(str);
 	return (s);
 }
 
-char	*quotescrazy(t_vars *mini)
+char	*quotescrazy(char *str, int j, int pq)
 {
-	mini->j = 0;
-	mini->pq = 0;
-	while (mini->input[mini->j])
+	while (str[j])
 	{
-		if ((mini->input[mini->j] == '\'' || mini->input[mini->j] == '"') && mini->pq == 0)
-			mini->pq = handlequote(mini);
-		if (mini->pq == 5)
+		if ((str[j] == '\'' || str[j] == '"') && pq == 0)
+			pq = handlequote(str, j);
+		if (pq == 5)
 		{
-			if (mini->input[mini->j] == '\'')
+			if (str[j] == '\'')
 			{
-				mini->input[mini->j] = 5;	
-				mini->pq = 0;			
+				str[j] = 5;
+				pq = 0;
 			}
 		}
-		if (mini->pq == 6)
+		if (pq == 6)
 		{
-			if (mini->input[mini->j] == '"')
+			if (str[j] == '"')
 			{
-				mini->input[mini->j] = 6;	
-				mini->pq = 0;			
+				str[j] = 6;
+				pq = 0;
 			}
 		}
-		mini->j++;
+		j++;
 	}
-	return (removedestroy(mini, 0, 0));
+	if (pq != 0)
+		return (NULL);
+	return (removedestroy(str, 0, 0, j));
+}
+
+void	preparequotes(t_vars *mini)
+{
+	int		i;
+	char	p;
+
+	i = 0;
+	p = '\a';
+	while (mini->input[i])
+	{
+		if ((mini->input[i] == '\'' || mini->input[i] == '"') && p == '\a')
+		{
+			p = mini->input[i];
+			i++;
+		}
+		if (p != '\a' && mini->input[i] == 32)
+			mini->input[i] = ';';
+		if (mini->input[i] == p)
+			p = '\a';
+		i++;
+	}
+}
+
+void	deprepare(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ';')
+			str[i] = 32;
+		i++;
+	}
+}
+
+void	depre(t_vars *mini)
+{
+	int	i;
+
+	i = 0;
+	while (mini->trueflag[i])
+	{
+		deprepare(mini->trueflag[i]);
+		i++;
+	}
+}
+
+void	de(char ***tudo)
+{
+	int	p;
+	int	i;
+
+	p = 0;
+	i = 0;
+	while (tudo[p])
+	{
+		while (tudo[p][i])
+		{
+			deprepare(tudo[p][i]);
+			i++;
+		}
+		p++;
+	}
 }

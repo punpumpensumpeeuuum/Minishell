@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:55:53 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/17 20:28:49 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:58:58 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ int	export_check(char *str)
 	{
 		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
 			|| (str[i] == '_') || str[i] == '=' || ft_isdigit(str[i])
-			|| str[i] == '"' || str[i] == '\'' || str[i] == '\f')
+			|| str[i] == '"' || str[i] == '\'' || str[i] == '\f' || str[i] == '-')
 			i++;
 		else
 			return (1);
 	}
-	remove_double_quote(str);
-	remove_single_quote(str);
+	// remove_double_quote(str);
+	// remove_single_quote(str);
 	return (0);
 }
 

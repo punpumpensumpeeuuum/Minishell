@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 18:58:45 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/21 21:00:39 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,21 @@ int	handle_expansion(char **input, const char *str, int *i, t_vars *mini)
 		if (!var)
 			return (0);
 		expanded = ft_getenv(mini, var);
+		if (!expanded)
+		{
+			free(var);
+			var = NULL;
+			return (1);
+		}
 		free(var);
+		var = NULL;
 	}
 	if (expanded)
 	{
 		if (!copy_to_input(input, mini, expanded))
 			return (free(expanded), 0);
 		free(expanded);
+		expanded = NULL;
 	}
 	return (1);
 }

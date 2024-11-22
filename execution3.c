@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   execution3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:50:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/19 16:58:11 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/21 23:19:29 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	expanding(char ***tudo, t_vars *mini)
+{
+	int	i;
+
+	i = 0;
+	while (tudo[mini->p][i])
+	{
+		if (ft_strncmp(tudo[mini->p][i], "<<", 2) == 0)
+			return ;
+		if (tudo[mini->p][i][0] == '$')
+			tudo[mini->p][i] = expand(tudo[mini->p][i], mini);
+		i++;
+	}
+}
 
 int	handle_expansion_characters(char **input, char *str, int *i, t_vars *mini)
 {

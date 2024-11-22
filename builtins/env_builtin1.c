@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_builtin1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:14:03 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 12:30:55 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:55:34 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 void	envvv_update1(t_vars *mini)
 {
-	int		i;
-	char	**temp;
+	int	i;
 
 	i = 0;
 	free_double_array(mini->env, mini->env_len);
-	temp = realloc(mini->env, sizeof(char *) * (mini->env_len + 1));
-	if (!temp)
+	mini->env = malloc(sizeof(char *) * (mini->env_len + 1));
+	if (!mini->env)
 		return ;
-	mini->env = temp;
 	while (i < mini->env_len)
 	{
 		if (mini->new_env[i])

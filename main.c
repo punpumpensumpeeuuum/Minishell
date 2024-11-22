@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/19 19:00:18 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/22 00:05:46 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,11 @@ void	minimain(t_vars *mini)
 		mini->input = antimalucos(mini->input, 0, 0);
 		if (mini->input)
 		{
-			mini->input = expand(mini->input, mini);
-			if (mini->input)
-			{
-				codifiqing(mini->input);
-				mini->input = quotescrazy(mini);
-				if (mini->input == NULL)
-					ft_printf("Quote error\n");
-				else
-					checkinput(mini);
-			}
+			preparequotes(mini);
+			if (mini->input == NULL)
+				ft_printf("Quote error\n");
+			else
+				checkinput(mini);
 		}
 	}
 }
@@ -101,3 +96,6 @@ int	main(int ac, char **av, char **env)
 	free_env_export(mini);
 	return (g_exit_code);
 }
+
+// expansao dentro o heredoc
+// flag pas single quotes

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:46:08 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/18 12:29:41 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:57:47 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	free_double_array(char **str, int len)
 		}
 		i++;
 	}
+	free(str);
+	str = NULL;
 }
 
 void	closeall(t_vars *mini)

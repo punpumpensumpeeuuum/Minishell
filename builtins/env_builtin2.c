@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_builtin2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 22:38:14 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/19 11:59:05 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:56:55 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	update_existing_or_add_new(t_vars *mini, char *str, int *i, int *done)
 			free(mini->new_env[*i]);
 			mini->new_env[*i] = ft_strdup(str);
 			(*i)++;
-			break ;
+			*done = 1;
+			continue ;
 		}
 		else if (!mini->env[*i] && *done == 0)
 		{

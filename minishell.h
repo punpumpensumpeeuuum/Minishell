@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/19 18:59:26 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/21 23:53:52 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,17 @@ typedef struct s_vars
 
 int		copy_to_input(char **input, t_vars *mini, const char *str);
 int		handle_expansion(char **input, const char *str, int *i, t_vars *mini);
+void	expanding(char ***tudo, t_vars *mini);
 void	exec_fail(char ***sim, char **nao);
 void	cmddd(t_vars *mini, char ***str, int i, char **nao);
 void	codifiqing_export(char *str);
 void	de_codifiqing_export(char *str);
 void	crazy(t_vars *mini);
-char	*quotescrazy(t_vars *mini);
+char	*quotescrazy(char *str, int j, int pq);
+void	preparequotes(t_vars *mini);
+void	deprepare(char *str);
+void	depre(t_vars *mini);
+void	de(char ***tudo);
 
 //echo_builtin3.c
 void	process_echo_arguments(char **split, t_vars *mini, int i);

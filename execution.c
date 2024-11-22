@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 18:59:08 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/22 00:01:10 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	check_input_loop(t_vars *mini, char ***tudo)
 {
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
+		expanding(tudo, mini);
 		if (ft_strncmp(tudo[mini->p][0], "<<", 2) == 0 && tudo[mini->p])
 			mini->p++;
 		if (!tudo[mini->p])
@@ -64,10 +65,13 @@ int	checkinput(t_vars *mini)
 	char	***tudo;
 
 	mini->p = 0;
+	mini->input = quotescrazy(mini->input, 0, 0);
 	mini->trueflag = ft_split(mini->input, '|');
 	tudo = paodelosplit(mini->input, numpipe(mini->input));
 	if (tudo == NULL || mini->trueflag == NULL)
 		return (2);
+	de(tudo);
+	depre(mini);
 	if (numberof_heredocs(mini->input) > 0)
 		heredoc_files_create(mini);
 	mini->p = 0;
