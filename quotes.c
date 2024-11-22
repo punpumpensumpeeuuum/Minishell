@@ -12,113 +12,23 @@
 
 #include "minishell.h"
 
-// int	check_quotes(char *cmd)
-// {
-// 	int	i;
-// 	int	single_quote;
-// 	int	double_quote;
+void	antiantiexpand(char *str, int j, t_vars *mini)
+{
+	j++;
+	while (str[j] && str[j] != 5)
+	{
+		if (str[j] == '$')
+			mini->antiexp = 1;
+		j++;
+	}
+}
 
-// 	i = 0;
-// 	single_quote = 0;
-// 	double_quote = 0;
-// 	while (cmd[i])
-// 	{
-// 		if (cmd[i] == '\'' && single_quote == 0)
-// 			single_quote = 1;
-// 		else if (cmd[i] == '\"' && double_quote == 0)
-// 			double_quote = 1;
-// 		else if (cmd[i] == '\'' && single_quote == 1)
-// 			single_quote = 0;
-// 		else if (cmd[i] == '\"' && double_quote == 1)
-// 			double_quote = 0;
-// 		i++;
-// 	}
-// 	if (single_quote != 0 || double_quote != 0)
-// 		return (1);
-// 	return (0);
-// }
-
-// void	remove_single_quote(char *cmd)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (cmd[i] != '\0')
-// 	{
-// 		if (cmd[i] != '\'')
-// 		{
-// 			cmd[j] = cmd[i];
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	cmd[j] = '\0';
-// }
-
-// void	remove_double_quote(char *cmd)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (cmd[i] != '\0')
-// 	{
-// 		if (cmd[i] != '"')
-// 		{
-// 			cmd[j] = cmd[i];
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	cmd[j] = '\0';
-// }
-
-// void	crazy(t_vars *mini)
-// {
-// 	if (mini->input[mini->j] == '\'' || mini->input[mini->j] == '"')
-// 	{
-// 		mini->q = mini->input[mini->j];
-// 		mini->pq = mini->j;
-// 		mini->j++;
-// 		mini->nq = 1;
-// 		while (mini->input[mini->j] && mini->input[mini->j] != mini->q)
-// 			mini->j++;
-// 		if (mini->input[mini->j] == mini->q && mini->nq == 1)
-// 		{
-// 			mini->input[mini->j] = ' ';
-// 			mini->input[mini->pq] = ' ';
-// 			mini->nq = 0;
-// 		}
-// 	}
-// 	mini->j++;
-// }
-
-// char	*quotescrazy(t_vars *mini)
-// {
-// 	mini->j = 0;
-// 	mini->nq = 0;
-// 	if (check_quotes(mini->input) == 1)
-// 		return (NULL);
-// 	while (mini->input[mini->j])
-// 	{
-// 		if (ft_strncmp(mini->input, "echo", 4) == 0
-// 			|| ft_strncmp(mini->input, "export", 6) == 0)
-// 			return (mini->input);
-// 		crazy(mini);
-// 	}
-// 	if (mini->nq == 1)
-// 		return (NULL);
-// 	return (mini->input);
-// }
-
-int	handlequote(char *str, int j)
+int	handlequote(char *str, int j, t_vars *mini)
 {
 	if (str[j] == '\'')
 	{
 		str[j] = 5;
+		antiantiexpand(str, j, mini);
 		return (5);
 	}
 	else
@@ -162,26 +72,12 @@ char	*removedestroy(char *str, int i, int a, int j)
 	return (s);
 }
 
-int	has_quotes(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '"')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-char	*quotescrazy(char *str, int j, int pq)
+char	*quotescrazy(char *str, int j, int pq, t_vars *mini)
 {
 	while (str[j])
 	{
 		if ((str[j] == '\'' || str[j] == '"') && pq == 0)
-			pq = handlequote(str, j);
+			pq = handlequote(str, j, mini);
 		if (pq == 5)
 		{
 			if (str[j] == '\'')
@@ -200,85 +96,7 @@ char	*quotescrazy(char *str, int j, int pq)
 		}
 		j++;
 	}
-	printf(">>>>>>>>>>> %s\n", str);
 	if (pq != 0)
 		return (NULL);
 	return (removedestroy(str, 0, 0, j));
-}
-
-void	preparequotes(t_vars *mini)
-{
-	int		i;
-	char	p;
-	int		k;
-
-	i = 0;
-	p = '\a';
-	k = 0;
-	while (mini->input[i])
-	{
-		if ((mini->input[i] == '\'' || mini->input[i] == '"') && p == '\a')
-		{
-			k = i;
-			p = mini->input[i];
-			i++;
-		}
-		if (p != '\a' && mini->input[i] == 32)
-			mini->input[i] = ';';
-		if (mini->input[i] == p)
-		{
-			if (i == k + 1)
-			{
-				mini->input[i - 1] = ';';
-				mini->input[i] = '\0';
-			}
-			p = '\a';
-		}
-		i++;
-	}
-}
-
-void	deprepare(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == ';')
-			str[i] = 32;
-		i++;
-	}
-}
-
-void	depre(t_vars *mini)
-{
-	int	i;
-
-	i = 0;
-	while (mini->trueflag[i])
-	{
-		de_codifiqing(mini->trueflag[i]);
-		deprepare(mini->trueflag[i]);
-		i++;
-	}
-}
-
-void	de(char ***tudo)
-{
-	int	p;
-	int	i;
-
-	p = 0;
-	i = 0;
-	while (tudo[p])
-	{
-		while (tudo[p][i])
-		{
-			de_codifiqing(tudo[p][i]);
-			deprepare(tudo[p][i]);
-			i++;
-		}
-		p++;
-	}
 }

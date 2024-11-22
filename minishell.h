@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 16:44:32 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:51:42 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-# define RED "\e[0;31m"
-# define R "\001\e[0m\002"
 
 # include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
@@ -53,6 +50,8 @@ typedef struct s_vars
 	int		redir;
 	int		input_len;
 	int		currentsize;
+	int		antiexp;
+	// int		expppppp;
 	// heredoc
 	char	**limiters;
 	char	***heredoc_files;
@@ -68,7 +67,6 @@ typedef struct s_vars
 	int		nq;
 }		t_vars;
 
-int		has_quotes(char *str);
 int		copy_to_input(char **input, t_vars *mini, const char *str);
 int		handle_expansion(char **input, const char *str, int *i, t_vars *mini);
 void	expanding(char ***tudo, t_vars *mini);
@@ -77,7 +75,7 @@ void	cmddd(t_vars *mini, char ***str, int i, char **nao);
 void	codifiqing_export(char *str);
 void	de_codifiqing_export(char *str);
 void	crazy(t_vars *mini);
-char	*quotescrazy(char *str, int j, int pq);
+char	*quotescrazy(char *str, int j, int pq, t_vars *mini);
 void	preparequotes(t_vars *mini);
 void	deprepare(char *str);
 void	depre(t_vars *mini);
@@ -178,6 +176,7 @@ void	piping(char ***str, t_vars *mini, int *ta);
 int		setinfile(char *str, t_vars *mini, int i);
 int		forredirect(char **str, t_vars *mini, int *ta);
 int		forredirectout(char ***str, t_vars *mini, int *ta);
+void	openall(char ***tudo, t_vars *mini);
 
 // heredoc1.c
 void	heredoc_input(int fd, char **limiters, t_vars *mini);
@@ -202,7 +201,7 @@ char	*expand(char *str, t_vars *mini);
 int		checkinput(t_vars *mini);
 void	check_input1(t_vars *mini, char ***tudo);
 void	fdfd(t_vars *mini);
-char	***paodelosplit(char *str, int pipes);
+char	***paodelosplit(char *str, int pipes, t_vars *mini);
 void	comandddd(char ***str, t_vars *mini);
 
 // utils_again.c

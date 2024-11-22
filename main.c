@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 17:29:12 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:45:55 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ t_vars	*init_mini(void)
 	mini->limiters = NULL;
 	mini->heredoc_files = NULL;
 	mini->heredoc_file = NULL;
+	mini->antiexp = 0;
+	// mini->expppppp = -1;
 	return (mini);
 }
 
@@ -73,6 +75,8 @@ void	minimain(t_vars *mini)
 				checkinput(mini);
 		}
 	}
+	else
+		ft_printf("bash: syntax error\n");
 }
 
 int	main(int ac, char **av, char **env)
@@ -102,6 +106,3 @@ int	main(int ac, char **av, char **env)
 	free_env_export(mini);
 	return (g_exit_code);
 }
-
-// expansao dentro o heredoc
-// flag pas single quotes

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 17:04:52 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:04:39 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,14 @@ int	echo_builtin(t_vars *mini)
 		new_line = 0;
 		i++;
 	}
+	i = 1;
+	while (mini->tudo[mini->p][i] && ft_strncmp(mini->tudo[mini->p][i], "\f", 1) == 0)
+	{
+		new_line = 1;
+		i++;
+	}
 	while (mini->tudo[mini->p][i])
 	{
-		if(ft_strncmp(mini->tudo[mini->p][i], "\f", 1) == 0)
-		{
-			i++;
-			continue ;
-		}
 		ft_printf("%s", mini->tudo[mini->p][i]);
 		if (mini->tudo[mini->p][i + 1])
 			ft_printf(" ");

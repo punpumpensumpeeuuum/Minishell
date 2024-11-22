@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 17:08:19 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:55:07 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	check_input_loop(t_vars *mini, char ***tudo)
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
 		expanding(tudo, mini);
+		mini->antiexp = 0;
 		if (ft_strncmp(tudo[mini->p][0], "<<", 2) == 0 && tudo[mini->p])
 			mini->p++;
 		if (!tudo[mini->p])
@@ -65,9 +66,8 @@ int	checkinput(t_vars *mini)
 	char	***tudo;
 
 	mini->p = 0;
-	mini->tudo = paodelosplit(mini->input, numpipe(mini->input));
-	if (has_quotes(mini->input) == 0)
-		mini->input = quotescrazy(mini->input, 0, 0);
+	mini->tudo = paodelosplit(mini->input, numpipe(mini->input), mini);
+	mini->input = quotescrazy(mini->input, 0, 0, mini);
 	mini->trueflag = ft_split(mini->input, '|');
 	tudo = mini->tudo;
 	if (tudo == NULL || mini->trueflag == NULL)
@@ -98,6 +98,7 @@ void	comandddd(char ***str, t_vars *mini)
 	forking(mini);
 	if (ft_strncmp(str[mini->p][0], "<<", 2) == 0)
 		return ;
+	openall(str, mini);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	if (mini->pid == 0)
@@ -133,10 +134,8 @@ void	cmddd(t_vars *mini, char ***str, int i, char **nao)
 	if (forredirect(str[mini->p], mini, &ta) < 0
 		|| forredirectout(str, mini, &ta) < 0)
 		killchild(str, mini);
-	//printf("mini-input: %s\n", mini->input);
 	if (checkbuiltin(mini) == 0)
 		killchild(str, mini);
-	printf("mini-input: %s\n", mini->input);
 	closeall(mini);
 	if_heredoc(nao, mini, str);
 }

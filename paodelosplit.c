@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paodelosplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:41:20 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 16:49:27 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:14:57 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ char	**allocarrayyyyy(char **a, int j)
 	return (subarray);
 }
 
-int	copycopy(char **b, char **res_subarray, int word_count)
+int	copycopy(char **b, char **res_subarray, int word_count, t_vars *mini)
 {
 	int	i;
 
 	i = 0;
 	while (i < word_count)
 	{
-		b[i] = quotescrazy(b[i], 0, 0);
+		b[i] = quotescrazy(b[i], 0, 0, mini);
 		if (!b[i])
 		{
 			printf("Quote error\n");
@@ -62,7 +62,7 @@ int	copycopy(char **b, char **res_subarray, int word_count)
 	return (0);
 }
 
-int	splitarray(char ***res, char **a, int pipes)
+int	splitarray(char ***res, char **a, int pipes, t_vars *mini)
 {
 	char	**b;
 	int		j;
@@ -79,7 +79,7 @@ int	splitarray(char ***res, char **a, int pipes)
 			free_split(b);
 			return (-1);
 		}
-		if (copycopy(b, res[j], ft_countwords(a[j], ' ')) < 0)
+		if (copycopy(b, res[j], ft_countwords(a[j], ' '), mini) < 0)
 		{
 			free_split(b);
 			return (-1);
@@ -90,7 +90,7 @@ int	splitarray(char ***res, char **a, int pipes)
 	return (0);
 }
 
-char	***paodelosplit(char *str, int pipes)
+char	***paodelosplit(char *str, int pipes, t_vars *mini)
 {
 	char	***res;
 	char	**a;
@@ -101,7 +101,7 @@ char	***paodelosplit(char *str, int pipes)
 	a = checksplit(str, '|');
 	if (!a)
 		return (NULL);
-	if (splitarray(res, a, pipes) == -1)
+	if (splitarray(res, a, pipes, mini) == -1)
 	{
 		free_split(a);
 		return (NULL);

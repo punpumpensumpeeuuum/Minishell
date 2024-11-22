@@ -1,45 +1,45 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   echo_builtin2.c                                    :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/11/19 17:14:28 by jomendes          #+#    #+#             */
-// /*   Updated: 2024/11/21 02:39:08 by elemesmo         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo_builtin2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/19 17:14:28 by jomendes          #+#    #+#             */
+/*   Updated: 2024/11/22 18:46:15 by dinda-si         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 // #include "../minishell.h"
 
-// // void	process_echo_arguments(char **split, t_vars *mini, int i)
-// // {
-// // 	int	in_quotes;
+// void	process_echo_arguments(char **split, t_vars *mini, int i)
+// {
+// 	int	in_quotes;
 
-// // 	in_quotes = 0;
-// // 	while (split[i])
-// // 	{
-// // 		if (split[i][0] == '\'' && split[i][ft_strlen(split[i]) - 1] == '\'')
-// // 		{
-// // 			// remove_single_quote(split[i]);
-// // 			ft_printf("%s", split[i]);
-// // 		}
-// // 		else if (split[i][0] == '"' && split[i][ft_strlen(split[i]) - 1] == '"')
-// // 		{
-// // 			// remove_double_quote(split[i]);
-// // 			// handle_double_quotes(split[i], mini);
-// // 		}
-// // 		else if (split[i][0] == '"' || split[i][0] == '\''
-// // 				|| split[i][ft_strlen(split[i]) - 1] == '"'
-// // 				|| split[i][ft_strlen(split[i]) - 1] == '\'')
-// // 			// handle_mixed_quotes(split[i], &in_quotes);
-// // 		else
-// // 			handle_normal_case(mini, split[i]);
-// // 		if (split[i + 1])
-// // 			ft_printf(" ");
-// // 		i++;
-// // 	}
-// // }
+// 	in_quotes = 0;
+// 	while (split[i])
+// 	{
+// 		if (split[i][0] == '\'' && split[i][ft_strlen(split[i]) - 1] == '\'')
+// 		{
+// 			// remove_single_quote(split[i]);
+// 			ft_printf("%s", split[i]);
+// 		}
+// 		else if (split[i][0] == '"' && split[i][ft_strlen(split[i]) - 1] == '"')
+// 		{
+// 			// remove_double_quote(split[i]);
+// 			// handle_double_quotes(split[i], mini);
+// 		}
+// 		else if (split[i][0] == '"' || split[i][0] == '\''
+// 				|| split[i][ft_strlen(split[i]) - 1] == '"'
+// 				|| split[i][ft_strlen(split[i]) - 1] == '\'')
+// 			// handle_mixed_quotes(split[i], &in_quotes);
+// 		else
+// 			handle_normal_case(mini, split[i]);
+// 		if (split[i + 1])
+// 			ft_printf(" ");
+// 		i++;
+// 	}
+// }
 
 // void	handle_double_quotes(char *str, t_vars *mini)
 // {
