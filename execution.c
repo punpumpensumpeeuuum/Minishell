@@ -6,7 +6,7 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 00:01:10 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/22 00:50:00 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int	checkinput(t_vars *mini)
 	char	***tudo;
 
 	mini->p = 0;
+	tudo = paodelosplit(mini->input, numpipe(mini->input));
 	mini->input = quotescrazy(mini->input, 0, 0);
 	mini->trueflag = ft_split(mini->input, '|');
-	tudo = paodelosplit(mini->input, numpipe(mini->input));
 	if (tudo == NULL || mini->trueflag == NULL)
 		return (2);
 	de(tudo);

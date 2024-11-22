@@ -186,6 +186,7 @@ char	*quotescrazy(char *str, int j, int pq)
 		}
 		j++;
 	}
+	printf(">>>>>>>>>>> %s\n", str);
 	if (pq != 0)
 		return (NULL);
 	return (removedestroy(str, 0, 0, j));
@@ -195,20 +196,30 @@ void	preparequotes(t_vars *mini)
 {
 	int		i;
 	char	p;
+	int		k;
 
 	i = 0;
 	p = '\a';
+	k = 0;
 	while (mini->input[i])
 	{
 		if ((mini->input[i] == '\'' || mini->input[i] == '"') && p == '\a')
 		{
+			k = i;
 			p = mini->input[i];
 			i++;
 		}
 		if (p != '\a' && mini->input[i] == 32)
 			mini->input[i] = ';';
 		if (mini->input[i] == p)
+		{
+			if (i == k + 1)
+			{
+				mini->input[i - 1] = ';';
+				mini->input[i] = '\0';
+			}
 			p = '\a';
+		}
 		i++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 12:28:23 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 00:53:10 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,12 @@ void	export_update(t_vars *mini, char *str)
 void	export_update1(t_vars *mini)
 {
 	int		i;
-	char	**temp;
 
 	i = 0;
 	free_double_array(mini->export, mini->exp_len);
-	temp = realloc(mini->export, sizeof(char *) * (mini->exp_len + 1));
-	if (!temp)
+	mini->export = realloc(sizeof(char *) * (mini->exp_len + 1));
+	if (!mini->export)
 		return ;
-	mini->export = temp;
 	while (i < mini->exp_len)
 	{
 		if (mini->new_export[i])
