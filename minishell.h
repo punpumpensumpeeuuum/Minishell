@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 12:49:25 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:44:32 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_vars
 	int		nq;
 }		t_vars;
 
+int		has_quotes(char *str);
 int		copy_to_input(char **input, t_vars *mini, const char *str);
 int		handle_expansion(char **input, const char *str, int *i, t_vars *mini);
 void	expanding(char ***tudo, t_vars *mini);

@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 11:17:39 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:08:19 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int	checkinput(t_vars *mini)
 
 	mini->p = 0;
 	mini->tudo = paodelosplit(mini->input, numpipe(mini->input));
-	mini->input = quotescrazy(mini->input, 0, 0);
+	if (has_quotes(mini->input) == 0)
+		mini->input = quotescrazy(mini->input, 0, 0);
 	mini->trueflag = ft_split(mini->input, '|');
 	tudo = mini->tudo;
 	if (tudo == NULL || mini->trueflag == NULL)
@@ -132,8 +133,10 @@ void	cmddd(t_vars *mini, char ***str, int i, char **nao)
 	if (forredirect(str[mini->p], mini, &ta) < 0
 		|| forredirectout(str, mini, &ta) < 0)
 		killchild(str, mini);
+	//printf("mini-input: %s\n", mini->input);
 	if (checkbuiltin(mini) == 0)
 		killchild(str, mini);
+	printf("mini-input: %s\n", mini->input);
 	closeall(mini);
 	if_heredoc(nao, mini, str);
 }

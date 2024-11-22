@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_again.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:34:27 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 15:08:47 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:05:48 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,15 @@ void	codifiqing(char *str)
 void	de_codifiqing(char *str)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (str[i])
 	{
-		if (str[i] == '"' || str[i] == '\'')
-			j++;
-		if (str[i] == '\a' && j % 2 != 0)
+		if (str[i] == '\a')
 			str[i] = '>';
-		else if (str[i] == '\b' && j % 2 != 0)
+		else if (str[i] == '\b')
 			str[i] = '<';
-		else if (str[i] == '\t' && j % 2 != 0)
+		else if (str[i] == '\t')
 			str[i] = '|';
 		i++;
 	}

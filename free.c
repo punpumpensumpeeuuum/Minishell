@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:51:54 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 17:20:36 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:25:28 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ void	free_env_export1(t_vars *mini)
 		free(mini->check);
 	if (mini->input && mini->heredoc_files)
 		cleanup_heredoc_files(mini, numpipe(mini->input) + 1);
+	if (mini->input != NULL)
+	{
+		free(mini->input);
+		mini->input = NULL;
+	}
 }
 
 void	killchild(char ***str, t_vars *mini)
@@ -69,6 +74,7 @@ void	killchild(char ***str, t_vars *mini)
 	while (str[++i])
 		free_split(str[i]);
 	free(str);
+	closeall(mini);
 	free(mini->fd);
 	free_split(mini->trueflag);
 	free_env_export(mini);

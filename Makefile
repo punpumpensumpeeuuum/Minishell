@@ -24,7 +24,7 @@ all: $(NAME)
 $(NAME): $(OBJ) $(addprefix get_next_line/,$(GNL))
 		@make -s -C ft_printf
 		@make -s -C libft
-		@$(CC) -g $(CFLAGS) $(OBJ) $(addprefix builtins/,$(BUILT)) ft_printf/libftprintf.a libft/libft.a -o $(NAME) -lreadline
+		@$(CC) -g3 $(CFLAGS) $(OBJ) $(addprefix builtins/,$(BUILT)) ft_printf/libftprintf.a libft/libft.a -o $(NAME) -lreadline
 
 clean:
 		@$(RM) $(OBJ)

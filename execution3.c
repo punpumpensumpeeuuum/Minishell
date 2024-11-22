@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:50:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 12:57:23 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:33:53 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*expand(char *str, t_vars *mini)
 	mini->input_len = 0;
 	mini->currentsize = ft_strlen(str) + 1;
 	input = malloc(mini->currentsize);
-	if (!input || find_echo(str) == 0)
+	if (!input)
 		return (free(input), str);
 	input[0] = '\0';
 	while (str[i])

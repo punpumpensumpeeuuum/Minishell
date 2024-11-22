@@ -162,6 +162,20 @@ char	*removedestroy(char *str, int i, int a, int j)
 	return (s);
 }
 
+int	has_quotes(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '"')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 char	*quotescrazy(char *str, int j, int pq)
 {
 	while (str[j])
@@ -244,6 +258,7 @@ void	depre(t_vars *mini)
 	i = 0;
 	while (mini->trueflag[i])
 	{
+		de_codifiqing(mini->trueflag[i]);
 		deprepare(mini->trueflag[i]);
 		i++;
 	}
@@ -260,6 +275,7 @@ void	de(char ***tudo)
 	{
 		while (tudo[p][i])
 		{
+			de_codifiqing(tudo[p][i]);
 			deprepare(tudo[p][i]);
 			i++;
 		}

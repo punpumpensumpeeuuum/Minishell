@@ -6,7 +6,7 @@
 /*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 11:04:01 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:29:12 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_vars	*init_mini(void)
 void	minimain(t_vars *mini)
 {
 	add_history(mini->input);
+	codifiqing(mini->input);
 	if (antisegfault(mini->input) == 0)
 	{
 		mini->input = antimalucos(mini->input, 0, 0);
@@ -87,12 +88,16 @@ int	main(int ac, char **av, char **env)
 	while (mini->running)
 	{
 		signals_handler();
-		mini->input = readline(RED "bash> " R);
+		mini->input = readline("bash> ");
 		if (!mini->input)
 			break ;
 		if (ft_strlen(mini->input) > 0)
 			minimain(mini);
-		free(mini->input);
+		if (mini->input != NULL)
+		{
+			free(mini->input);
+			mini->input = NULL;
+		}
 	}
 	free_env_export(mini);
 	return (g_exit_code);
