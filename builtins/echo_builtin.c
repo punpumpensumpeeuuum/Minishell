@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:17:33 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 11:31:52 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:28:38 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,6 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini, int i)
 	free(result);
 }
 
-void	echo_special1(t_vars *mini, char *str, int *i, int *flag)
-{
-	char	**split;
-
-	split = ft_split(str, '\'');
-	while (str[*i])
-	{
-		if (str[*i] == '\'' && *flag == 0)
-		{
-			ft_printf("%c", '\'');
-			(*i)++;
-		}
-		else if (*flag == 0 && (str[*i + 1] != '\'' || str[*i + 1] != '\0'))
-		{
-			while (str[*i] != '\'')
-				(*i)++;
-			*flag = 1;
-		}
-		else if (str[*i] == '\'' && *flag != 0)
-		{
-			echo_dollar_finish(split[0], 1, mini, 0);
-			*flag = 0;
-		}
-		else
-			(*i)++;
-	}
-	free_split(split);
-}
-
 void	echo_special(t_vars *mini, char *str)
 {
 	int		i;
@@ -92,6 +63,15 @@ void	echo_special(t_vars *mini, char *str)
 		echo_special1(mini, str, &i, &flag);
 }
 
+void	check_flaging(t_vars *mini, int *i, int *new_line)
+{
+	while (mini->tudo[mini->p][*i] && is_flag(mini->tudo[mini->p][*i]))
+	{
+		*new_line = 0;
+		(*i)++;
+	}
+}
+
 int	echo_builtin(t_vars *mini)
 {
 	int		i;
@@ -99,25 +79,18 @@ int	echo_builtin(t_vars *mini)
 
 	i = 1;
 	new_line = 1;
+	de(mini->tudo);
 	if (mini->tudo[mini->p][i] == NULL)
-	{
-		ft_printf("\n");
-		return (0);
-	}
-	while (mini->tudo[mini->p][i] && is_flag(mini->tudo[mini->p][i]))
-	{
-		new_line = 0;
-		i++;
-	}
+		return (ft_printf("\n"), 0);
+	check_flaging(mini, &i, &new_line);
 	while (mini->tudo[mini->p][i])
 	{
+		de_codifiqing(mini->tudo[mini->p][i]);
+		if (helper(mini, &i, &new_line) == 0)
+			return (0);
 		if (ft_strncmp(mini->tudo[mini->p][i], ">", 1) == 0
-		&& mini->tudo[mini->p][i + 2])
-		{
-			i += 2;
-			if (!mini->tudo[mini->p][i])
-				return (0);
-		}
+		&& mini->tudo[mini->p][i])
+			break ;
 		ft_printf("%s", mini->tudo[mini->p][i]);
 		if (mini->tudo[mini->p][i + 1])
 			ft_printf(" ");

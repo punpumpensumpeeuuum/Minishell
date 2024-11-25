@@ -3,34 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   execution2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:34:43 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/24 23:56:09 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:10:54 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	real_madrid(char *str)
+void	real_madrid(char *str, t_vars *mini)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'')
+		if (str[i] == '\'' && find_flag(str) == 1)
+		{
 			str[i] = ' ';
+			mini->golo = 1;
+		}
 		i++;
 	}
 }
 
-void	barcelona(char *str)
+void	barcelona(char *str, t_vars *mini)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] && mini->golo == 1)
 	{
 		if (str[i] == ' ')
 			str[i] = '\'';
@@ -47,7 +50,9 @@ int	countflags(char **str, int i)
 	count = 0;
 	while (str[h])
 	{
-		if (ft_strncmp(str[h], ">", 1) == 0 || ft_strncmp(str[h], "<", 1) == 0)
+		if ((ft_strncmp(str[h], ">", 1) == 0 || \
+			ft_strncmp(str[h], "<", 1) == 0) && \
+			str[h + 1] && str[h + 2])
 			h += 2;
 		else
 		{
@@ -71,7 +76,10 @@ char	**allocate_flags_array(char **str, int i, int count)
 		return (NULL);
 	while (str[h])
 	{
-		if (ft_strncmp(str[h], ">", 1) == 0 || ft_strncmp(str[h], "<", 1) == 0)
+		if (ft_strncmp(str[h], ">\0", 2) == 0 || \
+			ft_strncmp(str[h], "<\0", 2) == 0 || \
+			ft_strncmp(str[h], ">>\0", 3) == 0 || \
+			ft_strncmp(str[h], "<<\0", 3) == 0)
 			h += 2;
 		else
 		{

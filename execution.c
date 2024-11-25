@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 00:23:46 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:13:41 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	check_input1(t_vars *mini, char ***tudo)
 		mini->fd = NULL;
 	}
 	waiting();
-	mini->qqqqqq = 0;
 }
 
 void	check_input_loop(t_vars *mini, char ***tudo)
@@ -45,7 +44,6 @@ void	check_input_loop(t_vars *mini, char ***tudo)
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
 		expanding(tudo, mini);
-		mini->antiexp = 0;
 		if (ft_strncmp(tudo[mini->p][0], "<<", 2) == 0 && tudo[mini->p])
 			mini->p++;
 		if (!tudo[mini->p])
@@ -76,7 +74,7 @@ int	checkinput(t_vars *mini)
 	if (tudo == NULL || mini->trueflag == NULL)
 		return (2);
 	openall(tudo, mini);
-	de(tudo, mini);
+	de(tudo);
 	depre(mini);
 	if (numberof_heredocs(mini->input) > 0)
 		heredoc_files_create(mini);
@@ -85,6 +83,7 @@ int	checkinput(t_vars *mini)
 	check_input_loop(mini, tudo);
 	free_split(mini->trueflag);
 	check_input1(mini, tudo);
+	mini->antiexp = 0;
 	return (0);
 }
 

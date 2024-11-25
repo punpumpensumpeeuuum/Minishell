@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 11:35:22 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:59:48 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	export_update(t_vars *mini, char *str)
 
 	i = 0;
 	done = 0;
-	de_codifiqing_export(str);
 	if (!mini->new_export)
 	{
 		ft_printf("Error: mini->new_env not initialized.\n");
@@ -61,7 +60,7 @@ void	export_update(t_vars *mini, char *str)
 
 void	export_update1(t_vars *mini)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	free_double_array(mini->export, mini->exp_len);

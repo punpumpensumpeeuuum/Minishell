@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:26:21 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 12:37:00 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:09:45 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,18 @@ void	de_codifiqing_export(char *str)
 			str[i] = ' ';
 		i++;
 	}
+}
+
+int	find_flag(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
 }

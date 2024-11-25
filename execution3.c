@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:50:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/25 00:20:10 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:14:11 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,23 @@ int	copy_remaining_characters(char **input, char *str, int *i, t_vars *mini)
 	return (1);
 }
 
+int	handle_expansion_helper(char *expanded, char **input, t_vars *mini)
+{
+	if (expanded)
+	{
+		if (!copy_to_input(input, mini, expanded))
+			return (free(expanded), 0);
+		free(expanded);
+		expanded = NULL;
+	}
+	return (1);
+}
+
 char	*expand(char *str, t_vars *mini, int i)
 {
 	char	*input;
 
-	real_madrid(str);
+	real_madrid(str, mini);
 	mini->input_len = 0;
 	mini->currentsize = ft_strlen(str) + 1;
 	input = malloc(mini->currentsize);
@@ -83,6 +95,6 @@ char	*expand(char *str, t_vars *mini, int i)
 				return (NULL);
 		}
 	}
-	barcelona(input);
+	barcelona(input, mini);
 	return (free(str), input);
 }

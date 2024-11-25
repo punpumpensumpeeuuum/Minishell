@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:34:24 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 00:15:22 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:48:43 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,17 @@ void	export_var(t_vars *mini)
 	char	**split;
 
 	i = 1;
-	codifiqing_export(mini->trueflag[mini->p]);
 	split = ft_split(mini->trueflag[mini->p], ' ');
 	if (!mini->new_export)
 		return ;
+	de(mini->tudo);
 	while (mini->tudo[mini->p][i])
 	{
 		if (export_check(mini->tudo[mini->p][i]) == 0)
 			export_var_helper(mini, mini->tudo[mini->p], i);
 		else
-			ft_printf("export: %s': not a valid identifier\n", mini->tudo[mini->p][i]);
+			ft_printf("export: %s: not a valid identifier\n", \
+					mini->tudo[mini->p][i]);
 		i++;
 	}
 	free_split(split);

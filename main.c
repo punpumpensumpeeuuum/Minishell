@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/23 20:16:21 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:13:33 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,18 @@ t_vars	*init_mini(void)
 	mini->heredoc_files = NULL;
 	mini->heredoc_file = NULL;
 	mini->antiexp = 0;
-	mini->qqqqqq = 0;
+	mini->golo = 0;
 	return (mini);
 }
 
 void	minimain(t_vars *mini)
 {
 	add_history(mini->input);
-	codifiqing(mini->input);
+	mini->golo = 0;
 	if (antisegfault(mini->input) == 0)
 	{
 		mini->input = antimalucos(mini->input, 0, 0);
+		codifiqing(mini->input);
 		if (mini->input)
 		{
 			preparequotes(mini);
@@ -104,3 +105,9 @@ int	main(int ac, char **av, char **env)
 	free_env_export(mini);
 	return (g_exit_code);
 }
+
+
+// cd precisa de expand
+// double quotes sao null
+// export precisa de ':'
+// ctrl C double pronpt

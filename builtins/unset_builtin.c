@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:09:04 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 10:18:41 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:06:39 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,13 @@ void	unset_builtin(t_vars *mini)
 	{
 		if (unsethelp(mini, split, i) == 1)
 		{
-			if (split[i + 1])
-			{
-				i++;
-				continue ;
-			}
-			else
+			if (!split[i + 1])
 			{
 				free_split(split);
 				return ;
 			}
+			i++;
+			continue ;
 		}
 		i++;
 	}

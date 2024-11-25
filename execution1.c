@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:42:34 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/21 21:00:39 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:13:59 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	checkmorebuiltin(t_vars *mini)
 	else if ((ft_strncmp(mini->trueflag[mini->p], "export", 6) == 0))
 	{
 		export_builtin(mini);
-		return (0);
+		return (g_exit_code = 0, 0);
 	}
 	else if (ft_strncmp(mini->trueflag[mini->p], "unset", 5) == 0)
 	{
 		unset_builtin(mini);
-		return (0);
+		return (g_exit_code = 0, 0);
 	}
 	else if (ft_strncmp(mini->trueflag[mini->p], "exit", 4) == 0)
 	{
@@ -45,17 +45,17 @@ int	checkbuiltin(t_vars *mini)
 			&& !(more(mini->input, 3)))
 		{
 			env_builtin(mini);
-			return (0);
+			return (g_exit_code = 0, 0);
 		}
 		else if ((ft_strncmp(mini->trueflag[mini->p], "pwd", 3) == 0))
 		{
 			pwd_builtin();
-			return (0);
+			return (g_exit_code = 0, 0);
 		}
 		else if (ft_strncmp(mini->trueflag[mini->p], "echo", 4) == 0)
 		{
 			echo_builtin(mini);
-			return (0);
+			return (g_exit_code = 0, 0);
 		}
 		else if (checkmorebuiltin(mini) == 0)
 			return (1);
@@ -129,12 +129,6 @@ int	handle_expansion(char **input, const char *str, int *i, t_vars *mini)
 		free(var);
 		var = NULL;
 	}
-	if (expanded)
-	{
-		if (!copy_to_input(input, mini, expanded))
-			return (free(expanded), 0);
-		free(expanded);
-		expanded = NULL;
-	}
+	handle_expansion_helper(expanded, input, mini);
 	return (1);
 }

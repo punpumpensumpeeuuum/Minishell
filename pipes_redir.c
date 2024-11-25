@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 11:59:43 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:17:27 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	forredirect(char **str, t_vars *mini, int *ta)
 		if (result != 0)
 			return (result);
 	}
-	if (ft_strncmp(str[j + 1], "<<\0", 3) == 0)
+	if (ft_strncmp(str[j], "<<\0", 3) == 0)
 	{
 		if (handle_heredoc_redirection(mini) == 1)
 			return (1);

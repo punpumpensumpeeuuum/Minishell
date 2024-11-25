@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:32:05 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 12:48:17 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:41:27 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_getenv(t_vars *mini, char *to_find)
 		var = ft_substr(mini->export[index], ft_strlen(to_find) + 1,
 				ft_strlen(mini->export[index]));
 	else
-		var = ft_strdup("\f");
+		var = NULL;
 	return (var);
 }
 

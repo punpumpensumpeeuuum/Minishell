@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/25 00:21:07 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:13:36 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_vars
 	int		input_len;
 	int		currentsize;
 	int		antiexp;
-	int		qqqqqq;
 	// heredoc
 	char	**limiters;
 	char	***heredoc_files;
@@ -66,6 +65,7 @@ typedef struct s_vars
 	int		pq;
 	int		j;
 	int		nq;
+	int		golo;
 }		t_vars;
 
 int		is_a_directory(t_vars *mini);
@@ -79,9 +79,11 @@ void	de_codifiqing_export(char *str);
 void	crazy(t_vars *mini);
 char	*quotescrazy(char *str, int j, int pq, t_vars *mini);
 void	preparequotes(t_vars *mini);
-void	deprepare(char *str, t_vars *mini);
+void	deprepare(char *str);
 void	depre(t_vars *mini);
-void	de(char ***tudo, t_vars *mini);
+void	de(char ***tudo);
+int		handle_expansion_helper(char *expanded, char **input, t_vars *mini);
+void	echo_special1(t_vars *mini, char *str, int *i, int *flag);
 
 //echo_builtin3.c
 void	process_echo_arguments(char **split, t_vars *mini, int i);
@@ -137,7 +139,7 @@ void	echo_dollar_finish(char *str, int k, t_vars *mini, int i);
 int		echo_quote(char *str);
 char	*take_equal(char *str);
 int		dollar_flag_count(char *str);
-int		dollar_flag(char *str);
+int		helper(t_vars *mini, int *i, int *new_line);
 int		is_flag(char *str);
 
 // env_builtin.c
@@ -198,8 +200,9 @@ int		heredoc1(char *filename, int status);
 char	**findflags(char **str, int i);
 int		checkbuiltin(t_vars *mini);
 char	*expand(char *str, t_vars *mini, int i);
-void	real_madrid(char *str);
-void	barcelona(char *str);
+void	real_madrid(char *str, t_vars *mini);
+void	barcelona(char *str, t_vars *mini);
+void	codi(char **str, t_vars *mini);
 
 // execution.c
 int		checkinput(t_vars *mini);
@@ -207,6 +210,7 @@ void	check_input1(t_vars *mini, char ***tudo);
 void	fdfd(t_vars *mini);
 char	***paodelosplit(char *str, int pipes, t_vars *mini);
 void	comandddd(char ***str, t_vars *mini);
+int		find_flag(char *str);
 
 // utils_again.c
 int		ft_strcmp(const char *s1, const char *s2);

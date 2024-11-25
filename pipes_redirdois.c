@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 11:53:23 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:14:00 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	openall(char ***tudo, t_vars *mini)
 		return ;
 	while (tudo[mini->p][j])
 	{
-		if (tudo[mini->p][j][0] == '>')
+		if (tudo[mini->p][j][0] == '>' && tudo[mini->p][j + 1])
 		{
 			h = open(tudo[mini->p][j + 1], O_CREAT, 0644);
 			close(h);
@@ -106,6 +106,7 @@ int	is_a_directory(t_vars *mini)
 		closedir(dir);
 		ft_printf("bash: %s: ", mini->input);
 		ft_putstr_fd("Is a directory\n", 2);
+		g_exit_code = 126;
 		return (1);
 	}
 	return (0);

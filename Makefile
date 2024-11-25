@@ -7,13 +7,13 @@ SRCS = main.c paths.c utils.c moreutils.c quotes.c heredoc.c heredoc1.c heredoc_
 
 BUILT = echo_builtin.c echo_builtin1.c env_builtin.c env_builtin1.c env_builtin2.c exit_builtin.c \
 		cd_builtin.c cd_builtin1.c export_builtin.c export_builtin1.c export_utils.c \
-		unset_builtin.c export_builtin2.c  echo_builtin2.c
+		unset_builtin.c export_builtin2.c
 
 GNL = get_next_line_utils.c get_next_line.c
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra  #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra
 
 RM = rm -f
 
@@ -42,7 +42,7 @@ so:	$(NAME) clean
 			@./minishell
 
 va: $(NAME) clean
-		@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --show-reachable=no --suppressions="supp.supp" ./minishell
+		@valgrind --leak-check=full --show-reachable=no --suppressions="supp.supp" ./minishell
 
 re:	fclean $(NAME)
 		@echo "makou outra vez"
