@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gneto-co <gneto-co@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/14 16:56:15 by gneto-co         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:31:22 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,29 @@ void	cd_2_args(t_vars *mini)
 	}
 }
 
+void	atualize_pwd(t_vars *mini, char *var)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->exp_len)
+	{
+		if (ft_strncmp(mini->export[i], var, ft_strlen(var)) == 0)
+			var = mini->export[i];
+		i++;
+	}
+	i = 0;
+	while (i < mini->env_len)
+	{
+		if (ft_strncmp(mini->export[i], var, ft_strlen(var)) == 0)
+		{
+			free(mini->env[i]);
+			mini->env[i] = ft_strdup(var);
+		}
+		i++;
+	}
+}
+
 void	cd_builtin(t_vars *mini)
 {
 	int	i;
@@ -85,4 +108,6 @@ void	cd_builtin(t_vars *mini)
 		ft_putendl_fd("minishell: cd: Too many arguments", STDERR_FILENO);
 		return ;
 	}
+	atualize_pwd(mini, "PWD");
+	atualize_pwd(mini, "OLDPWD");
 }

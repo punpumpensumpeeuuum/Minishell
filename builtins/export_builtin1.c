@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:46:26 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 00:21:53 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:35:22 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char *str, int *i, int *done)
 			(*i)++;
 			continue ;
 		}
-		else if (!mini->export[*i] &&done == 0)
+		else if (!mini->export[*i] && *done == 0)
 		{
 			*done = 1;
 			mini->new_export[*i] = ft_strdup(str);

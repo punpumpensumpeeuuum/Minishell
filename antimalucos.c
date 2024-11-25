@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   antimalucos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:47:20 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/23 20:07:27 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:51:19 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ char	*antimalucos(char *str, int i, int a)
 {
 	char	*s;
 
-	if (find_echo(str) == 0)
-		return (str);
 	if (!syntax(str))
 		return (NULL);
 	a = spaces(str);

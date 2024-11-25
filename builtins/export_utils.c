@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:55:53 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 18:46:40 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:27:30 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	export_check(char *str)
 		if ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
 			|| (str[i] == '_') || str[i] == '=' || ft_isdigit(str[i])
 			|| str[i] == '"' || str[i] == '\'' || str[i] == '\f' \
-			|| str[i] == '-')
+			|| str[i] == '-' || str[i] == '$')
 			i++;
 		else
 			return (1);

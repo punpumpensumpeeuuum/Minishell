@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 18:44:06 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:59:43 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,20 +87,21 @@ int	forredirect(char **str, t_vars *mini, int *ta)
 	int	result;
 
 	j = 0;
-	while (str[j] && str[j + 1])
-	{
-		if (ft_strncmp(str[j], "<\0", 2) == 0)
-		{
-			result = handle_input_redirection(str, mini, ta, j);
-			if (result != 0)
-				return (result);
-		}
-		if (ft_strncmp(str[j + 1], "<<\0", 3) == 0)
-		{
-			if (handle_heredoc_redirection(mini) == 1)
-				return (1);
-		}
+	while (str[j])
 		j++;
+	j--;
+	while (j > 0 && str[j] && ft_strncmp(str[j], "<", 1) != 0)
+		j--;
+	if (ft_strncmp(str[j], "<\0", 2) == 0)
+	{
+		result = handle_input_redirection(str, mini, ta, j);
+		if (result != 0)
+			return (result);
+	}
+	if (ft_strncmp(str[j + 1], "<<\0", 3) == 0)
+	{
+		if (handle_heredoc_redirection(mini) == 1)
+			return (1);
 	}
 	return (0);
 }
