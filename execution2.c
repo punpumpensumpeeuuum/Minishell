@@ -6,11 +6,37 @@
 /*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:34:43 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/21 03:07:34 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/24 23:56:09 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	real_madrid(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'')
+			str[i] = ' ';
+		i++;
+	}
+}
+
+void	barcelona(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			str[i] = '\'';
+		i++;
+	}
+}
 
 int	countflags(char **str, int i)
 {

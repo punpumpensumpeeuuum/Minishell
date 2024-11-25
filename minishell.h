@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 18:51:42 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 00:21:07 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <string.h>
 # include <sys/wait.h>
+# include <dirent.h>
 
 extern int	g_exit_code;
 
@@ -51,7 +52,7 @@ typedef struct s_vars
 	int		input_len;
 	int		currentsize;
 	int		antiexp;
-	// int		expppppp;
+	int		qqqqqq;
 	// heredoc
 	char	**limiters;
 	char	***heredoc_files;
@@ -67,6 +68,7 @@ typedef struct s_vars
 	int		nq;
 }		t_vars;
 
+int		is_a_directory(t_vars *mini);
 int		copy_to_input(char **input, t_vars *mini, const char *str);
 int		handle_expansion(char **input, const char *str, int *i, t_vars *mini);
 void	expanding(char ***tudo, t_vars *mini);
@@ -77,9 +79,9 @@ void	de_codifiqing_export(char *str);
 void	crazy(t_vars *mini);
 char	*quotescrazy(char *str, int j, int pq, t_vars *mini);
 void	preparequotes(t_vars *mini);
-void	deprepare(char *str);
+void	deprepare(char *str, t_vars *mini);
 void	depre(t_vars *mini);
-void	de(char ***tudo);
+void	de(char ***tudo, t_vars *mini);
 
 //echo_builtin3.c
 void	process_echo_arguments(char **split, t_vars *mini, int i);
@@ -195,7 +197,9 @@ int		heredoc1(char *filename, int status);
 // execution1.c
 char	**findflags(char **str, int i);
 int		checkbuiltin(t_vars *mini);
-char	*expand(char *str, t_vars *mini);
+char	*expand(char *str, t_vars *mini, int i);
+void	real_madrid(char *str);
+void	barcelona(char *str);
 
 // execution.c
 int		checkinput(t_vars *mini);

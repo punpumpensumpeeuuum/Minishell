@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 18:45:55 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:16:21 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_vars	*init_mini(void)
 	mini->heredoc_files = NULL;
 	mini->heredoc_file = NULL;
 	mini->antiexp = 0;
-	// mini->expppppp = -1;
+	mini->qqqqqq = 0;
 	return (mini);
 }
 
@@ -75,8 +75,6 @@ void	minimain(t_vars *mini)
 				checkinput(mini);
 		}
 	}
-	else
-		ft_printf("bash: syntax error\n");
 }
 
 int	main(int ac, char **av, char **env)

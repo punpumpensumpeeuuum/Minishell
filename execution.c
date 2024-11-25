@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 18:55:07 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 00:23:46 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	check_input1(t_vars *mini, char ***tudo)
 		mini->fd = NULL;
 	}
 	waiting();
+	mini->qqqqqq = 0;
 }
 
 void	check_input_loop(t_vars *mini, char ***tudo)
@@ -65,6 +66,8 @@ int	checkinput(t_vars *mini)
 {
 	char	***tudo;
 
+	if (is_a_directory(mini) == 1)
+		return (1);
 	mini->p = 0;
 	mini->tudo = paodelosplit(mini->input, numpipe(mini->input), mini);
 	mini->input = quotescrazy(mini->input, 0, 0, mini);
@@ -72,7 +75,8 @@ int	checkinput(t_vars *mini)
 	tudo = mini->tudo;
 	if (tudo == NULL || mini->trueflag == NULL)
 		return (2);
-	de(tudo);
+	openall(tudo, mini);
+	de(tudo, mini);
 	depre(mini);
 	if (numberof_heredocs(mini->input) > 0)
 		heredoc_files_create(mini);
@@ -90,17 +94,12 @@ void	comandddd(char ***str, t_vars *mini)
 	char	*sim;
 	char	**nao;
 
-	if (!str[mini->p] || !mini->trueflag[mini->p])
-		return ;
 	i = decide(str[mini->p], mini);
 	if (i >= 1 && i <= 3)
 		return ;
 	forking(mini);
 	if (ft_strncmp(str[mini->p][0], "<<", 2) == 0)
 		return ;
-	openall(str, mini);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	if (mini->pid == 0)
 	{
 		child_signals_handler();

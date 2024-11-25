@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 16:13:38 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/22 11:18:52 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/23 20:29:45 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	sigint_handler(int sig)
 	}
 }
 
-void	child_handler(int signal);
 void	signals_handler(void)
 {
 	signal(SIGINT, sigint_handler);
@@ -45,7 +44,6 @@ void	child_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		//write(2, "CHILD\n", 6);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

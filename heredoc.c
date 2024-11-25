@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:21:30 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/19 11:23:36 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/25 00:24:20 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	heredoc_dollar_finish_help(t_vars *mini, char *result, char *str,
 	while (i < mini->exp_len && mini->export[i])
 	{
 		env_var = take_equal(mini->export[i]);
-		if (env_var && ft_strncmp(result, env_var, ft_strlen(result)) == 0)
+		if (env_var && ft_strncmp(result, env_var, ft_strlen(env_var)) == 0 && \
+			ft_strncmp(result, env_var, ft_strlen(result)) == 0)
 		{
 			if (ft_strlen(result) == ft_strlen(env_var))
 				str = mini->export[i];

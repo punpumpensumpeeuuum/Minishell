@@ -42,7 +42,7 @@ so:	$(NAME) clean
 			@./minishell
 
 va: $(NAME) clean
-		@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=all --show-reachable=no --suppressions="supp.supp" ./minishell
+		@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --show-reachable=no --suppressions="supp.supp" ./minishell
 
 re:	fclean $(NAME)
 		@echo "makou outra vez"

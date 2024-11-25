@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:50:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/22 18:44:57 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/25 00:20:10 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	expanding(char ***tudo, t_vars *mini)
 		while (tudo[mini->p][i][j] != '$' && tudo[mini->p][i][j])
 			j++;
 		if (tudo[mini->p][i][j] == '$' && tudo[mini->p][i][j])
-			tudo[mini->p][i] = expand(tudo[mini->p][i], mini);
+			tudo[mini->p][i] = expand(tudo[mini->p][i], mini, 0);
 		i++;
 		j = 0;
 	}
@@ -59,16 +59,15 @@ int	copy_remaining_characters(char **input, char *str, int *i, t_vars *mini)
 	return (1);
 }
 
-char	*expand(char *str, t_vars *mini)
+char	*expand(char *str, t_vars *mini, int i)
 {
-	int		i;
 	char	*input;
 
-	i = 0;
+	real_madrid(str);
 	mini->input_len = 0;
 	mini->currentsize = ft_strlen(str) + 1;
 	input = malloc(mini->currentsize);
-	if (!input || find_echo(str) == 0)
+	if (!input)
 		return (free(input), str);
 	input[0] = '\0';
 	while (str[i])
@@ -84,5 +83,6 @@ char	*expand(char *str, t_vars *mini)
 				return (NULL);
 		}
 	}
+	barcelona(input);
 	return (free(str), input);
 }
