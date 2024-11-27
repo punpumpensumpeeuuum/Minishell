@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:30:38 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 17:05:05 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/27 02:43:31 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	waiting(void)
 			g_exit_code = 128 + WTERMSIG(status);
 	}
 	if (g_exit_code == 130)
-		write(1, "\n", 1);
+		write(2, "\n", 1);
 	else if (g_exit_code == 131)
-		write(1, "Quit (core dumped)\n", 20);
+		write(2, "Quit (core dumped)\n", 20);
 }
 
 int	decide(char **str, t_vars *mini)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 11:31:22 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/27 02:39:36 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	cd_2_args(t_vars *mini)
 
 	directory = NULL;
 	split = ft_split(mini->input, ' ');
+	if (find_flag(split[1]) == 1)
+		split[1] = expand(split[1], mini, 0);
 	if (split[1] && ft_strncmp(split[1], "-", 1) == 0)
 	{
 		directory = ft_getenv(mini, "OLDPWD");

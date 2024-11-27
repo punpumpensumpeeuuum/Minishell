@@ -60,6 +60,8 @@ char	*removedestroy(char *str, int i, int a, int j)
 	j = 0;
 	while (str[j])
 	{
+		while (str[j] == 7 && str[j])
+			j++;
 		if (str[j] != 5 && str[j] != 6)
 		{
 			s[i] = str[j];

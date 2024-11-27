@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/25 17:13:33 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/27 02:45:22 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ void	minimain(t_vars *mini)
 		if (mini->input)
 		{
 			preparequotes(mini);
+			if (find_flag(mini->input) == 1
+				&& find_echo(mini->input) == 1)
+				mini->input = expand(mini->input, mini, 0);
 			if (mini->input == NULL)
 				ft_printf("Quote error\n");
 			else
@@ -105,7 +108,6 @@ int	main(int ac, char **av, char **env)
 	free_env_export(mini);
 	return (g_exit_code);
 }
-
 
 // cd precisa de expand
 // double quotes sao null
