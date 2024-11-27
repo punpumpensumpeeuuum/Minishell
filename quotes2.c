@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 18:04:10 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/27 03:26:51 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:54:08 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	preparequotes(t_vars *mini)
 			i++;
 		}
 		if (p != '\a' && mini->input[i] == 32)
-			mini->input[i] = ';';
+			mini->input[i] = '\3'; // aqui
 		if (mini->input[i] == p)
 		{
 			helpipipipi(mini, i, k);
@@ -56,7 +56,7 @@ void	deprepare(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == ';')
+		if (str[i] == '\3')
 			str[i] = 32;
 		i++;
 	}

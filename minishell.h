@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/25 17:13:36 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:02:36 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	exec_fail(char ***sim, char **nao);
 void	cmddd(t_vars *mini, char ***str, int i, char **nao);
 void	codifiqing_export(char *str);
 void	de_codifiqing_export(char *str);
-void	crazy(t_vars *mini);
 char	*quotescrazy(char *str, int j, int pq, t_vars *mini);
 void	preparequotes(t_vars *mini);
 void	deprepare(char *str);

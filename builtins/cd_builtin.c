@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 21:45:25 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/27 02:39:36 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:17:41 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ void	atualize_pwd(t_vars *mini, char *var)
 	int	i;
 
 	i = 0;
-	while (i < mini->exp_len)
+	while (i < mini->exp_len && mini->export[i])
 	{
 		if (ft_strncmp(mini->export[i], var, ft_strlen(var)) == 0)
 			var = mini->export[i];
 		i++;
 	}
 	i = 0;
-	while (i < mini->env_len)
+	while (i < mini->env_len && mini->export[i])
 	{
 		if (ft_strncmp(mini->export[i], var, ft_strlen(var)) == 0)
 		{
