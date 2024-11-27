@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redirdois.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 15:14:00 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:19:51 by elemesmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	openall(char ***tudo, t_vars *mini)
 	{
 		if (tudo[mini->p][j][0] == '>' && tudo[mini->p][j + 1])
 		{
+			deprepare(tudo[mini->p][j + 1]);
 			h = open(tudo[mini->p][j + 1], O_CREAT, 0644);
 			close(h);
 		}
