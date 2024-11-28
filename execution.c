@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elemesmo <elemesmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/27 02:49:29 by elemesmo         ###   ########.fr       */
+/*   Updated: 2024/11/28 13:21:17 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	check_input_loop(t_vars *mini, char ***tudo)
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
 		expanding(tudo, mini);
-		if (ft_strncmp(tudo[mini->p][0], "<<", 2) == 0 && tudo[mini->p])
+		if (tudo[mini->p][0] && ft_strncmp(tudo[mini->p][0], "<<", 2) == 0 && tudo[mini->p])
 			mini->p++;
 		if (!tudo[mini->p])
 			break ;

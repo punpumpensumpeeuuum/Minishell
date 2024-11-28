@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 18:04:10 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/27 18:54:08 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:20:43 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	preparequotes(t_vars *mini)
 	k = 0;
 	while (mini->input[i])
 	{
-		if ((mini->input[i] == '\'' || mini->input[i] == '"') && p == '\a')
+		if ((mini->input[i] == '\'' || mini->input[i] == '"') && p == '\a' && mini->input[i + 1])
 		{
 			k = i;
 			p = mini->input[i];
 			i++;
 		}
 		if (p != '\a' && mini->input[i] == 32)
-			mini->input[i] = '\3'; // aqui
+			mini->input[i] = '\3';
 		if (mini->input[i] == p)
 		{
 			helpipipipi(mini, i, k);

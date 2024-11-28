@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evenmoreutils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:13:36 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/15 17:23:36 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:30:19 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	findmistake(char **str)
 	int	i;
 
 	i = 0;
+	if (!str[i])
+		return (-1);
 	if (str[i][0] == '<')
 	{
 		if (str[2])

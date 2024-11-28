@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:21:17 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/27 18:07:40 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:17:55 by jomendes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	minimain(t_vars *mini)
 		{
 			preparequotes(mini);
 			if (find_flag(mini->input) == 1
-				&& find_echo(mini->input) == 1)
+				&& find_echo(mini->input) == 1
+				&& numberof_heredocs(mini->input) == 0)
 				mini->input = expand(mini->input, mini, 0);
 			if (mini->input == NULL)
 				ft_printf("Quote error\n");
@@ -108,3 +109,10 @@ int	main(int ac, char **av, char **env)
 	free_env_export(mini);
 	return (g_exit_code);
 }
+
+// echo 123 > ola'adeus
+// echo 123 > ola''adeus
+// LEAKS!
+// '/usr/bin'
+//	'/usr/bin/'
+//	cat << $USER'
