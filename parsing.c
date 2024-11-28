@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:40:05 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/25 12:36:43 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:49:34 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	antisegfault(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (ft_isprint(str[i]))
+		if (ft_isprint(str[i], 0))
 			break ;
 		i++;
 	}
@@ -111,7 +111,7 @@ int	antisegfault(char *str)
 		return (4);
 	while (str[i])
 	{
-		if (str[i] != 32)
+		if (str[i] != 32 && str[i] != '\'' && str[i] != '"')
 			return (0);
 		i++;
 	}

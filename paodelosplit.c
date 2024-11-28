@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paodelosplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 17:41:20 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/28 13:24:58 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:51:35 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 char	**checksplit(char *str, char delimiter)
 {
 	char	**split_array;
+	int		i;
 
+	i = 0;
+	while (str[i] && ft_isprint(str[i], 1) == 0)
+		return (NULL);
 	split_array = ft_split(str, delimiter);
 	if (!split_array)
 	{
@@ -31,7 +35,7 @@ char	**allocarrayyyyy(char **a, int j)
 	char	**subarray;
 
 	word_count = ft_countwords(a[j], ' ');
-	subarray = malloc(sizeof(char *) * (word_count + 1));
+	subarray = ft_calloc(sizeof(char *), (word_count + 1));
 	if (!subarray)
 	{
 		free_split(a);
@@ -50,7 +54,7 @@ int	copycopy(char **b, char **res_subarray, int word_count, t_vars *mini)
 		b[i] = quotescrazy(b[i], 0, 0, mini);
 		if (!b[i])
 		{
-			printf("Quote error\n");
+			ft_printf("Quote error\n");
 			return (-2);
 		}
 		res_subarray[i] = ft_strdup(b[i]);
@@ -67,7 +71,7 @@ int	splitarray(char ***res, char **a, int pipes, t_vars *mini)
 	char	**b;
 	int		j;
 
-	j = 0;
+	j = 0 ;
 	while (j <= pipes)
 	{
 		b = checksplit(a[j], ' ');
@@ -100,10 +104,11 @@ char	***paodelosplit(char *str, int pipes, t_vars *mini)
 		return (NULL);
 	a = checksplit(str, '|');
 	if (!a)
-		return (NULL);
+		return (free(res), NULL);
 	if (splitarray(res, a, pipes, mini) == -1)
 	{
 		free_split(a);
+		free_res(res);
 		return (NULL);
 	}
 	free_split(a);

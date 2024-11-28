@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evenmoreutils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:13:36 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/28 11:30:19 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:49:22 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_checkprint(char *str)
 		return (1);
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) == 1)
+		if (ft_isprint(str[i], 0) == 1)
 			a++;
 		i++;
 	}
@@ -64,9 +64,21 @@ int	more(char *input, int i)
 {
 	while (input[i])
 	{
-		if (ft_isprint(input[i]) == 1)
+		if (ft_isprint(input[i], 0) == 1)
 			return (1);
 		i++;
 	}
+	return (0);
+}
+
+int	ft_ft_ft_ft_isprint(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_isprint(str[i], 0))
+		i++;
+	if (i != ft_strlen(str))
+		return (1);
 	return (0);
 }

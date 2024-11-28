@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:26:21 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/25 17:09:45 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:01:14 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,19 @@ int	find_flag(char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	free_res(char ***res)
+{
+	int	i;
+
+	i = 0;
+	if (!res)
+		return ;
+	while (res[i])
+	{
+		free_split(res[i]);
+		i++;
+	}
+	free(res);
 }

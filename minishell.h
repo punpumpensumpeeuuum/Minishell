@@ -6,7 +6,7 @@
 /*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 11:21:42 by dinda-si          #+#    #+#             */
-/*   Updated: 2024/11/27 16:02:36 by dinda-si         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:34:31 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void	swap_strings(char **a, char **b);
 void	sorting_export(t_vars *mini);
 int		export_check(char *str);
 int		str_compare(char *s1, char *s2);
+void	free_res(char ***res);
 
 // pipes_redir.c
 void	piping(char ***str, t_vars *mini, int *ta);
@@ -282,5 +283,6 @@ void	signal_heredoc(int sig);
 void	signals_handler(void);
 void	child_handler(int signal);
 void	child_signals_handler(void);
+int		ft_ft_ft_ft_isprint(char *str);
 
 #endif

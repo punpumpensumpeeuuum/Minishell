@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:23:07 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/28 13:21:17 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:50:56 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	check_input_loop(t_vars *mini, char ***tudo)
 	while (mini->p <= numpipe(mini->input) && numpipe(mini->input) >= 0)
 	{
 		expanding(tudo, mini);
-		if (tudo[mini->p][0] && ft_strncmp(tudo[mini->p][0], "<<", 2) == 0 && tudo[mini->p])
+		if (tudo[mini->p][0] && ft_strncmp(tudo[mini->p][0], "<<", 2) == 0 \
+			&& tudo[mini->p])
 			mini->p++;
 		if (!tudo[mini->p])
 			break ;
@@ -68,6 +69,8 @@ int	checkinput(t_vars *mini)
 		return (1);
 	mini->p = 0;
 	mini->tudo = paodelosplit(mini->input, numpipe(mini->input), mini);
+	if (mini->tudo == NULL)
+		return (1);
 	mini->input = quotescrazy(mini->input, 0, 0, mini);
 	mini->trueflag = ft_split(mini->input, '|');
 	tudo = mini->tudo;

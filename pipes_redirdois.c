@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_redirdois.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 08:53:29 by jomendes          #+#    #+#             */
-/*   Updated: 2024/11/28 14:08:08 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:20:19 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,22 @@ void	openall(char ***tudo, t_vars *mini)
 
 int	is_a_directory(t_vars *mini)
 {
-	DIR	*dir;
+	DIR		*dir;
+	char	*dirrrr;
 
-	dir = opendir(mini->input);
+	dirrrr = quotescrazy(ft_strdup(mini->input), 0, 0, mini);
+	if (!dirrrr)
+		return (0);
+	dir = opendir(dirrrr);
 	if (dir)
 	{
 		closedir(dir);
-		ft_printf("bash: %s: ", mini->input);
+		ft_printf("bash: %s: ", dirrrr);
 		ft_putstr_fd("Is a directory\n", 2);
 		g_exit_code = 126;
+		free(dirrrr);
 		return (1);
 	}
+	free(dirrrr);
 	return (0);
 }

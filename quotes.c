@@ -97,6 +97,6 @@ char	*quotescrazy(char *str, int j, int pq, t_vars *mini)
 		j++;
 	}
 	if (pq != 0)
-		return (NULL);
+		return (free(str), NULL);
 	return (removedestroy(str, 0, 0, j));
 }

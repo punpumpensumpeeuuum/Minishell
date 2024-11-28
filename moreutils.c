@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moreutils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jomendes <jomendes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dinda-si <dinda-si@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 01:55:42 by elemesmo          #+#    #+#             */
-/*   Updated: 2024/11/19 17:22:39 by jomendes         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:47:29 by dinda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,24 @@ int	findbuiltimatrix(char **str, t_vars *mini)
 int	findcmdinmatrix(char **puzle, t_vars *mini)
 {
 	int		i;
+	int		j;
 	char	*str;
 
 	i = 0;
-	while (puzle[i])
+	j = 10;
+	while (puzle[i] && j == 10)
 	{
+		if (ft_strncmp(puzle[i], "<", 1) == 0)
+			i += 2;
 		str = ft_strjoin("/", puzle[i]);
-		if (ft_strncmp(puzle[i], "<", 1) != 0
-			&& ft_strncmp(puzle[i], ">", 1) != 0)
+		checkpath(str, mini, 0);
+		if (mini->check != NULL)
 		{
-			checkpath(str, mini, 0);
-			if (mini->check != NULL)
-			{
-				free(str);
-				return (i);
-			}
+			free(str);
+			return (i);
 		}
+		else
+			j = 50;
 		free(str);
 		i++;
 	}
@@ -89,7 +91,7 @@ char	***initpaodelo(int pipes)
 {
 	char	***res;
 
-	res = malloc(sizeof(char **) * (pipes + 2));
+	res = ft_calloc(sizeof(char **), (pipes + 2));
 	if (!res)
 		return (NULL);
 	return (res);
